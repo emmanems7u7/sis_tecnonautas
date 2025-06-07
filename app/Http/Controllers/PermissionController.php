@@ -46,7 +46,7 @@ class PermissionController extends Controller
         ]);
 
         $this->PermisoRepository->CrearPermiso($request);
-        return redirect()->back()->with('success', 'Rol creado correctamente.');
+        return redirect()->back()->with('status', 'Permiso creado correctamente.');
     }
 
     public function edit($id)
@@ -65,15 +65,20 @@ class PermissionController extends Controller
 
         $this->PermisoRepository->EditarPermiso($request, $permission);
 
-        return redirect()->back()->with('success', 'Permiso Actualizado Correctamente');
+        return redirect()->back()->with('status', 'Permiso Actualizado Correctamente');
 
     }
 
     public function destroy($id)
     {
-        $permission = Permission::findOrFail($id);
-        $permission->delete();
+        $permission = Permission::where('id', $id)->first();
+        if ($permission != null) {
+            $this->PermisoRepository->eliminarDeSeeder($permission);
+            $permission->delete();
+        }
 
-        return response()->json(['status' => 'success']);
+
+        return redirect()->back()->with('status', value: 'Permiso Eliminado Correctamente');
+
     }
 }

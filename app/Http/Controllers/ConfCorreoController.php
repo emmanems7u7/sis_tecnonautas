@@ -11,6 +11,8 @@ use App\Models\PlantillaCorreo;
 use App\Mail\CorreoDesdePlantilla;
 use App\Interfaces\CorreoInterface;
 
+
+
 class ConfCorreoController extends Controller
 {
     protected $correoRepository;
@@ -87,9 +89,9 @@ class ConfCorreoController extends Controller
 
     public function enviarPrueba()
     {
-        $correo = env('CONF_CORREO_ID');
 
-        $conf = ConfCorreo::find($correo);
+
+        $conf = ConfCorreo::first();
 
         if (!$conf) {
             return response()->json(['error' => 'Configuración no encontrada'], 404);
@@ -106,9 +108,9 @@ class ConfCorreoController extends Controller
         ]);
 
         // Enviar el correo de prueba
-        // Mail::to($conf->conf_smtp_user)->send(new CorreoPrueba('Este es un correo de prueba.'));
+        Mail::to($conf->conf_smtp_user)->send(new CorreoPrueba('Este es un correo de prueba.'));
 
-        $this->enviarCorreoPrueba(1, 'emmanuelz7u7@gmail.com');
+        // $this->enviarCorreoPrueba(1, 'emmanuelz7u7@gmail.com');
 
         return response()->json(['mensaje' => 'Correo enviado correctamente.']);
     }

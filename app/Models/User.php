@@ -22,7 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'foto_perfil',
+        'fotoperfil',
         'email',
         'password',
         'usuario_fecha_ultimo_acceso',
@@ -35,7 +35,16 @@ class User extends Authenticatable
         'accion_fecha',
         'accion_usuario',
         'usuario_activo',
+        'ci',
+        'fechanac',
+        'direccion',
     ];
+
+
+
+
+
+
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -64,6 +73,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function preferredNotificationChannels()
+    {
+        // Supongamos que aquí hay una lógica para determinar los canales preferidos para este usuario
+        if ($this->preferenciaNotificacion === 'mail') {
+            return ['mail'];
+        } else {
+            return ['database'];
+        }
+    }
+
     public function generateTwoFactorCode()
     {
         $this->two_factor_code = rand(100000, 999999);
@@ -76,5 +95,23 @@ class User extends Authenticatable
         $this->two_factor_code = null;
         $this->two_factor_expires_at = null;
         $this->save();
+    }
+    public function documentos()
+    {
+        return $this->hasMany(DocumentosUsuario::class);
+    }
+
+    public function tareasEstudiantes()
+    {
+        return $this->hasMany(Tareas_estudiante::class, 'user_id');
+    }
+    public function profesores()
+    {
+        return $this->hasMany(Profesor::class, 'id_u'); // 'id_u' es la clave foránea
+    }
+
+    public function asignacionesEstudiante()
+    {
+        return $this->hasMany(Estudiantes_asignacion_paramodulo::class, 'id_u');
     }
 }

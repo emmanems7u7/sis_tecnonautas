@@ -170,11 +170,11 @@
                 })
                 .then(data => {
                     console.log('Respuesta:', data);
-                    alert('Correo de prueba enviado con éxito');
+                    alertify.success('Correo de prueba enviado con éxito');
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error al enviar correo de prueba');
+                    alertify.error('Error al enviar correo de prueba');
                 });
         }
     </script>

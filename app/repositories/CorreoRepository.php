@@ -5,6 +5,7 @@ use App\Interfaces\CorreoInterface;
 use \App\Models\ConfCorreo;
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\MockObject\Stub\ReturnReference;
+use Webklex\IMAP\Facades\Client;
 
 class CorreoRepository extends BaseRepository implements CorreoInterface
 {
@@ -40,5 +41,80 @@ class CorreoRepository extends BaseRepository implements CorreoInterface
         );
 
         return $confCorreo;
+    }
+
+    function getMails($email, $fecha_inicio, $fecha_fin)
+    {
+        // Crear un cliente IMAP
+        $client = Client::account('default');
+        $client->connect();
+
+        // Obtener la bandeja de entrada
+        $folder = $client->getFolder('INBOX');
+
+        // Construir la consulta
+        $query = $folder->query()->since($fecha_inicio)->before($fecha_fin);
+
+        if ($email) {
+            $query->from($email);
+        }
+
+        $messages = $query->get()->sortByDesc('date');
+        return $messages;
+    }
+
+    function CorreoPagos($email_apoderado, $fecha_pago, $fecha_fin)
+    {
+
+
+        $messages = $this->getMails($email_apoderado, $fecha_pago, $fecha_fin);
+
+        $listaCorreos = [];
+        foreach ($messages as $message) {
+            $date = $message->getDate()->first();
+            $subject = $message->getSubject()->first();
+            $text = $message->getBodies();
+            $body = $message->getHTMLBody();
+
+            $remitente = $this->extraerDato($body, '/<a\s+href=["\']mailto:([^"\']+)["\']/');
+            $fecha = $this->extraerDato($body, '/<td\s+align="right">\s*<font[^>]*>\s*([\d\/]+\s+\d{2}:\d{2})\s*<\/font>/');
+
+            $asunto = $this->extraerDato($body, '/Subject:\s*([^<]+)/');
+            $numTransaccion = $this->extraerDato($body, '/N° Transacción:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>(\d+)/');
+            $numComprobante = $this->extraerDato($body, '/N° Comprobante:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>(\d+)/');
+            $origenTitular = $this->extraerDato($body, '/Titular:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>([^<]+)/');
+            $origenCuenta = $this->extraerDato($body, '/Cuenta:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>(\d+)/');
+            $destinoBeneficiario = $this->extraerDato($body, '/Beneficiario:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>([^<]+)/');
+            $destinoCuenta = $this->extraerDato($body, '/Cuenta:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>BIL<\/font><br>\s*<font[^>]*>(\d+)/');
+            $montoTransferido = $this->extraerDato($body, '/Monto transferido:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>\s*(?:BS|BOL)?\s*([\d,.]+)/i');
+            $glosa = $this->extraerDato($body, '/Glosa:\s*<\/font>\s*<\/td>\s*<td[^>]*>\s*<font[^>]*>([^<]+)/');
+
+            $datosCorreo = [
+                'remitente' => $remitente,
+                'fecha' => $fecha,
+                'asunto' => $asunto,
+                'numTransaccion' => $numTransaccion,
+                'numComprobante' => $numComprobante,
+                'origenTitular' => $origenTitular,
+                'origenCuenta' => $origenCuenta,
+                'destinoBeneficiario' => $destinoBeneficiario,
+                'destinoCuenta' => $destinoCuenta,
+                'montoTransferido' => $montoTransferido,
+                'glosa' => $glosa
+            ];
+
+            // Validar si algún campo es null
+            if (!in_array(null, $datosCorreo, true)) {
+                $listaCorreos[] = $datosCorreo;
+            }
+        }
+        return $listaCorreos;
+    }
+    function extraerDato($body, $pattern)
+    {
+        if (preg_match($pattern, $body, $matches)) {
+            return trim($matches[1]);
+        }
+        return null;
     }
 }

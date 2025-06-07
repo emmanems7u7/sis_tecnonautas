@@ -4,10 +4,16 @@ namespace App\Repositories;
 use App\Interfaces\UserInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+use App\Models\paralelo_modulo;
+use App\Models\horario;
+use App\Models\asigModulo;
+use App\Models\asignacion_profesor;
+use Carbon\Carbon;
+use App\Models\Modulo;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -159,6 +165,80 @@ class UserRepository extends BaseRepository implements UserInterface
             'role' => 'required|exists:roles,name',
         ]);
 
+    }
+
+    public function getEstudiantes()
+    {
+
+    }
+
+    public function getEstudiante($id)
+    {
+
+    }
+
+
+    public function getProfesores()
+    {
+        $rolP = Role::where('name', 'profesor')->first();
+        return $rolP->users()->get();
+    }
+
+    public function getProfesor($id)
+    {
+
+    }
+    public function getProfesorParalelo($id_pm)
+    {
+        return User::select('users.id', 'users.usuario_nombres', 'users.usuario_app', 'users.usuario_apm')
+            ->join('asignacion_profesor', 'users.id', '=', 'asignacion_profesor.id_u')
+            ->join('paralelo_modulos', 'asignacion_profesor.id_pm', '=', 'paralelo_modulos.id')
+            ->where('paralelo_modulos.id', '=', $id_pm)
+            ->first();
+    }
+
+
+    public function getAdministradores()
+    {
+
+    }
+    public function getAdministrador($id)
+    {
+
+    }
+
+    public function getHorariosProfesor($userid)
+    {
+        $datosP = asignacion_profesor::where('id_u', $userid)->get();
+
+        foreach ($datosP as $dat) {
+
+            $paramod = paralelo_modulo::where('id', $dat->id_pm)->pluck('id_m')->first();
+
+            $materia = asigModulo::join('asignacions', 'asig_modulos.id_a', '=', 'asignacions.id')
+                ->where('asig_modulos.id_m', $paramod)
+                ->select('asignacions.nombre')
+                ->pluck('asignacions.nombre')
+                ->first();
+
+            $paralelo_modulo = paralelo_modulo::find(id: $dat->id_pm);
+            $modulo = Modulo::find($paralelo_modulo->id_m);
+            $horarios = horario::where('id_mp', $dat->id_pm)->get();
+            foreach ($horarios as $horario) {
+                $horario->inicio = Carbon::parse($horario->inicio)->format('H:i');
+                $horario->fin = Carbon::parse($horario->fin)->format('H:i');
+
+            }
+
+            $horariosF[] = [
+
+                'materia' => $materia . ' (' . $modulo->nombreM . ')',
+                'horarios' => $horarios,
+
+            ];
+        }
+
+        return $horariosF;
     }
 
 }

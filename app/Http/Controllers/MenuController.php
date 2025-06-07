@@ -8,13 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
 use App\Interfaces\MenuInterface;
+use App\Interfaces\PermisoInterface;
+use Spatie\Permission\Models\Permission;
 class MenuController extends Controller
 {
     protected $menuRepository;
-    public function __construct(MenuInterface $MenuInterface)
+    protected $PermisoRepository;
+    public function __construct(MenuInterface $MenuInterface, PermisoInterface $PermisoInterface)
     {
 
         $this->menuRepository = $MenuInterface;
+        $this->PermisoRepository = $PermisoInterface;
     }
     public function index()
     {
@@ -90,8 +94,22 @@ class MenuController extends Controller
 
     public function destroy($id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->delete();
+        $menu = Menu::where('id', $id)->first();
+
+        $permiso = Permission::where('id_relacion', $menu->id)->where('name', $menu->nombre)->first();
+
+
+
+        if ($permiso != null) {
+            $this->PermisoRepository->eliminarDeSeeder($permiso);
+            $permiso->delete();
+
+        }
+        if ($menu != null) {
+            $this->menuRepository->eliminarDeSeederMenu($menu);
+            $menu->delete();
+        }
+
         return redirect()->route('menus.index')->with('success', 'Menú eliminado exitosamente.');
     }
 }

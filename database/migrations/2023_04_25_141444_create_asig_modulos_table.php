@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('asig_modulos', function (Blueprint $table) {
+            $table->id();
+
+            $table->unsignedBigInteger('id_a');
+            $table->foreign('id_a')
+                ->references('id')
+                ->on('asignacions')
+                ->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_m');
+            $table->foreign('id_m')
+                ->references('id')
+                ->on('modulos')
+                ->onDelete('cascade');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('asig_modulos');
+    }
+};

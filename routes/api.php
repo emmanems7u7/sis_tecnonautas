@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserApiController;
 
@@ -15,7 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserApiController::class, 'store']);
     Route::put('/users/{id}', [UserApiController::class, 'update']);
     Route::delete('/users/{id}', [UserApiController::class, 'destroy']);
-
+    Route::get('/users', [UserApiController::class, 'index']);
     Route::get('/profile', [UserApiController::class, 'profile']);
 });
 

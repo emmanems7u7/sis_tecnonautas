@@ -1,0 +1,12 @@
+<?php
+namespace App\Interfaces;
+
+interface EvaluacionInterface
+{
+    public function GuardarEvaluacion($evaluacion_id, $userId, $nota);
+    public function listarEvaluacion($id_e);
+    public function GetEvaluacionesEstudiantes($id_pm);
+    public function GetEvaluacionesEstudiante($id_pm, $estudiante_id);
+
+
+}

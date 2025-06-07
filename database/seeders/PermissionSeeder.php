@@ -66,7 +66,22 @@ class PermissionSeeder extends Seeder
             ['id' => 67, 'name' => 'categoria.editar', 'tipo' => 'permiso', 'id_relacion' => null, 'guard_name' => 'web', 'created_at' => '2025-05-07 19:51:54', 'updated_at' => '2025-05-07 19:51:54'],
             ['id' => 68, 'name' => 'categoria.actualizar', 'tipo' => 'permiso', 'id_relacion' => null, 'guard_name' => 'web', 'created_at' => '2025-05-07 19:51:54', 'updated_at' => '2025-05-07 19:51:54'],
             ['id' => 69, 'name' => 'categoria.eliminar', 'tipo' => 'permiso', 'id_relacion' => null, 'guard_name' => 'web', 'created_at' => '2025-05-07 19:51:54', 'updated_at' => '2025-05-07 19:51:54'],
-
+            ['id' => 70, 'name' => 'Seccion  de administracion general', 'tipo' => 'seccion', 'id_relacion' => 11, 'guard_name' => 'web', 'created_at' => '2025-05-08 19:56:24', 'updated_at' => '2025-05-08 19:56:24'],
+            ['id' => 71, 'name' => 'plantillas correo', 'tipo' => 'menu', 'id_relacion' => 13, 'guard_name' => 'web', 'created_at' => '2025-05-08 19:57:34', 'updated_at' => '2025-05-08 19:57:34'],
+            ['id' => 73, 'name' => 'usuarios.exportar_excel', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 17:51:02', 'updated_at' => '2025-05-19 17:51:02'],
+            ['id' => 74, 'name' => 'usuarios.exportar_pdf', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 17:51:08', 'updated_at' => '2025-05-19 17:51:08'],
+            ['id' => 75, 'name' => 'Configuración Credenciales', 'tipo' => 'menu', 'id_relacion' => 16, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:10', 'updated_at' => '2025-05-19 18:19:10'],
+            ['id' => 76, 'name' => 'configuracion.credenciales_ver', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:48', 'updated_at' => '2025-05-19 18:19:48'],
+            ['id' => 77, 'name' => 'configuracion.credenciales_actualizar', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 78, 'name' => 'asignacion.guardar', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 79, 'name' => 'asignacion.index', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 80, 'name' => 'asignacion.delete', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 81, 'name' => 'asignacion.prueba', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 82, 'name' => 'modulos.materia.show', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 83, 'name' => 'modulos.materia.guardar', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 84, 'name' => 'modulos.materia.delete', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 85, 'name' => 'modulo.store', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
+            ['id' => 86, 'name' => 'studiantes.index', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
         ]);
 
 
@@ -126,6 +141,14 @@ class PermissionSeeder extends Seeder
             ['permission_id' => 67, 'role_id' => 1],
             ['permission_id' => 68, 'role_id' => 1],
             ['permission_id' => 69, 'role_id' => 1],
+            ['permission_id' => 70, 'role_id' => 1],
+            ['permission_id' => 71, 'role_id' => 1],
+            ['permission_id' => 72, 'role_id' => 1],
+            ['permission_id' => 75, 'role_id' => 1],
+            ['permission_id' => 76, 'role_id' => 1],
+            ['permission_id' => 77, 'role_id' => 1],
+
+
         ]);
     }
 

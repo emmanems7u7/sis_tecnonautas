@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('secciones', function (Blueprint $table) {
-            $table->string('icono', 20)
+            $table->string('icono', 40)
                 ->nullable()
                 ->after('titulo')
                 ->comment('icono para identificar la seccion');

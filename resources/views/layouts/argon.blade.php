@@ -25,6 +25,14 @@
     <link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @php
         use App\Models\Seccion;
         use Carbon\Carbon;
@@ -182,6 +190,7 @@
                     
                 </nav>
 
+                
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                             
@@ -210,12 +219,14 @@
         <!-- End Navbar -->
         <div class="container">
         <div class="main-content position-relative max-height-vh-100 h-100">
-        @foreach (['status', 'error', 'warning'] as $msg)
+        @foreach (['status' => 'success', 'error' => 'error', 'warning' => 'warning'] as $msg => $type)
             @if(session($msg))
-                <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
-                    {{ session($msg) }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.{{ $type }}(@json(session($msg)));
+                    });
+                </script>
             @endif
         @endforeach
         @yield('content')
@@ -315,6 +326,7 @@
             </div>
         </div>
     </div>
+    
 
     <!--   Core JS Files   -->
     <script src="{{asset('argon/js/core/popper.min.js')}}"></script>

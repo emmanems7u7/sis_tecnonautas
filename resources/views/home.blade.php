@@ -2,117 +2,588 @@
 
 @section('content')
     @if($tiempo_cambio_contraseña != 1)
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
-                                        <h5 class="font-weight-bolder">
-                                            $53,000
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                            since yesterday
-                                        </p>
-                                    </div>
+
+
+
+        <div class="container-fluid">
+            @if(session('alert'))
+                <div id="alertMessage" class="alert alert-{{ session('alert')['type'] }}">
+                    {{ session('alert')['message'] }}
+                </div>
+            @endif
+
+            <style>
+                .class {
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    transition: transform 0.3s ease;
+                }
+
+                .class:hover {
+                    transform: translateY(-5px);
+                }
+
+                .class-header {
+                    background-color: #4CAF50;
+                    color: #fff;
+                    padding: 15px;
+                    text-align: center;
+                    border-bottom: 2px solid #388E3C;
+                    border-radius: 10px 10px 0 0;
+                }
+
+                .class-body {
+                    padding: 20px;
+                }
+
+                .class-body p {
+                    margin: 0;
+                }
+
+                .wednesday .class-header {
+                    background-color: #FFC107;
+                }
+            </style>
+            <style>
+                .notification-wrapper {
+                    position: fixed;
+                    top: 20px;
+                    right: 30px;
+                    z-index: 999;
+                }
+
+                .notification-box {
+                    display: none;
+                    position: absolute;
+                    top: 35px;
+                    right: 0;
+                    width: 300px;
+                    background: white;
+                    border: 1px solid #ccc;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+
+                .notification-box.active {
+                    display: block;
+                }
+
+
+                .notification-box ul {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    max-height: 200px;
+                    overflow-y: auto;
+                }
+
+                .notification-box ul li {
+                    padding: 10px;
+                    border-bottom: 1px solid #eee;
+                    cursor: pointer;
+                }
+
+                .notification-box ul li:hover {
+                    background: #f9f9f9;
+                }
+
+                .notification-icon {
+                    position: relative;
+                    font-size: 24px;
+                    cursor: pointer;
+                }
+
+                .notification-icon .badge {
+                    position: absolute;
+                    top: -8px;
+                    right: -10px;
+                    background: red;
+                    color: white;
+                    font-size: 12px;
+                    padding: 2px 6px;
+                    border-radius: 50%;
+                }
+
+                .has-notifications i {
+                    animation: shake 1s ease-in-out infinite;
+                    transform-origin: center;
+                }
+
+                @keyframes shake {
+
+                    0%,
+                    100% {
+                        transform: rotate(0);
+                    }
+
+                    10%,
+                    30%,
+                    50%,
+                    70% {
+                        transform: rotate(-10deg);
+                    }
+
+                    20%,
+                    40%,
+                    60%,
+                    80% {
+                        transform: rotate(10deg);
+                    }
+                }
+
+                .notification-box {
+                    display: none;
+                    /* ...otros estilos */
+                }
+
+                .notification-box.active {
+                    display: block;
+                }
+            </style>
+            <style>
+                @keyframes mover-flecha {
+                    0% {
+                        transform: translateX(0);
+                    }
+
+                    50% {
+                        transform: translateX(6px);
+                    }
+
+                    100% {
+                        transform: translateX(0);
+                    }
+                }
+
+                .animate-flecha {
+                    display: inline-block;
+                    animation: mover-flecha 1s infinite;
+                }
+            </style>
+
+
+
+            <div class="row align-items-md-stretch mt-1">
+
+                @role('admin')
+                <div class="col-md-4  mb-2">
+                    <div class="card mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <!-- Icono de Materias -->
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-book text-primary fs-3 me-3"></i>
+                                <!-- Título -->
+                                <div>
+                                    <h5 class="mb-0">Total Materias</h5>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                        <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                            </div>
+                            <!-- Número de Materias en círculo -->
+                            <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+                                style="width: 50px; height: 50px;">
+                                <span class="fs-4">{{     $Casig }}</span>
+                                <!-- Cambia este número por la cantidad de materias -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
-                                        <h5 class="font-weight-bolder">
-                                            2,300
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                            since last week
-                                        </p>
-                                    </div>
+                <div class="col-md-4  mb-2">
+                    <div class="card mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <!-- Icono de Estudiantes -->
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user-graduate fs-3 me-3" style="color:#67b700"></i>
+                                <!-- Título -->
+                                <div>
+                                    <h5 class="mb-0">Total Estudiantes</h5>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                            </div>
+                            <!-- Número de Estudiantes en círculo -->
+                            <div class="rounded-circle  text-white d-flex justify-content-center align-items-center"
+                                style="width: 50px; height: 50px; background-color: #67b700;">
+                                <span class="fs-4">{{ $students  }}</span>
+                                <!-- Cambia este número por la cantidad de estudiantes -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-md-4  mb-2">
                     <div class="card">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
-                                        <h5 class="font-weight-bolder">
-                                            +3,462
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                            since last quarter
-                                        </p>
-                                    </div>
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <!-- Icono de Profesor -->
+                                <i class="fas fa-chalkboard-teacher fs-3 me-3" style="color:#df8b12;"></i>
+                                <!-- Título -->
+                                <div>
+                                    <h5 class=" mb-0">Total Profesores</h5>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                        <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                            </div>
+                            <!-- Número en círculo -->
+                            <div class="rounded-circle  text-white d-flex justify-content-center align-items-center"
+                                style="width: 50px; height: 50px; background-color: #df8b12; ">
+                                <span class="fs-4">{{ $profesor }}</span>
+                                <!-- Cambia este número por la cantidad de profesores -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6">
+                @endrole
+                <div class="col-md-6 mt-1 mb-1">
+                    <div class="p-5 text-black bg-white rounded-3">
+                        <h3>Hola {{ Auth::user()->name }}, Bienvenido al sistema Académico de Tecnonautas</h3>
+                        <p class="text-dark"><i class="bi bi-emoji-heart-eyes"></i> Encontrarás información multiple aquí,
+                            revisa tambien si tienes notificaciones en la parte superior derecha</p>
+                        <div class="notification-wrapper">
+                            <div id="notificationTrigger"
+                                class="notification-icon {{ Auth::user()->unreadNotifications->count() > 0 ? 'has-notifications' : '' }}">
+                                <i class="fas fa-bell text-warning"></i>
+                                @if(Auth::user()->unreadNotifications->count() > 0)
+                                    <span class="badge">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                @endif
+                            </div>
+
+                            <div id="notificationBox" class="notification-box">
+
+                                <ul>
+                                    @forelse(Auth::user()->unreadNotifications as $notification)
+                                        <li class="list-group-item ">
+                                            <a style=" text-decoration: none;"
+                                                onclick="NotificacionLeida(event,'{{  $notification->id}}')"
+                                                href="{{  $notification->data['action_url']}}" class="text-black float-right">
+                                                <strong>{{ $notification->created_at->diffForHumans() }}</strong> -
+
+                                                {{ $notification->data['message'] }}
+
+                                            </a>
+
+                                        </li>
+                                    @empty
+                                        <li>No hay notificaciones nuevas</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @role('profesor|admin')
+                <div class="col-md-6">
                     <div class="card">
-                        <div class="card-body p-3">
+                        <div class="card-body">
+                            <h5 class="text-primary fw-bold">Acciones Rápidas</h5>
                             <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
-                                        <h5 class="font-weight-bolder">
-                                            $103,430
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+5%</span> than last
-                                            month
-                                        </p>
-                                    </div>
+                                <!-- Ver Estudiantes -->
+                                <div class="col-md-6 mt-3">
+                                    <a href="{{ route('studiantes.index', ['tipo' => 1]) }}"
+                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                        <i class="fas fa-users fa-2x mb-2"></i>
+                                        <span>Ver Estudiantes</span>
+                                    </a>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                        <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-                                    </div>
+
+                                <!-- Auditoria Pagos -->
+                                <div class="col-md-6 mt-3">
+                                    <a href="{{ route('pagos.index') }}"
+                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                        <i class="fas fa-file fa-2x mb-2"></i>
+                                        <span>Auditoria Pagos</span>
+                                    </a>
+                                </div>
+
+                                <!-- Crear Materia -->
+                                <div class="col-md-6 mt-3">
+                                    <a href="{{route('asignacion.create')}}"
+                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                        <i class="fas fa-chalkboard-teacher fa-2x mb-2"></i>
+                                        <span>Crear Materia</span>
+                                    </a>
+                                </div>
+
+                                <!-- Editar Perfil -->
+                                <div class="col-md-6 mt-3">
+                                    <button
+                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                        <i class="fas fa-user-edit fa-2x mb-2"></i>
+                                        <span>Editar Perfil</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+                @endrole
+
+                <div class="col-md-12">
+
+                    <div class="row mt-3">
+                        @role('estudiante')
+                        @if ($horariosF !== null)
+                            @foreach ($horariosF as $horario)
+
+                                <div class="col-md-4">
+                                    @foreach ($horario['horarios'] as $dat)
+                                        @if($dat->dias === $dia)
+
+                                            <div class="class wednesday">
+                                                @break
+                                        @else
+
+                                                <div class="class">
+                                                    @break
+                                            @endif
+                                    @endforeach
+                                            <div class="class-header">{{ $horario['materia'] }}</div>
+                                            <div class="class-body">
+                                                @foreach ($horario['horarios'] as $horario)
+                                                    @if ($horario->dias === $dia)
+                                                        <div class="alert alert-success" role="alert">
+
+
+                                                            <p><strong>Día:</strong> {{ $horario->dias }}</p>
+                                                            <p><i class="fas fa-clock"></i>{{ $horario->inicio }}-{{ $horario->fin }}</p>
+                                                        </div>
+
+                                                        <div>
+                                                            @if($id_pm != null)
+                                                                <button class="btn btn-info btn-sm"
+                                                                    onclick="regsistrarAsistencia('{{ $id_pm }}')">Registrar
+                                                                    Asistencia</button>
+                                                            @endif
+                                                        </div>
+                                                    @else
+                                                        <div class="alert alert-info" role="alert">
+
+
+                                                            <p><strong>Día:</strong> {{ $horario->dias }}</p>
+                                                            <p><i class="fas fa-clock"></i>{{ $horario->inicio }}-{{ $horario->fin }}</p>
+                                                        </div>
+                                                    @endif
+
+
+                                                @endforeach
+
+                                            </div>
+                                        </div>
+                                    </div>
+                            @endforeach
+                        @endif
+
+                            @endrole
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                @if($datosParalelos != null)
+                    <div class="row">
+                        @foreach ($datosParalelos as $materia => $paralelos)
+                            <div class="col-md-6">
+                                <div class="card mt-3" style="background-color: #f3f3f3;min-height: 250px;">
+                                    <div class="card-body p-3">
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="text-primary fw-bold mb-0">{{ $materia }}</h5>
+                                            @if (count($paralelos) > 1)
+                                                <i class="fas fa-arrow-right animate-flecha text-primary"></i>
+                                            @endif
+                                        </div>
+
+
+                                        <!-- Contenedor scrollable si hay más de un card -->
+                                        <div class="overflow-auto">
+                                            <div
+                                                class="d-flex {{ count($paralelos) > 1 ? 'flex-row gap-3' : 'justify-content-center' }}">
+                                                @foreach ($paralelos as $paralelo)
+                                                    <div class="col-md-7">
+                                                        <div class="card border-0 shadow-sm rounded-3 position-relative mt-2"
+                                                            style="flex: 0 0 auto;">
+                                                            <!-- Estado Activo/Inactivo -->
+                                                            <div class="position-absolute top-0 end-0 p-2 text-success rounded-start">
+                                                                {{ $paralelo['activo'] ? 'Activo' : 'Inactivo' }}
+                                                            </div>
+
+                                                            <div class="card-body p-2">
+                                                                <h5 class="card-title text-success fw-semibold">
+                                                                    {{ $paralelo['modulo'] }} ({{ $paralelo['paralelo'] }})
+                                                                </h5>
+
+                                                                <p class="mb-1 small">
+                                                                    <small>
+                                                                        <i class="fas fa-chalkboard-teacher me-1 text-secondary"></i>
+                                                                        <strong>Profesor:</strong> {{ $paralelo['profesor'] }}
+                                                                    </small>
+                                                                </p>
+
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <small>
+                                                                            <p class="mb-1 small">
+                                                                                <i class="fas fa-user-friends me-1 text-secondary"></i>
+                                                                                <strong>Cupo:</strong> {{ $paralelo['cupo'] }}
+                                                                            </p>
+                                                                        </small>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <small>
+                                                                            <p class="mb-1 small">
+                                                                                <i class="fas fa-users me-1 text-secondary"></i>
+                                                                                <strong>Inscritos:</strong> {{ $paralelo['inscritos'] }}
+                                                                            </p>
+                                                                        </small>
+                                                                    </div>
+                                                                </div>
+
+                                                                @if (!empty($paralelo['horarios']))
+                                                                    <div class="mt-2">
+                                                                        <small>
+                                                                            <strong class="text-muted small">Horarios:</strong>
+                                                                            <ul class="list-unstyled small ps-2">
+                                                                                @foreach ($paralelo['horarios'] as $dia => $horario)
+                                                                                    <li class="mb-1">
+                                                                                        <i class="far fa-clock me-1"></i>
+                                                                                        {{ $dia }}: {{ $horario['hora_inicio'] }} -
+                                                                                        {{ $horario['hora_fin'] }}
+                                                                                    </li>
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </small>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const trigger = document.getElementById('notificationTrigger');
+                    const box = document.getElementById('notificationBox');
 
-        </div>
+                    trigger.addEventListener('click', function (e) {
+                        e.stopPropagation(); // Evita que el clic se propague y cierre inmediatamente
+                        box.classList.toggle('active');
+                    });
+
+                    // Cerrar si se hace clic fuera
+                    document.addEventListener('click', function () {
+                        box.classList.remove('active');
+                    });
+
+                    // Evitar que el clic dentro del box lo cierre
+                    box.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                    });
+                });
+            </script>
+            <script>
+                function NotificacionLeida(event, notificacion_id) {
+
+
+
+
+                    fetch('/notification/' + notificacion_id + '/markAsRead', {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al marcar la notificación como leída');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+
+                            var url = event.target.href;
+                            window.location.href = url;
+                        })
+                        .catch(error => {
+                            console.error('Error al marcar la notificación como leída:', error);
+
+                        });
+                }
+                function registrarAsistencia(id_pm) {
+                    // Obtener la fecha actual en formato YYYY-MM-DD
+                    const fechaActual = new Date().toISOString().split('T')[0]; // Ejemplo: '2024-11-25'
+
+                    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    // Mostrar un mensaje de confirmación antes de editar
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: `¿Deseas registrar tu asistencia para la fecha ${fechaActual}?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Hacer una solicitud al servidor para verificar si ya existe un registro de asistencia para la fecha y id_pm
+                            let url = '/registra/asistencia/{id_pm}';
+
+                            // Reemplazar {id_pm} con el valor de la variable id_pm
+                            url = url.replace('{id_pm}', id_pm);
+
+                            fetch(url, {
+                                method: 'PUT',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken,
+                                    'Content-Type': 'application/json',  // Agrega el token CSRF en los encabezados
+                                },
+
+                                body: JSON.stringify({
+                                    asistencia: "asistencia",
+                                }),
+                            })
+                                .then(response => response.json())
+                                .then(updatedData => {
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Asistencia editada',
+                                        text: 'La asistencia ha sido editada correctamente.',
+                                    });
+
+                                })
+                                .catch(error => {
+
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'Ocurrió un error al editar la asistencia.',
+                                    });
+                                });
+
+
+                        }
+                    });
+                }
+
+            </script>
     @else
 
-        <div class="alert alert-warning" role="alert">
-            <strong>!Alerta!</strong> Debes actualizar tu contraseña
-        </div>
+            <div class="alert alert-warning" role="alert">
+                <strong>!Alerta!</strong> Debes actualizar tu contraseña
+            </div>
 
-    @endif
+        @endif
 @endsection

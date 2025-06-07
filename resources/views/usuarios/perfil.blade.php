@@ -2,7 +2,22 @@
 
 @section('content')
 
-    
+<div class="alert alert-info shadow-sm" role="alert">
+  <h1 class="mb-3"><i class="fas fa-user-cog"></i> Bienvenido a la Administración de Datos Personales</h1>
+  <p class="mb-1">Gestione sus datos de manera segura y eficiente. Aquí puede actualizar su información personal,
+    cambiar configuraciones de acceso.</p>
+
+
+
+  <p class="mb-1"><strong>Seguridad de la Cuenta:</strong> Proteja su cuenta mediante contraseñas fuertes y la
+    habilitación de autenticación en dos pasos.</p>
+
+  <p class="mb-1"><strong>Acciones recomendadas:</strong> Recomendamos revisar y actualizar su perfil regularmente
+    para mantener la información al día.</p>
+
+ 
+</div>
+
 
         <div class="card shadow-lg mx-4 card-profile-bottom">
             <div class="card-body p-3">
@@ -33,192 +48,63 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                    <div class="nav-wrapper position-relative end-0">
-                        <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                                    <i class="fas fa-mobile-alt"></i> 
-                                    <span class="ms-2">Aplicación</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                    <i class="fas fa-envelope"></i> 
-                                    <span class="ms-2">Mensajes</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                    <i class="fas fa-cogs"></i>
-                                    <span class="ms-2">Configuración</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="nav-wrapper position-relative end-0">
+                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active d-flex align-items-center justify-content-center" data-bs-toggle="tab" data-bs-target="#tab-app" role="tab" aria-selected="true">
+                                        <i class="fas fa-mobile-alt"></i> 
+                                        <span class="ms-2">Perfil</span>
+                                    </a>
+
+                                    
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center justify-content-center" data-bs-toggle="tab" data-bs-target="#tab-mensajes" role="tab" aria-selected="false">
+                                        <i class="fas fa-envelope"></i> 
+                                        <span class="ms-2">Curriculum</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center justify-content-center" data-bs-toggle="tab" data-bs-target="#tab-config" role="tab" aria-selected="false">
+                                        <i class="fas fa-cogs"></i>
+                                        <span class="ms-2">Configuración</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                    <form action="{{ route('users.update',['id'=>  Auth::user()->id, 'perfil' => 1]) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                        <div class="card-header pb-0">
-                            <div class="d-flex align-items-center">
-                                <p class="mb-0">Editar Perfil</p>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Actualizar Datos</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-uppercase text-sm">Informacion de Usuario</p>
-                           
-                            <div class="row">
-                                <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="profile_picture" class="form-control-label">Foto de Perfil</label>
-                                    <div class="d-flex align-items-center">
-                                        <!-- Campo para cargar imagen -->
-                                        <input type="file" id="profile_picture" name="profile_picture" class="form-control @error('profile_picture') is-invalid @enderror" accept="image/*" onchange="previewImage(event)">
-                                        
-                                        <!-- Imagen previsualizada -->
-                                        <div class="ms-3" id="preview-container">
-                                            <img id="preview-img" src="#" alt="Previsualización" style="display: none; width: 80px; height: 80px; border-radius: 10%; object-fit: cover;">
-                                        </div>
-                                        
-                                        <!-- Botón para eliminar imagen -->
-                                        <button type="button" id="remove-img" class="btn btn-danger ms-2" style="display: none;" onclick="removeImage()">Eliminar</button>
-                                    </div>
-                                    @error('profile_picture')
-                                        <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                    @enderror
-                                </div>
 
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name" class="form-control-label">Nombre de usuario</label>
-                                        <input id="name" class="form-control @error('name') is-invalid @enderror" name="name" type="text" value="{{ old('name', $user->name) }}">
-                                        @error('name')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="email" class="form-control-label">Email</label>
-                                        <input id="email" class="form-control @error('email') is-invalid @enderror" type="email" name="email" value="{{ old('email', $user->email) }}">
-                                        @error('email')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usuario_nombres" class="form-control-label">Nombre</label>
-                                        <input id="usuario_nombres" class="form-control @error('usuario_nombres') is-invalid @enderror" type="text" name="usuario_nombres" value="{{ old('usuario_nombres', $user->usuario_nombres) }}">
-                                        @error('usuario_nombres')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usuario_app" class="form-control-label">Apellido Paterno</label>
-                                        <input id="usuario_app" class="form-control @error('usuario_app') is-invalid @enderror" name="usuario_app" type="text" value="{{ old('usuario_app', $user->usuario_app) }}">
-                                        @error('usuario_app')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usuario_apm" class="form-control-label">Apellido Materno</label>
-                                        <input id="usuario_apm" class="form-control @error('usuario_apm') is-invalid @enderror" name="usuario_apm" type="text" value="{{ old('usuario_apm', $user->usuario_apm) }}">
-                                        @error('usuario_apm')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usuario_telefono" class="form-control-label">Teléfono</label>
-                                        <input id="usuario_telefono" class="form-control @error('usuario_telefono') is-invalid @enderror" name="usuario_telefono" type="text" value="{{ old('usuario_telefono', $user->usuario_telefono) }}">
-                                        @error('usuario_telefono')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usuario_direccion" class="form-control-label">Dirección</label>
-                                        <input id="usuario_direccion" class="form-control @error('usuario_direccion') is-invalid @enderror" name="usuario_direccion" type="text" value="{{ old('usuario_direccion', $user->usuario_direccion) }}">
-                                        @error('usuario_direccion')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                    </form>
-                          
-                            <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Informacion Adicional</p>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Address</label>
-                                        <input class="form-control" type="text"
-                                            value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">City</label>
-                                        <input class="form-control" type="text" value="New York">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Country</label>
-                                        <input class="form-control" type="text" value="United States">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Postal code</label>
-                                        <input class="form-control" type="text" value="437300">
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">About me</p>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">About me</label>
-                                        <input class="form-control" type="text"
-                                            value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source.">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               
+        <div class="tab-content mt-4">
+            <div class="tab-pane fade show active" id="tab-app" role="tabpanel">
+                {{-- Aquí va el contenido de la aplicación --}}
+                @include('usuarios.datos')
             </div>
+
+            <div class="tab-pane fade" id="tab-mensajes" role="tabpanel">
+                {{-- Aquí va el contenido de mensajes --}}
+                
+
+
+                @include('personal.index')
+            </div>
+
+            <div class="tab-pane fade" id="tab-config" role="tabpanel">
+                {{-- Aquí va el contenido de configuración --}}
+                
+            </div>
+        </div>
+        
+</div>
+
+
+            
             <footer class="footer pt-3  ">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">

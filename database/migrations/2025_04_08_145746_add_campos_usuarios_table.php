@@ -10,6 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
+
+
+
+
         Schema::table('users', function (Blueprint $table) {
             $table->dateTime('usuario_fecha_ultimo_acceso')
                 ->nullable()
@@ -60,6 +64,21 @@ return new class extends Migration {
                 ->default(1)
                 ->after('accion_usuario')
                 ->comment('1 = activo, 0 = inactivo');
+
+            $table->integer('ci', )
+                ->nullable()
+                ->after('name')
+                ->comment('CI del usuario');
+
+            $table->date('fechanac')
+                ->nullable()
+                ->after('ci')
+                ->comment('fecha de nacimiento del usuario');
+            $table->string('direccion', 200)
+                ->nullable()
+                ->after('fechanac')
+                ->comment('direccion del usuario');
+
         });
 
     }
@@ -81,6 +100,9 @@ return new class extends Migration {
                 'accion_fecha',
                 'accion_usuario',
                 'usuario_activo',
+                'ci',
+                'fechanac',
+                'fechanac',
             ]);
         });
     }

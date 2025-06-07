@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('foto_perfil', 300)
+            $table->string('fotoperfil', 300)
                 ->nullable()
                 ->after('id')
                 ->comment('Foto de perfil de usuario');

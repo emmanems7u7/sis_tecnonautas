@@ -8,12 +8,15 @@ use App\Interfaces\MenuInterface;
 use App\Models\Configuracion;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Permission;
+use App\Interfaces\PermisoInterface;
 class SeccionController extends Controller
 {
     protected $menuRepository;
-    public function __construct(MenuInterface $MenuInterface)
+    protected $PermisoRepository;
+    public function __construct(MenuInterface $MenuInterface, PermisoInterface $PermisoInterface)
     {
-
+        $this->PermisoRepository = $PermisoInterface;
         $this->menuRepository = $MenuInterface;
     }
     // Mostrar todas las secciones
@@ -34,7 +37,7 @@ class SeccionController extends Controller
     {
         $request->validate([
             'titulo' => 'required|string|max:255 |not_regex:/<\s*script/i',
-            'icono' => 'required|string|max:255 |not_regex:/<\s*script/i',
+            'icono' => 'required|string|max:40 |not_regex:/<\s*script/i',
         ]);
 
         $this->menuRepository->CrearSeccion($request);
@@ -80,6 +83,15 @@ class SeccionController extends Controller
     public function destroy($id)
     {
         $seccion = Seccion::findOrFail($id);
+        $permiso = Permission::where('id_relacion', $seccion->id)->where('name', $seccion->titulo)->first();
+
+
+        if ($permiso != null) {
+            $this->PermisoRepository->eliminarDeSeeder($permiso);
+            $permiso->delete();
+
+        }
+
         $seccion->delete();  // Eliminar la sección
         return redirect()->back()->with('success', 'Sección eliminada exitosamente.');
     }

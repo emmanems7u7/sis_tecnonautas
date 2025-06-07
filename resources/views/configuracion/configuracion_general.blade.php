@@ -52,6 +52,16 @@
 
 
                 </div>
+                <div class="col-md-12 mt-3  card-profile-bottom" >
+                    <div class="card">
+                        <div class="card-body">
+                        @role('admin')
+                        @include('configuracion.vistaAdmin')
+                        @yield('adminConf')
+                        @endrole
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

@@ -76,21 +76,22 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $menu->nombre }}</h5>
                                     <p class="card-text">Sección: {{ $menu->seccion->titulo }}</p>
+                                </div>
+                                <div class="card-footer">
 
-                                    <div class="d-flex justify-content-between">
-                                        <a href="{{ route('menus.edit', $menu->id) }}" class="btn btn-warning btn-sm">
-                                            Editar
-                                        </a>
-                                        <form action="{{ route('menus.destroy', $menu->id) }}" method="POST"
-                                            id="delete-form-{{ $menu->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="confirmarEliminacion('delete-form-{{ $menu->id }}' , '¿Estás seguro de eliminar este menú?')">
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <a href="{{ route('menus.edit', $menu->id) }}" class="btn btn-warning btn-sm">
+                                        Editar
+                                    </a>
+                                    <form action="{{ route('menus.destroy', $menu->id) }}" method="POST"
+                                        id="delete-form-{{ $menu->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="confirmarEliminacion('delete-form-{{ $menu->id }}' , '¿Estás seguro de eliminar este menú?')">
+                                            Eliminar
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
