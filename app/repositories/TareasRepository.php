@@ -58,7 +58,7 @@ class TareasRepository implements TareasInterface
 
                     $estudiantesTareas[] = [
                         'user_id' => $tareaEstudiante->user_id,
-                        'estudiante' => $nombre_estudiante->name . ' ' . $nombre_estudiante->apepat . ' ' . $nombre_estudiante->apemat,
+                        'estudiante' => $nombre_estudiante->usuario_nombres . ' ' . $nombre_estudiante->usuario_app . ' ' . $nombre_estudiante->usuario_apm,
                         'tareas' => [
                             [
                                 'tareas_id' => $tareaEstudiante->tareas_id,
@@ -93,7 +93,7 @@ class TareasRepository implements TareasInterface
                     $nombre_estudiante = User::find($tareaEstudiante->user_id);
                     $estudianteTareas = [
                         'user_id' => $tareaEstudiante->user_id,
-                        'estudiante' => $nombre_estudiante->name . ' ' . $nombre_estudiante->apepat . ' ' . $nombre_estudiante->apemat,
+                        'estudiante' => $nombre_estudiante->usuario_nombres . ' ' . $nombre_estudiante->usuario_app . ' ' . $nombre_estudiante->usuario_apm,
 
                         'tareas' => []
                     ];
@@ -113,7 +113,7 @@ class TareasRepository implements TareasInterface
 
             return [
                 'user_id' => $estudiante_id,
-                'estudiante' => User::find($estudiante_id)->name . ' ' . User::find($estudiante_id)->apepat . ' ' . User::find($estudiante_id)->apemat,
+                'estudiante' => User::find($estudiante_id)->usuario_nombres . ' ' . User::find($estudiante_id)->usuario_app . ' ' . User::find($estudiante_id)->usuario_apm,
                 'tareas' => []
             ];
         }

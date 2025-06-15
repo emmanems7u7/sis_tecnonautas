@@ -51,9 +51,16 @@ class EvaluacionController extends Controller
     {
         //
     }
-    public function estudianteseval($id_m)
+    public function estudianteseval($id_m, $id_a)
     {
 
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Materias', 'url' => route('asignacion.index')],
+            ['name' => 'Modulos', 'url' => route('modulos.materia.show', ['id_n' => 0, 'id_a' => $id_a])],
+            ['name' => 'Evaluaciones', 'url' => route('home')],
+        ];
         $evaluacion = Evaluacion::find($id_m);
         // dd($evaluacion);
         if ($evaluacion->completado == 'si') {
@@ -66,7 +73,7 @@ class EvaluacionController extends Controller
         $id_mod = $paralelo_modulo->id_m;
 
         $preguntas = $this->preguntasInterface->list($id_m);
-        return view('evaluacion.estudiantes', ['id_m' => $id_m], compact('preguntas', 'id_pm', 'id_mod'));
+        return view('evaluacion.estudiantes', ['id_m' => $id_m], compact('breadcrumb', 'preguntas', 'id_pm', 'id_mod'));
 
     }
     /**
@@ -274,15 +281,20 @@ class EvaluacionController extends Controller
     }
     public function Revision($id, $id_e)
     {
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Materias', 'url' => route('asignacion.index')],
+            ['name' => 'Revision de Evaluacion', 'url' => route('home')],
+        ];
         $respuestas = $this->respuestasInterface->listU($id, $id_e);
         $evaluacion = $this->evaluacionInterface->listarEvaluacion($id_e);
         $id_u = $id;
 
-        return view('evaluacion.revision', compact('id_u', 'id_e', 'respuestas', 'evaluacion'));
+        return view('evaluacion.revision', compact('breadcrumb', 'id_u', 'id_e', 'respuestas', 'evaluacion'));
     }
     public function respIncorrecta($id_u, $id_p)
     {
-
+        return redirect()->back()->with('status', 'seleccion incorrecta');
     }
     public function respCorrecta($id_u, $id_p, $id_e)
     {
@@ -301,7 +313,7 @@ class EvaluacionController extends Controller
         $nota = $this->respuestasInterface->Nota2($id_u, $totalPreguntas, $preguntas);
         $this->evaluacionInterface->GuardarEvaluacion($id_e, $id_u, $nota);
 
-        return redirect()->back()->with('success', 'seleccion correcta');
+        return redirect()->back()->with('status', 'seleccion correcta');
     }
 
     function delete(Evaluacion $evaluacion, $id_pm, $id_m)

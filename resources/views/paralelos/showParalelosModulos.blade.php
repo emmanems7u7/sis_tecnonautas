@@ -196,7 +196,8 @@
     <div class="modal fade" id="asistenciasModal_ver" tabindex="-1" aria-labelledby="asistenciasModal_verLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+      <div
+      class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
         <h5 class="modal-title" id="asistenciasModal_verLabel">Asistencia</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

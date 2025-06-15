@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Traits\Base64ToFile;
 use App\Interfaces\AsignacionInterface;
-use App\Models\Estudiantes_asignacion_paramodulo;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AsignacionController extends Controller
@@ -115,7 +115,7 @@ class AsignacionController extends Controller
     {
         $breadcrumb = [
             ['name' => 'Inicio', 'url' => route('home')],
-            ['name' => 'Inscripcion Materias', 'url' => route('asignacion.index')],
+            ['name' => 'Inscripción Materias', 'url' => route('asignacion.index')],
 
         ];
 
@@ -138,16 +138,73 @@ class AsignacionController extends Controller
     {
         $data = $this->AsignacionRepository->GetInscripcion($request);
 
-        return response()->json($data);
+        if ($data['status'] == 'error') {
+            return response()->json(['status' => $data['status'], 'message' => $data['message']], 400);
+        }
+        return response()->json(['status' => $data['status'], 'message' => '', 'data' => $data['data']], 200);
+
+
+    }
+
+    public function inscripcion_estudiante()
+    {
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Inscripción Estudiante', 'url' => route('asignacion.index')],
+        ];
+
+        $asignacionesPago = $this->AsignacionRepository->GetAsignacionPagos();
+        $asignacionesGratuitos = $this->AsignacionRepository->GetAsignacionGratuitos();
+        $estudiantes = User::role('estudiante')->get();
+
+        return view('inscripciones.index', compact('breadcrumb', 'estudiantes', 'asignacionesPago', 'asignacionesGratuitos'));
+
+
+
     }
 
     public function inscripcionpago(Request $request)
     {
+        if (Auth::check() && Auth::user()->hasRole('estudiante')) {
+            $this->userId = Auth::id();
 
-        $this->userId = Auth::id();
-        $this->AsignacionRepository->InscripcionPago($this->userId, $request);
+            $this->AsignacionRepository->InscripcionPago($this->userId, $request);
 
-        return redirect()->route('asignacion.index')->with('status', 'se ha inscrito exitosamente!');
+            return redirect()->route('asignacion.index')->with('status', '!se ha inscrito exitosamente!');
+        } else {
+            return redirect()->back()->with('error', 'Debe tener el rol de estudiante para inscribirse en una materia');
+
+        }
+    }
+
+    public function inscripcion_adm(Request $request)
+    {
+
+
+        $user = User::find($request->estudiante);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Usuario no encontrado');
+
+
+        }
+        if (!$user->hasRole('estudiante')) {
+
+            return redirect()->back()->with('error', 'El usuario debe tener el rol de estudiante para inscribirlo en una materia');
+
+        }
+
+        $data = $this->AsignacionRepository->InscripcionPago($user->id, $request);
+
+        if ($data['status'] == 'error') {
+            return redirect()->back()->with('error', $data['message']);
+        } elseif ($data['status'] == 'success') {
+            return redirect()->back()->with('status', $data['message']);
+
+        }
+
+
     }
 
     /**

@@ -72,13 +72,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
-                        <img src="{{ asset('/storage' . $estudiante->fotoperfil) }}"
+                        <img src="{{ asset($estudiante->fotoperfil) }}"
                             class="card-img-top mx-auto d-block student-img mt-3" alt="Foto del Estudiante">
                         <div class="card-body">
                             <h5 class="card-title">Datos del Estudiante</h5>
                             <div class=" justify-content-between">
-                                <p class="card-text-p"><strong>Nombre:</strong> {{$estudiante->name}}
-                                    {{$estudiante->apepat}} {{$estudiante->apemat}}
+                                <p class="card-text-p"><strong>Nombre:</strong> {{$estudiante->usuario_nombres}}
+                                    {{$estudiante->usuario_app}} {{$estudiante->usuario_apm}}
                                 </p>
                                 <p class="card-text-p"><strong>fecha de Nacimiento:</strong> {{$estudiante->fechanac}}</p>
 

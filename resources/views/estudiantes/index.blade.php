@@ -53,12 +53,12 @@
                                         @foreach($usuario->asignacionesEstudiante as $asig)
                                             <tr>
                                                 <td class="text-center align-middle">
-                                                    <img src="{{ $usuario->fotoperfil ? asset('storage/' . $usuario->fotoperfil) : asset('imagenes/tecnonautas.png') }}"
+                                                    <img src="{{ $usuario->fotoperfil ? asset($usuario->fotoperfil) : asset('imagenes/tecnonautas.png') }}"
                                                         alt="Foto de perfil" class="rounded-circle mx-auto d-block"
                                                         style="width: 50px; height: 50px; object-fit: cover;">
                                                 </td>
-                                                <td>{{ $usuario->name }}</td>
-                                                <td>{{ $usuario->apepat }} {{ $usuario->apemat }}</td>
+                                                <td>{{ $usuario->usuario_nombres }}</td>
+                                                <td>{{ $usuario->usuario_app }} {{ $usuario->usuario_apm }}</td>
                                                 <td>{{ $usuario->email }}</td>
                                                 <td><small>{{ $asig->materia }} | {{ $asig->modulo }}</small></td>
                                                 <td>
@@ -91,12 +91,12 @@
 
                                         <tr>
                                             <td class="text-center align-middle">
-                                                <img src="{{ $usuario->fotoperfil ? asset('storage/' . $usuario->fotoperfil) : asset('imagenes/tecnonautas.png') }}"
+                                                <img src="{{ $usuario->fotoperfil ? asset($usuario->fotoperfil) : asset('imagenes/tecnonautas.png') }}"
                                                     alt="Foto de perfil" class="rounded-circle mx-auto d-block"
                                                     style="width: 50px; height: 50px; object-fit: cover;">
                                             </td>
-                                            <td>{{ $usuario->name }}</td>
-                                            <td>{{ $usuario->apepat }} {{ $usuario->apemat }}</td>
+                                            <td>{{ $usuario->usuario_nombres }}</td>
+                                            <td>{{ $usuario->usuario_app }} {{ $usuario->usuario_apm }}</td>
                                             <td>{{ $usuario->email }}</td>
 
                                             <td>

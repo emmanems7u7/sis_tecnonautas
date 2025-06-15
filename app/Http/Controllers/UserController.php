@@ -370,8 +370,14 @@ class UserController extends Controller
     public function EstudiantesInactivos($id)
     {
 
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Estudiantes Inactivos', 'url' => route('home')],
+        ];
+
         $estudiantes = Estudiantes_asignacion_paramodulo::join('users', 'estudiantes_asignacion_paramodulos.id_u', '=', 'users.id')
-            ->select('users.id', 'users.fotoperfil', 'users.name', 'users.apepat', 'users.apemat', 'users.email', 'estudiantes_asignacion_paramodulos.activo')
+            ->select('users.id', 'users.fotoperfil', 'users.usuario_nombres', 'users.usuario_app', 'users.usuario_apm', 'users.email', 'estudiantes_asignacion_paramodulos.activo')
             ->where('activo', 'inactivo')
             ->get();
 
@@ -379,7 +385,7 @@ class UserController extends Controller
             return redirect()->back()->with('alert', ['type' => 'warning', 'message' => 'El Estudiante Aun no se registro en alguna materia']);
         }
 
-        return view('estudiantes.inactivos', ['e' => $estudiantes, 'id_noti' => $id]);
+        return view('estudiantes.inactivos', ['e' => $estudiantes, 'id_noti' => $id, 'breadcrumb' => $breadcrumb]);
 
     }
     public function cambiarestado($id, $id_noti)
@@ -390,7 +396,7 @@ class UserController extends Controller
         $this->NotificationRepository->markAsRead($id_noti);
 
         $estudiantes = Estudiantes_asignacion_paramodulo::join('users', 'estudiantes_asignacion_paramodulos.id_u', '=', 'users.id')
-            ->select('users.id', 'users.fotoperfil', 'users.name', 'users.apepat', 'users.apemat', 'users.email', 'estudiantes_asignacion_paramodulos.activo')
+            ->select('users.id', 'users.fotoperfil', 'users.usuario_nombres', 'users.usuario_app', 'users.usuario_apm', 'users.email', 'estudiantes_asignacion_paramodulos.activo')
             ->where('activo', 'inactivo')
             ->get();
 
@@ -501,12 +507,21 @@ class UserController extends Controller
 
     public function detalleEstudiante($id, $id_m)
     {
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Estudiantes', 'url' => route('home')],
+            ['name' => 'Detalle Estudiante', 'url' => route('home')],
+        ];
+
         $usuario = User::find($id);
+
+
         $usuarioDetalle = DB::table('evaluacion_completas as ec')
 
             ->join('evaluacions as e', 'ec.id_e', '=', 'e.id')
             ->select('e.nombre', 'ec.completado', 'ec.nota', 'e.detalle', 'e.creado', 'e.limite', 'ec.id_u', 'ec.id_e')
-            ->where('ec.id_u', $id)
+            ->where('ec.id_u', $usuario->id)
             ->where('e.id_pm', $id_m)
             ->get();
 
@@ -516,10 +531,13 @@ class UserController extends Controller
             ->where('te.user_id', $id)
             ->get();
 
+
+
         return view('estudiantes.detalle', [
             'usuario' => $usuario,
             'detalles' => $usuarioDetalle,
-            'tareasEstudiantes' => $tareasEstudiantes
+            'tareasEstudiantes' => $tareasEstudiantes,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -582,7 +600,7 @@ class UserController extends Controller
         $nota = $sumTotal / $total;
 
         $profesor = asignacion_profesor::join('users as u', 'asignacion_profesor.id_u', '=', 'u.id')
-            ->select('u.name', 'u.apepat', 'u.apemat')
+            ->select('u.usuario_nombres', 'u.usuario_app', 'u.usuario_apm')
             ->where('id_pm', $id_p)
             ->first();
 

@@ -119,10 +119,13 @@ class MenuRepository extends BaseRepository implements MenuInterface
     }
     public function CrearSeccion($request)
     {
+        $ultimaPosicion = Seccion::max('posicion') ?? 0;
         $seccion = Seccion::create(
             [
                 'titulo' => $this->cleanHtml($request->input('titulo')),
                 'icono' => $this->cleanHtml($request->input('icono')),
+                'posicion' => $ultimaPosicion + 1,
+
                 'accion_usuario' => Auth::user()->name,
             ]
         );

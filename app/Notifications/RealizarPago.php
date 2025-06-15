@@ -36,7 +36,7 @@ class RealizarPago extends Notification
     {
         return (new MailMessage)
             ->subject('Realizar Pago')
-            ->line('Tu inscripcion fue exitosa debes realizar el Pago de la materia!')
+            ->line('Tu inscripción fue exitosa debes realizar el Pago de la materia!')
             ->action('Registrar Apoderados', url('/ruta/para/registrar/apoderados'))
             ->line('Gracias por usar nuestra aplicación!');
     }

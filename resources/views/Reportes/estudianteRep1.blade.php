@@ -199,8 +199,8 @@
                 <tr>
                     <th colspan="2" class="text-center" style="background-color: rgba(240, 240, 240, 0.8);">
                         <h5 class="card-title" id="estudiante">Estudiante:
-                            {{$data['usuario']->name}} {{$data['usuario']->apepat}}
-                            {{$data['usuario']->apemat}}
+                            {{$data['usuario']->usuario_nombres}} {{$data['usuario']->usuario_app}}
+                            {{$data['usuario']->usuario_apm}}
                         </h5>
                     </th>
                 </tr>
@@ -220,8 +220,8 @@
                         <p class="card-text" id="paralelo"><strong>Paralelo:</strong>
                             {{$data['paralelo']->nombre}}</p>
                         <p class="card-text" id="profesor"><strong>Profesor:</strong>
-                            {{$data['profesor']->name}} {{$data['profesor']->apepat}}
-                            {{$data['profesor']->apemat}}
+                            {{$data['profesor']->usuario_nombres}} {{$data['profesor']->usuario_app}}
+                            {{$data['profesor']->usuario_apm}}
                         </p>
                     </td>
                 </tr>
@@ -314,8 +314,8 @@
 
             <img src="{{ $data['firma'] }}" alt="" style="width: 200px; position: absolute; top: -50px; left: 260px;">
             <br>
-            {{$data['profesor']->name}} {{$data['profesor']->apepat}}
-            {{$data['profesor']->apemat}}
+            {{$data['profesor']->usuario_nombres}} {{$data['profesor']->usuario_app}}
+            {{$data['profesor']->usuario_apm}}
             <br>
             <strong>Profesor de {{$data['materia']}}</strong>
         </footer>

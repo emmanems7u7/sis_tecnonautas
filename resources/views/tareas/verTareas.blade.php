@@ -15,7 +15,8 @@
 
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h3 class="card-title">{{ $estudiante->name }} {{ $estudiante->apepat }} {{ $estudiante->apemat }}</h3>
+            <h3 class="card-title">{{ $estudiante->usuario_nombres }} {{ $estudiante->usuario_app }}
+                {{ $estudiante->usuario_apm }}</h3>
         </div>
         <div class="card-body">
             @forelse ($estudiante->tareasEstudiantes as $tarea)

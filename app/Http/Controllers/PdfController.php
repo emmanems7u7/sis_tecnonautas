@@ -106,20 +106,33 @@ class PdfController extends Controller
 
 
         $profesor = asignacion_profesor::join('users as u', 'asignacion_profesor.id_u', '=', 'u.id')
-            ->select('u.name', 'u.apepat', 'u.apemat')
+            ->select('u.usuario_nombres', 'u.usuario_app', 'u.usuario_apm')
             ->where('id_pm', $id_p)
             ->first();
 
-        $path = public_path('storage' . $usuario->fotoperfil);
-        $type = pathinfo($path, PATHINFO_EXTENSION); // Detecta si es png, jpg, etc.
-        $imgData = base64_encode(file_get_contents($path));
-        $src = 'data:image/' . $type . ';base64,' . $imgData;
 
 
-        $path_body = public_path('storage/imagenes/imagenreporte.jpg');
+        if (!empty($usuario->fotoperfil)) {
+            $path = public_path($usuario->fotoperfil);
+
+            if (file_exists($path) && is_readable($path)) {
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $imgData = base64_encode(file_get_contents($path));
+                $src = 'data:image/' . $type . ';base64,' . $imgData;
+            } else {
+
+                $src = null;
+            }
+        } else {
+
+            $src = null;
+        }
+
+
+        $path_body = public_path('imagenes/imagenreporte.jpg');
         $type_body = pathinfo($path_body, PATHINFO_EXTENSION);
         $imgData_body = base64_encode(file_get_contents($path_body));
-        $src_body = 'data:image/' . $type . ';base64,' . $imgData_body;
+        $src_body = 'data:image/' . $type_body . ';base64,' . $imgData_body;
 
         $data = [
             'usuario' => $usuario,

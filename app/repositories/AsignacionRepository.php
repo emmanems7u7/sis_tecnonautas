@@ -39,8 +39,21 @@ class AsignacionRepository implements AsignacionInterface
     public function InscripcionPago($userId, $request)
     {
         $adminUsers = User::role('admin')->get();
-        $asignacion = Asignacion::find($request->query('id_a'));
-        $paraMod = paralelo_modulo::find($request->query('id_pm'));
+        $id_a = $request->query('id_a') ?? $request->input('curso');
+        $id_pm = $request->query('id_pm') ?? $request->input('paralelo');
+
+        $asignacion = Asignacion::find($id_a);
+        if ($asignacion == null) {
+            return ['status' => 'error', 'message' => 'No se encontró datos de la asignacion, por favor intente de nuevo más tarde.'];
+        }
+
+        $paraMod = paralelo_modulo::find($id_pm);
+
+
+        if ($paraMod == null) {
+            return ['status' => 'error', 'message' => 'No se encontró datos del paralelo, por favor intente de nuevo más tarde.'];
+        }
+
         $modulo_nombre = Modulo::find($paraMod->id_m);
         $paralelo = Paralelo::find($paraMod->id_p);
         try {
@@ -51,19 +64,25 @@ class AsignacionRepository implements AsignacionInterface
                 //if (false) {
                 if ($paraMod->inscritos <= $cupo_paralelo) {
 
+                    $existe = Estudiantes_asignacion_paramodulo::where('id_u', $userId)
+                        ->where('id_a', $id_a)
+                        ->where('id_pm', $id_pm)
+                        ->exists();
+
+                    if ($existe) {
+                        return ['status' => 'error', 'message' => 'El estudiante ya esta registrado en la materia y paralelo seleccionado'];
+                    }
                     $asig = Estudiantes_asignacion_paramodulo::create([
 
                         'id_u' => $userId,
-                        'id_a' => $request->query('id_a'),
-                        'id_pm' => $request->query('id_pm'),
+                        'id_a' => $id_a,
+                        'id_pm' => $id_pm,
                         'activo' => 'inactivo',
                         'nota' => 0
 
                     ]);
 
                     $userN = User::find($userId);
-
-
 
                     foreach ($adminUsers as $adminUser) {
                         $adminUser->notify(new HabilitarEstudiante($userId));
@@ -85,29 +104,25 @@ class AsignacionRepository implements AsignacionInterface
                     foreach ($adminUsers as $adminUser) {
                         $adminUser->notify(new ParaleloModuloCupo($asignacion, $modulo_nombre, $paralelo));
                     }
-                    return redirect()->back()->with('error', 'El paralelo ya no tiene cupo disponible');
 
+                    return ['error' => 'success', 'message' => 'El paralelo ya no tiene cupo disponible'];
 
                 }
 
+                return ['status' => 'success', 'message' => '!Inscribió al estudiante exitosamente!'];
+
 
             } catch (\Exception $e) {
 
-                return redirect()->back()->with('error', 'Error al guardar Asignacion' . $e->getMessage());
+                return ['status' => 'success', 'message' => 'Error al guardar Asignacion, intente mas tarde'];
+
             }
 
-            try {
-
-            } catch (\Exception $e) {
-
-                return redirect()->back()->with('error', 'Error al guardar el pago' . $e->getMessage());
-            }
 
         } catch (\Exception $e) {
+            return ['status' => 'success', 'message' => 'Error al guardar varios Datos, intente mas tarde'];
 
-            return redirect()->back()->with('error', 'Error al guardar varios Datos' . $e->getMessage());
         }
-
 
     }
     function RegistrarPago($asignacion_id, $userN)
@@ -136,13 +151,27 @@ class AsignacionRepository implements AsignacionInterface
             ->where('asignacions.id', '=', $idMateria)
             ->first();
 
+        if ($asignacion == null) {
+            return (['status' => 'error', 'message' => 'no se encontró la asignacion, por favor intente de nuevo mas tarde']);
+        }
+
         $datosModulo = Modulo::select('modulos.id', 'nombreM', 'Duracion', 'Descripcion')
             ->join('asig_modulos', 'modulos.id', '=', 'asig_modulos.id_m')
             ->where('nombreM', $nombreModulo)
             ->where('asig_modulos.id_a', $idMateria)
             ->first();
 
-        $datosParalelo = $this->ParaleloRepository->GetDatosParalelosID(paralelo_modulo::where('id_m', $datosModulo->id)->get());
+        if ($datosModulo == null) {
+            return (['status' => 'error', 'message' => 'no se encontró datos del módulo, por favor intente de nuevo mas tarde']);
+        }
+
+        $paramod = paralelo_modulo::where('id_m', $datosModulo->id)->get();
+
+        if ($paramod == null) {
+            return (['status' => 'error', 'message' => 'no se encontró datos del paralelo, por favor intente de nuevo mas tarde']);
+        }
+
+        $datosParalelo = $this->ParaleloRepository->GetDatosParalelosID($paramod);
 
 
         $id = $asignacion->id;
@@ -156,7 +185,7 @@ class AsignacionRepository implements AsignacionInterface
             $duracion = $datosModulo->Duracion;
             $descripcionMod = $datosModulo->Descripcion;
         } else {
-            return response()->json(['error' => 'Módulo no encontrado'], 404);
+            return (['status' => 'error', 'message' => 'no se encontró el módulo, por favor intente de nuevo mas tarde']);
         }
 
         $data = [
@@ -173,8 +202,8 @@ class AsignacionRepository implements AsignacionInterface
             'descripcionMod' => $descripcionMod,
 
         ];
+        return (['status' => 'success', 'message' => '', 'data' => $data]);
 
-        return $data;
     }
     public function GetAsignaciones()
     {

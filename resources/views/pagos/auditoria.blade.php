@@ -26,23 +26,13 @@
 
 
     @foreach ($pagos as $pago)
-        @if(
-                $pago->metodo_pago != null &&
-                $pago->imagenComprobante != null &&
-                $pago->pagado != null &&
-                $pago->monto != null &&
-                $pago->fecha_pago != null &&
-                $pago->numeroComprobante != null
-            )
+
+        @if($pago->pagado != null)
 
 
 
             @php
-                $salidaError = false;
-            @endphp
-
-            @php
-                $salidaError = false;
+                $salidaError = 0;
             @endphp
 
             @foreach ($pago->transacciones as $pa)
@@ -52,27 +42,23 @@
 
                     $erroresC = $dataC['errores'] ?? null;
                     $error = $data['error'] ?? null;
-
                     $tieneError = !empty($error);
                     $tieneErrorCorreo = !empty($erroresC);
 
-                    // Si tiene solo un error (uno sí, el otro no)
+                    // Si tiene solo un error 
                     if (($tieneError && !$tieneErrorCorreo) || (!$tieneError && $tieneErrorCorreo)) {
-                        $salidaError = true;
+                        $salidaError = 1;
                     } else {
-                        $salidaError = false;
+                        $salidaError = 2;
 
                     }
                 @endphp
             @endforeach
 
-
-
-
             <div class="card mb-3 shadow-sm border-0">
                 <div class="card-body">
                     <h5 class="card-title mb-3 text-primary">Estudiante: {{ $pago->nombre_estudiante }}
-                        @if($salidaError)
+                        @if($salidaError == 1)
                             <div class="alert alert-warning shadow-sm mt-3" role="alert">
                                 <p style="font-size:15px;">
                                     El sistema ha detectado uno error o mas errores en los datos del comprobante de pago o en la
@@ -89,7 +75,7 @@
                                     <i class="fas fa-times-circle"></i> Rechazar Registro
                                 </button>
                             </div>
-                        @else
+                        @elseif($salidaError == 2)
                             <div class="alert alert-success shadow-sm mt-3" role="alert">
                                 <p style="font-size:15px;">
                                     El sistema autorizó correctamente el pago del estudiante. Puede revisar los registros asociados y,
@@ -100,6 +86,13 @@
                                     <i class="fas fa-times-circle"></i> Rechazar Registro
                                 </a>
                             </div>
+                        @elseif($salidaError == 0)
+                            <div class="alert alert-danger shadow-sm mt-3" role="alert">
+                                <p style="font-size:15px;">
+                                    El sistema ha detectado multiples errores en los datos del comprobante de pago o en la información
+                                    del
+                                    correo recibido.
+                                </p>
                         @endif
                     </h5>
                     <div class="row">
@@ -174,24 +167,27 @@
                                                                 @endif
 
                                                                 <p class="mb-1"><strong>Datos de la Imagen:</strong></p>
-                                                                @if($datosImagen['fecha'] && $datosImagen['total_enviado'] && $datosImagen['nro_transaccion'])
+                                                                @if(isset($datosImagen['fecha'], $datosImagen['total_enviado'], $datosImagen['nro_transaccion']))
                                                                     <ul class="ps-4 mb-0">
-                                                                        <li><strong>Fecha:</strong> {{ $datosImagen['fecha'] }}</li>
+                                                                        <li><strong>Fecha:</strong>
+                                                                            {{ $datosImagen['fecha'] ?? 'No registrado' }}</li>
                                                                         <li><strong>Total Enviado:</strong>
-                                                                            {{ $datosImagen['total_enviado'] }}</li>
+                                                                            {{ $datosImagen['total_enviado'] ?? 'No registrado' }}</li>
                                                                         <li><strong>Nombre Beneficiario:</strong>
-                                                                            {{ $datosImagen['nombre_beneficiario'] }}</li>
+                                                                            {{ $datosImagen['nombre_beneficiario'] ?? 'No registrado' }}</li>
                                                                         <li><strong>Número Beneficiario:</strong>
-                                                                            {{ $datosImagen['numero_beneficiario'] }}</li>
-                                                                        <li><strong>Destino:</strong> {{ $datosImagen['destino'] }}</li>
+                                                                            {{ $datosImagen['numero_beneficiario'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Destino:</strong>
+                                                                            {{ $datosImagen['destino'] ?? 'No registrado' }}</li>
                                                                         <li><strong>Envío Realizado De:</strong>
-                                                                            {{ $datosImagen['envio_realizado_de'] }}</li>
+                                                                            {{ $datosImagen['envio_realizado_de'] ?? 'No registrado' }}</li>
                                                                         <li><strong>Nro. de Transacción:</strong>
-                                                                            {{ $datosImagen['nro_transaccion'] }}</li>
+                                                                            {{ $datosImagen['nro_transaccion'] ?? 'No registrado' }}</li>
                                                                     </ul>
                                                                 @else
                                                                     <p class="text-muted mb-0">No hay datos disponibles.</p>
                                                                 @endif
+
                                                             @else
                                                                 <h6 class="text-success">No se encontraron errores en el pago</h6>
                                                                 @if($data['fecha'] && $data['total_enviado'] && $data['nro_transaccion'])
@@ -236,29 +232,35 @@
 
                                                                 @endforeach
 
-                                                                <p class="mb-1"><strong>Datos Email:</strong></p>
-                                                                <ul class="ps-4 mb-0">
-                                                                    <li><strong>Remitente:</strong> {{  $datosCorreo['remitente'] }}
-                                                                    </li>
-                                                                    <li><strong>Fecha:</strong> {{  $datosCorreo['fecha'] }}</li>
-                                                                    <li><strong>Asunto:</strong> {{  $datosCorreo['asunto'] }}</li>
-                                                                    <li><strong>Nro de Transaccion:</strong>
-                                                                        {{  $datosCorreo['numTransaccion'] }}</li>
-                                                                    <li><strong>Nro de Comprobante:</strong>
-                                                                        {{  $datosCorreo['numComprobante'] }}</li>
-                                                                    <li><strong>Origen Titular:</strong>
-                                                                        {{  $datosCorreo['origenTitular'] }}</li>
-                                                                    <li><strong>Origen Cuenta:</strong>
-                                                                        {{  $datosCorreo['origenCuenta'] }}</li>
-                                                                    <li><strong>Destino Beneficiario:</strong>
-                                                                        {{  $datosCorreo['destinoBeneficiario'] }}
-                                                                    </li>
-                                                                    <li><strong>Destino Cuenta:</strong>
-                                                                        {{  $datosCorreo['destinoCuenta'] }}</li>
-                                                                    <li><strong>Monto Transferido:</strong>
-                                                                        {{  $datosCorreo['montoTransferido'] }}</li>
-                                                                    <li><strong>Glosa:</strong> {{  $datosCorreo['glosa'] }}</li>
-                                                                </ul>
+                                                                @if(is_array($datosCorreo))
+                                                                    <p class="mb-1"><strong>Datos Email:</strong></p>
+                                                                    <ul class="ps-4 mb-0">
+                                                                        <li><strong>Remitente:</strong>
+                                                                            {{ $datosCorreo['remitente'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Fecha:</strong>
+                                                                            {{ $datosCorreo['fecha'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Asunto:</strong>
+                                                                            {{ $datosCorreo['asunto'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Nro de Transacción:</strong>
+                                                                            {{ $datosCorreo['numTransaccion'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Nro de Comprobante:</strong>
+                                                                            {{ $datosCorreo['numComprobante'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Origen Titular:</strong>
+                                                                            {{ $datosCorreo['origenTitular'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Origen Cuenta:</strong>
+                                                                            {{ $datosCorreo['origenCuenta'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Destino Beneficiario:</strong>
+                                                                            {{ $datosCorreo['destinoBeneficiario'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Destino Cuenta:</strong>
+                                                                            {{ $datosCorreo['destinoCuenta'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Monto Transferido:</strong>
+                                                                            {{ $datosCorreo['montoTransferido'] ?? 'No registrado' }}</li>
+                                                                        <li><strong>Glosa:</strong>
+                                                                            {{ $datosCorreo['glosa'] ?? 'No registrado' }}</li>
+                                                                    </ul>
+                                                                @else
+                                                                    <p class="text-muted mb-0">No hay datos de correo disponibles.</p>
+                                                                @endif
                                                             @else
                                                                 <h6 class="text-success">No se encontraron errores en el Email</h6>
                                                                 <p class="mb-1"><strong>Datos Email:</strong></p>
@@ -304,12 +306,8 @@
 
                 </div>
             </div>
-        @elseif($pago->pagado == 3)
-            <div class="card">
-                <div class="card-body">
-                    <p>El pago registrado fue Rechazado</p>
-                </div>
-            </div>
+
+
         @else
             <div class="card">
                 <div class="card-body">

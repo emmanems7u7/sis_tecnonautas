@@ -10,6 +10,10 @@ class SeederPermisos_20250607 extends Seeder
     public function run()
     {
         $permisos = [
+            ['id' => '161', 'name' => 'contenido.contenido_tema_eliminar', 'tipo' => 'permiso', 'guard_name' => 'web' ],
+            ['id' => '160', 'name' => 'inscripcion.guardar_inscripcion_estudiante', 'tipo' => 'permiso', 'guard_name' => 'web' ],
+            ['id' => '159', 'name' => 'inscripcion.inscribir_estudiante', 'tipo' => 'permiso', 'guard_name' => 'web' ],
+            ['id' => '158', 'name' => 'Inscribir estudiante', 'tipo' => 'menu', 'guard_name' => 'web' ],
             ['id' => '157', 'name' => 'estudiante.cambiar_estado', 'tipo' => 'permiso', 'guard_name' => 'web' ],
             ['id' => '156', 'name' => 'estudiante.pagos_materias', 'tipo' => 'permiso', 'guard_name' => 'web' ],
             ['id' => '155', 'name' => 'estudiante.ver_detalle', 'tipo' => 'permiso', 'guard_name' => 'web' ],

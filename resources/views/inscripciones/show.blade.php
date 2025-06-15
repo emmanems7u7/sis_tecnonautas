@@ -42,11 +42,16 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-body">
 
+    <h5 class="text-dark text-center mb-4">Materias de Pago</h5>
+    </div>
+  </div>
 
   <section id="tranding" class="py-5 mt-2 ">
     <div class="container">
-    <h1 class="text-dark text-center mb-4">Materias de Pago</h1>
+
 
     <div class="swiper tranding-slider">
       <div class="swiper-wrapper">
@@ -83,10 +88,14 @@
 
 
 
-
+  <div class="card">
+    <div class="card-body">
+    <h5 class="text-dark text-center section-subheading">Materias gratuitas</h5>
+    </div>
+  </div>
   <section id="tranding">
     <div class="container">
-    <h1 class="text-white text-center section-subheading">Materias gratuitas</h1>
+
     </div>
     <div class="container">
     <div class="swiper tranding-slider">
@@ -113,7 +122,7 @@
         <h3 class="text-white food-rating">
         {{$gratuito->descripcion}}
         </h3>
-        <a href="" class="btn btn-success"> realizar inscripcion
+        <a href="" class="btn btn-success"> realizar inscripción
         </a>
       </div>
       </div>
@@ -203,10 +212,19 @@
 
 
     function enviarBtn(idMateria) {
+
     var selectParalelo = document.getElementById('selectParalelo');
+
+    if (!selectParalelo || !selectParalelo.value) {
+      const modal = bootstrap.Modal.getInstance(document.getElementById('Modal_inscripcion'));
+      if (modal) {
+      modal.hide();
+      }
+      alertify.error('No puede realizar la inscripción');
+      return;
+    }
+
     var id_p = selectParalelo.value;
-
-
     const enlaceInscripcion = document.getElementById('inscripcion');
 
     enlaceInscripcion.href = "{{ route('inscripcionpago.store') }}/?id_a=" + idMateria + "&id_pm=" + id_p;
@@ -217,15 +235,15 @@
     if (isNaN(idNumerico)) return;
 
     // Elimina modal previo si existe
-    const existingModal = document.getElementById('miModal');
+    const existingModal = document.getElementById('Modal_inscripcion');
     if (existingModal) existingModal.remove();
 
     const modalHtml = `
-    <div id="miModal" class="modal fade" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+    <div id="Modal_inscripcion" class="modal fade" tabindex="-1" aria-labelledby="Modal_inscripcionLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="miModalLabel">Inscripción de curso</h5>
+      <h5 class="modal-title" id="Modal_inscripcionLabel">Inscripción de curso</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
@@ -242,7 +260,7 @@
       <hr>
       <div class="d-flex justify-content-between">
       <a id="inscripcion" href="#" class="btn btn-success" onclick="enviarBtn(${idMateria})">¡Inscríbete Ahora!</a>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <button type="button" id='boton_modal_inscripcion' class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
       </div>
       </div>
@@ -255,32 +273,36 @@
 
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-    const myModal = new bootstrap.Modal(document.getElementById('miModal'));
+    const myModal = new bootstrap.Modal(document.getElementById('Modal_inscripcion'));
     myModal.show();
 
     fetch("{{ route('inscripcionModal.show') }}/?id_a=" + idMateria)
       .then(response => response.json())
       .then(data => {
-      document.getElementById('imagenMateria').src = '{{ asset('/storage') }}/' + data.imagen;
-      document.getElementById('nombreMateria').textContent = 'Curso: ' + data.nombre;
-      document.getElementById('descripcionMateria').textContent = data.descripcion;
-      document.getElementById('PrecioMateria').textContent = `Precio: ${data.precio} Bs`;
 
-      const datosModuloDiv = document.getElementById('datos_modulo');
-      datosModuloDiv.innerHTML = `
+      if (data.status == 'success') {
+
+
+        document.getElementById('imagenMateria').src = '{{ asset('') }}' + data.data.imagen;
+        document.getElementById('nombreMateria').textContent = 'Curso: ' + data.data.nombre;
+        document.getElementById('descripcionMateria').textContent = data.data.descripcion;
+        document.getElementById('PrecioMateria').textContent = `Precio: ${data.data.precio} Bs`;
+
+        const datosModuloDiv = document.getElementById('datos_modulo');
+        datosModuloDiv.innerHTML = `
       <div class="module">
       <div class="module-header mb-2">
       <div class="row">
       <div class="col">
-      <h5>${data.nombreM}</h5>
+      <h5>${data.data.nombreM}</h5>
       </div>
       <div class="col text-end">
-      <p><strong>Duración:</strong> ${data.duracion}</p>
+      <p><strong>Duración:</strong> ${data.data.duracion}</p>
       </div>
       </div>
       </div>
       <div class="module-description mb-2">
-      <p><strong>Descripción:</strong> ${data.descripcionMod}</p>
+      <p><strong>Descripción:</strong> ${data.data.descripcionMod}</p>
       </div>
       <div class="module-details">
       <div class="mb-2">
@@ -297,24 +319,32 @@
       </div>
       `;
 
-      const selectParalelo = document.getElementById('selectParalelo');
-      selectParalelo.innerHTML = '';
+        const selectParalelo = document.getElementById('selectParalelo');
+        selectParalelo.innerHTML = '';
 
-      const defaultOption = document.createElement('option');
-      defaultOption.textContent = 'Seleccione Paralelo';
-      defaultOption.selected = true;
-      defaultOption.disabled = true;
-      selectParalelo.appendChild(defaultOption);
+        const defaultOption = document.createElement('option');
+        defaultOption.textContent = 'Seleccione Paralelo';
+        defaultOption.selected = true;
+        defaultOption.disabled = true;
+        selectParalelo.appendChild(defaultOption);
 
-      Object.keys(data.datosParalelo).forEach(function (key) {
-        const paralelo = data.datosParalelo[key];
+        Object.keys(data.data.datosParalelo).forEach(function (key) {
+        const paralelo = data.data.datosParalelo[key];
         const option = document.createElement('option');
         option.value = paralelo.id_p;
         option.textContent = 'Paralelo ' + key;
         selectParalelo.appendChild(option);
-      });
+        });
 
-      handleSelectChange(data.nombreM, idMateria);
+        handleSelectChange(data.data.nombreM, idMateria);
+      }
+      else if (data.status == 'error') {
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('Modal_inscripcion'));
+        modal.hide();
+        alertify.error(data.message)
+
+      }
       })
       .catch(error => {
       console.error('Error al obtener los datos de la materia:', error);
@@ -322,18 +352,18 @@
     }
 
     function eliminarModal() {
-    const miModal = document.getElementById('miModal');
-    miModal.remove();
+    const Modal_inscripcion = document.getElementById('Modal_inscripcion');
+    Modal_inscripcion.remove();
     }
 
     const openModalBtn = document.getElementById('openModalBtn');
 
     openModalBtn.addEventListener('click', () => {
 
-    const miModal = new bootstrap.Modal(document.getElementById('miModal'));
+    const Modal_inscripcion = new bootstrap.Modal(document.getElementById('Modal_inscripcion'));
 
 
-    miModal.show();
+    Modal_inscripcion.show();
 
     });
   </script>

@@ -30,56 +30,61 @@
                             <h6 class="text-muted"><i class="fas fa-list-ul"></i> Módulos inscritos:</h6>
                             <div class="list-group mt-2">
                                 @foreach ($materia['modulos_inscritos'] as $modulo)
-                                    <div class="list-group-item border-0 d-flex justify-content-between align-items-center shadow-sm p-3 mb-2 rounded"
-                                        style="background: rgba(0,0,0,0.05);">
+                                <div class="list-group-item border-0 shadow-sm p-3 mb-2 rounded" style="background: rgba(0,0,0,0.05);">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+
+                                        {{-- Texto principal --}}
                                         <div>
-
-
-                                            <h6 class="mb-1"><i class="fas fa-chalkboard"></i> {{ $modulo['modulo'] }}</h6>
-                                            <small class="text-secondary"><i class="fas fa-calendar-alt"></i> Fecha de Inscripción
-                                                {{ \Carbon\Carbon::parse($modulo['fecha_registro'])->format('d/m/Y') }}</small>
+                                            <h6 class="mb-1">
+                                                <i class="fas fa-chalkboard"></i> {{ $modulo['modulo'] }}
+                                            </h6>
+                                            <small class="text-secondary">
+                                                <i class="fas fa-calendar-alt"></i>
+                                                Fecha de Inscripción: {{ \Carbon\Carbon::parse($modulo['fecha_registro'])->format('d/m/Y') }}
+                                            </small>
                                         </div>
 
-                                        @switch($modulo['pagado'])
-                                            @case(1)
-                                                <span class="badge bg-success">Pagado</span>
-                                                @break
+                                        {{-- Estado y botón --}}
+                                        <div class="text-end">
+                                            @switch($modulo['pagado'])
+                                                @case(1)
+                                                    <span class="badge bg-success mb-1">Pagado</span>
+                                                    @break
 
-                                            @case(0)
-                                                <span class="badge bg-danger">Pago Pendiente</span>
-                                                @break
+                                                @case(0)
+                                                    <span class="badge bg-danger mb-1">Pago Pendiente</span>
+                                                    @break
 
-                                            @case(2)
-                                                <span class="badge bg-warning">
-                                                    <i class="fas fa-spinner fa-spin"></i> Procesando Pago
-                                                </span>
-                                                @break
+                                                @case(2)
+                                                    <span class="badge bg-warning mb-1">
+                                                        <i class="fas fa-spinner fa-spin"></i> Procesando Pago
+                                                    </span>
+                                                    @break
+
                                                 @case(3)
-                                                <span class="badge bg-danger">
-                                                  Pago Rechazado
-                                                </span>
-                                                @break
+                                                    <span class="badge bg-danger mb-1">Pago Rechazado</span>
+                                                    @break
 
-                                            @default
-                                                <span class="badge bg-secondary">Estado Desconocido</span>
-                                        @endswitch
+                                                @default
+                                                    <span class="badge bg-secondary mb-1">Estado Desconocido</span>
+                                            @endswitch
 
-
-
-
-                                        @if($modulo['pagado'] == 0||$modulo['pagado'] == 3)
-
-                                       
-                                            <button class="btn btn-sm btn-danger"
-                                                onclick="AdjuntarPago({{$modulo['id_pago'] }})">Pagar</button>
-                                        @else
-                                        @php   
-                                        
-                                        @endphp
-                                            <button class="btn btn-sm btn-success" disabled>Pagado</button>
-                                        @endif
+                                            <div>
+                                                @if($modulo['pagado'] == 0 || $modulo['pagado'] == 3)
+                                                    <button class="btn btn-sm btn-danger mt-1" onclick="AdjuntarPago({{ $modulo['id_pago'] }})">
+                                                        Pagar
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-sm btn-success mt-1" disabled>
+                                                        Pagado
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
 
                                     </div>
+                                </div>
+
                                 @endforeach
                             </div>
                         </div>
@@ -161,8 +166,8 @@
                                         <div class="mb-3">
                                             <label for="monto" class="form-label">Monto</label>
                                             <input type="number" class="form-control @error('monto') is-invalid @enderror"
-                                                id="monto" name="monto" required>
-                                            <div class="form-text">Ingrese el monto que ha pagado.</div>
+                                                id="monto" name="monto" required placeholder="Ingrese el monto que ha pagado.">
+                                           
                                             @error('monto')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -174,8 +179,8 @@
                                             <label for="numeroComprobante" class="form-label">Número de Comprobante</label>
                                             <input type="text"
                                                 class="form-control @error('numeroComprobante') is-invalid @enderror"
-                                                id="numeroComprobante" name="numeroComprobante" required>
-                                            <div ccióss="form-text">Ingrese el número de transacción de pago.</div>
+                                                id="numeroComprobante" name="numeroComprobante" required placeholder="Ingrese el número de transacción de pago.">
+                                            
                                             @error('numeroComprobante')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -187,8 +192,8 @@
                                             <label for="fecha_pago" class="form-label">Fecha de Pago</label>
                                             <input type="date"
                                                 class="form-control @error('fecha_pago') is-invalid @enderror"
-                                                id="fecha_pago" name="fecha_pago" required>
-                                            <div class="form-text">Seleccione la fecha en que se realizó el pago.</div>
+                                                id="fecha_pago" name="fecha_pago" required placeholder="Seleccione la fecha en que se realizó el pago.">
+                                            
                                             @error('fecha_pago')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

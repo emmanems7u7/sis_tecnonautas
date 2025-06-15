@@ -104,7 +104,8 @@
 
 
 
-        <h3 class="text-dark">{{ Auth::user()->name }} {{ Auth::user()->apepat }} {{ Auth::user()->apemat }}</h3>
+        <h3 class="text-dark">{{ Auth::user()->usuario_nombres }} {{ Auth::user()->usuario_app }}
+          {{ Auth::user()->usuario_apm }}</h3>
         @if($datosP !== null)
       <p class="lead text-secondary">{{$datosP->cargo}}</p>
     @endif

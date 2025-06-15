@@ -39,26 +39,7 @@
         }
     </style>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb"
-            style="background-color: #f8f9fa; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}"
-                    style="color: #007bff; text-decoration: none;">Inicio</a>
-            </li>
-            <li class="breadcrumb-item"><a href="{{ route('asignacion.index') }}"
-                    style="color: #007bff; text-decoration: none;">Materias</a></li>
 
-            <li class="breadcrumb-item"><a href="{{route('modulos.materia.show', ['id_n' => 0, 'id_a' => $id_a])}}"
-                    style="color: #007bff; text-decoration: none;">Modulos</a></li>
-
-
-            <li class="breadcrumb-item"><a href="{{ route('modulos.temas.show', ['id_pm' => $id_pm, 'id_m' => $id_m]) }}"
-                    style="color: #007bff; text-decoration: none;">Contenido del modulo</a></li>
-
-
-            <li class="breadcrumb-item active" aria-current="page" style="font-weight: 500;">{{ $evaluacion->nombre }}</li>
-        </ol>
-    </nav>
 
     <div class="alert alert-info shadow-sm" role="alert">
         <div class="row align-items-center">

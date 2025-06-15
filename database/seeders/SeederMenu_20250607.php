@@ -11,6 +11,14 @@ class SeederMenu_20250607 extends Seeder
     {
         $menus = [
             [
+                'nombre' => 'Inscribir estudiante',
+                'orden' => 2,
+                'padre_id' => null,
+                'seccion_id' => 10,
+                'ruta' => 'inscripcion.index',
+                'accion_usuario' => '',
+            ],
+            [
                 'nombre' => 'Ver Email',
                 'orden' => 1,
                 'padre_id' => null,

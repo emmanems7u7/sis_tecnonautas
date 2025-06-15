@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="alert alert-info shadow-sm" role="alert">
                 <h5 class="alert-heading"><i class="fas fa-clipboard-list"></i> Estado de las tareas</h5>
-                @role('administrador|profesor')
+                @role('admin|profesor')
 
 
                 <p><i class="far fa-check-circle check-icon" style="color: green;"></i> <strong>Publicado</strong> </p>
@@ -25,7 +25,7 @@
                 @endrole
             </div>
             @forelse ($tareas as $tarea)
-                @role('administrador|profesor')
+                @role('admin|profesor')
 
                 <div class="card">
                     <div class="card-body">
@@ -134,9 +134,9 @@
             @endforelse
 
             <div class="conten d-flex justify-content-center">
-                {{ $tareas->links() }}
+                {{ $tareas->links('pagination::bootstrap-4') }}
             </div>
-            @role('administrador|profesor')
+            @role('admin|profesor')
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTareaModal">
                 Crear Tarea
             </button>
@@ -169,38 +169,38 @@
 
             // Crear el HTML del modal
             var modalHTML = `
-                                                                                                                                                                                                                                <div class="modal fade" id="tareaModal${tareaId}" tabindex="-1" aria-labelledby="tareaModalLabel${tareaId}" aria-hidden="true">
-                                                                                                                                                                                                                                    <div class="modal-dialog">
-                                                                                                                                                                                                                                        <div class="modal-content">
-                                                                                                                                                                                                                                            <div class="modal-header">
-                                                                                                                                                                                                                                            <h5 class="modal-title" id="tareaModalLabel${tareaId}">${nombre}</h5>
+                                                                                                                                                                                                                                                        <div class="modal fade" id="tareaModal${tareaId}" tabindex="-1" aria-labelledby="tareaModalLabel${tareaId}" aria-hidden="true">
+                                                                                                                                                                                                                                                            <div class="modal-dialog">
+                                                                                                                                                                                                                                                                <div class="modal-content">
+                                                                                                                                                                                                                                                                    <div class="modal-header">
+                                                                                                                                                                                                                                                                    <h5 class="modal-title" id="tareaModalLabel${tareaId}">${nombre}</h5>
 
 
-                                                                                                                                                                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                            <form action="{{ route('tareas.store.estudiante') }}" method="POST" enctype="multipart/form-data">
-                                                                                                                                                                                                                                                @csrf
-                                                                                                                                                                                                                                                <div class="modal-body">
-                                                                                                                                                                                                                                                    <div class="mb-3">
-                                                                                                                                                                                                                                                        <input type="hidden" name="tarea_id" value="${tareaId}">
-                                                                                                                                                                                                                                                        <label for="archivo" class="form-label">Subir Archivo</label>
-                                                                                                                                                                                                                                                        <input type="file" class="form-control" id="archivo" name="archivo" required>
-                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                    <form action="{{ route('tareas.store.estudiante') }}" method="POST" enctype="multipart/form-data">
+                                                                                                                                                                                                                                                                        @csrf
+                                                                                                                                                                                                                                                                        <div class="modal-body">
+                                                                                                                                                                                                                                                                            <div class="mb-3">
+                                                                                                                                                                                                                                                                                <input type="hidden" name="tarea_id" value="${tareaId}">
+                                                                                                                                                                                                                                                                                <label for="archivo" class="form-label">Subir Archivo</label>
+                                                                                                                                                                                                                                                                                <input type="file" class="form-control" id="archivo" name="archivo" required>
+                                                                                                                                                                                                                                                                            </div>
 
-                                                                                                                                                                                                                                                    <div class="mb-3">
-                                                                                                                                                                                                                                                        <label for="comentario" class="form-label">Comentario</label>
-                                                                                                                                                                                                                                                        <input type="text" class="form-control" id="comentario" name="comentario" placeholder="Ingresa un comentario (Opcional)">
-                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                <div class="modal-footer">
-                                                                                                                                                                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                                                                                                                                                                                                                    <button type="submit" class="btn btn-primary">Subir Archivo</button>
-                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                            </form>
-                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                            `;
+                                                                                                                                                                                                                                                                            <div class="mb-3">
+                                                                                                                                                                                                                                                                                <label for="comentario" class="form-label">Comentario</label>
+                                                                                                                                                                                                                                                                                <input type="text" class="form-control" id="comentario" name="comentario" placeholder="Ingresa un comentario (Opcional)">
+                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                        <div class="modal-footer">
+                                                                                                                                                                                                                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                                                                                                                                                                                                                            <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                    </form>
+                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                    `;
 
             // Asignar el HTML al contenedor modal
             modalContainer.innerHTML = modalHTML;
@@ -214,7 +214,8 @@
     <!-- Modal crear tareaa-->
     <div class="modal fade" id="createTareaModal" tabindex="-1" aria-labelledby="createTareaModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div
+                class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createTareaModalLabel">Crear Tarea</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

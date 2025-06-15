@@ -145,4 +145,20 @@ class SeccionController extends Controller
             return response()->json(['error' => 'Servicio no disponible'], 503);
         }
     }
+
+    public function ordenar(Request $request)
+    {
+        $configuracion = Configuracion::first();
+        if ($configuracion->mantenimiento == 1) {
+            foreach ($request->orden as $item) {
+                Seccion::where('id', $item['id'])->update(['posicion' => $item['posicion']]);
+            }
+
+            return response()->json(['status' => 'success', 'message' => 'Secciones reordenadas correctamente.']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'El sistema no esta en modo mantenimiento para realizar el ordenamiento, sus cambios no se guardarán']);
+
+        }
+
+    }
 }

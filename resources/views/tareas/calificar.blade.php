@@ -31,9 +31,9 @@
                                             <button class="accordion-button{{ $index > 0 ? ' collapsed' : '' }}" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse{{ $tareaEstudiante->id }}"
                                                 aria-expanded="true" aria-controls="collapse{{ $tareaEstudiante->id }}">
-                                                <strong>Estudiante: </strong> {{ $tareaEstudiante->estudiantes->name }}
-                                                {{ $tareaEstudiante->estudiantes->apepat }}
-                                                {{ $tareaEstudiante->estudiantes->apemat }}
+                                                <strong>Estudiante: </strong> {{ $tareaEstudiante->estudiantes->usuario_nombres }}
+                                                {{ $tareaEstudiante->estudiantes->usuario_app }}
+                                                {{ $tareaEstudiante->estudiantes->usuario_apm }}
                                             </button>
                                         </h2>
                                         <div id="collapse{{ $tareaEstudiante->id }}"
@@ -65,7 +65,7 @@
                                                 </p>
                                                 <p><strong>Archivo Subido:</strong>
                                                     @if($tareaEstudiante->archivo)
-                                                        <a href="{{ asset('storage/' . $tareaEstudiante->archivo) }}" target="_blank"
+                                                        <a href="{{ asset($tareaEstudiante->archivo) }}" target="_blank"
                                                             class="btn btn-info">Ver archivo</a>
                                                     @else
                                                         No hay archivo subido.

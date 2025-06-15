@@ -453,7 +453,7 @@ class ModuloController extends Controller
                 if ($estudiante->nota >= 51) {
 
                     $user = User::find($estudiante->user_id);
-                    $nombre_estudiante = $user->name . ' ' . $user->apepat . ' ' . $user->apemat;
+                    $nombre_estudiante = $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm;
 
                     $mensaje = "¡Enhorabuena, " . $nombre_estudiante . "!" . "\n\n";
                     $mensaje .= "Felicitaciones por completar el curso de " . $materia->nombre . ". Estamos increíblemente orgullosos de tu esfuerzo y dedicación. El camino hacia el éxito está lleno de aprendizaje y superación, y tú has demostrado que con esfuerzo, pasión y perseverancia, ¡todo es posible!";
@@ -716,7 +716,7 @@ class ModuloController extends Controller
                 if ($estudiante->nota >= 51) {
 
                     $user = User::find($estudiante->user_id);
-                    $nombre_estudiante = $user->name . ' ' . $user->apepat . ' ' . $user->apemat;
+                    $nombre_estudiante = $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm;
 
                     $mensaje = "¡Enhorabuena, " . $nombre_estudiante . "!" . "\n\n";
                     $mensaje .= "Felicitaciones por completar el curso de " . $materia->nombre . ". Estamos increíblemente orgullosos de tu esfuerzo y dedicación. El camino hacia el éxito está lleno de aprendizaje y superación, y tú has demostrado que con esfuerzo, pasión y perseverancia, ¡todo es posible!";
@@ -761,7 +761,7 @@ class ModuloController extends Controller
 
         // Obtén los datos del estudiante
         $user = User::find($user_id);
-        $nombre_estudiante = $user->name . ' ' . $user->apepat . ' ' . $user->apemat;
+        $nombre_estudiante = $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm;
 
         // Prepara los datos para la vista
         $data = [
@@ -772,7 +772,7 @@ class ModuloController extends Controller
         ];
 
         // Generar el código QR solo si no existe
-        $nombre_imagen = $user->apepat . '_' . $user->apemat . '.png';
+        $nombre_imagen = $user->usuario_app . '_' . $user->usuario_apm . '.png';
         $path = 'qr/' . $nombre_imagen;
         if (!Storage::disk('public')->exists($path)) {
             $qrCode = new QrCode(json_encode($data));
@@ -817,7 +817,7 @@ class ModuloController extends Controller
 
         // Obtén los datos del estudiante
         $user = User::find($user_id);
-        $nombre_estudiante = $user->name . ' ' . $user->apepat . ' ' . $user->apemat;
+        $nombre_estudiante = $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm;
 
         // Prepara los datos para la vista
         $data = [
@@ -828,7 +828,7 @@ class ModuloController extends Controller
         ];
 
         // Generar el código QR solo si no existe
-        $nombre_imagen = $user->apepat . '_' . $user->apemat . '.png';
+        $nombre_imagen = $user->usuario_app . '_' . $user->usuario_apm . '.png';
         $path = 'qr/' . $nombre_imagen;
         if (!Storage::disk('public')->exists($path)) {
             $qrCode = new QrCode(json_encode($data));

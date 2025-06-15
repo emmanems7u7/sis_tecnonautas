@@ -44,7 +44,7 @@ class PagoNoAutomatizado extends Notification
     {
 
         return [
-            'message' => 'El estudiante ' . $this->user->name . ' ' . $this->user->apepat . ' ' . $this->user->apemat .
+            'message' => 'El estudiante ' . $this->user->usuario_nombres . ' ' . $this->user->usuario_app . ' ' . $this->user->usuario_apm .
                 ' intentó validar automáticamente un pago asociado, pero no se logró completar el proceso correctamente. ' .
                 'Se recomienda revisar manualmente el pago para asegurar la correcta validación.',
 

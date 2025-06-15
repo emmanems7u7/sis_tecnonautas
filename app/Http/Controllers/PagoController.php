@@ -59,7 +59,7 @@ class PagoController extends Controller
             $costo = $materia->asignacion->costo;
             $userId = $materia->id_u;
             $dato_user = User::find($userId);
-            $nombre_usuario = $dato_user->name . ' ' . $dato_user->apepat . ' ' . $dato_user->apemat;
+            $nombre_usuario = $dato_user->usuario_nombres . ' ' . $dato_user->usuario_app . ' ' . $dato_user->usuario_apm;
             $modulo = [
                 'id_pago' => $pagado ? $pagado->id : null,
                 'pagado' => $pagado ? $pagado->pagado : null,
@@ -314,11 +314,12 @@ class PagoController extends Controller
 
         //$pago_actualizado = $this->PagoAutomatico(9, $user);
 
-        if ($pago_actualizado == 0) {
+        if ($pago_actualizado == 3) {
             return redirect()->back()->with('error', 'Multiples errores en su registro de pago, por favor verifique los datos e intente nuevamente');
         } elseif ($pago_actualizado == 1) {
             return redirect()->back()->with('status', 'Se registró el pago correctamente');
         } elseif ($pago_actualizado == 2) {
+
             return redirect()->back()->with('warning', 'Algo pasó durante el registro del pago, no te preocupes, ya notificamos a los administradores, ellos se encargarán de verificarlo y te notificaremos cuando esté listo');
         }
 
@@ -377,21 +378,14 @@ class PagoController extends Controller
         ) {
             $estatus = 'error total';
 
-            if ($pago->imagenComprobante) {
-                $rutaImagen = public_path($pago->imagenComprobante);
-                if (file_exists($rutaImagen)) {
-                    unlink($rutaImagen);
-                }
-            }
+
 
             $pago->metodo_pago = null;
             $pago->imagenComprobante = null;
-            $pago->pagado = 0;
+            $pago->pagado = 3;
             $pago->monto = null;
             $pago->fecha_pago = null;
             $pago->numeroComprobante = Null;
-
-
 
             $this->notificarAdministradores($pago_id, $user);
         } else {
@@ -699,7 +693,7 @@ class PagoController extends Controller
 
                 $estudiante = User::find($paramod->id_u);
                 if ($estudiante) {
-                    $pago->nombre_estudiante = $estudiante->name . ' ' . $estudiante->apepat . ' ' . $estudiante->apemat;
+                    $pago->nombre_estudiante = $estudiante->usuario_nombres . ' ' . $estudiante->usuario_app . ' ' . $estudiante->usuario_apm;
 
                 }
             }

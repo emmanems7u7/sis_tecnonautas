@@ -56,9 +56,9 @@ class UserController extends Controller
             $e = User::with('asignacionesEstudiante')->role('estudiante')
                 ->when($busqueda, function ($query, $busqueda) {
                     $query->where(function ($q) use ($busqueda) {
-                        $q->where('name', 'like', "%$busqueda%")
-                            ->orWhere('apepat', 'like', "%$busqueda%")
-                            ->orWhere('apemat', 'like', "%$busqueda%")
+                        $q->where('usuario_nombres', 'like', "%$busqueda%")
+                            ->orWhere('usuario_app', 'like', "%$busqueda%")
+                            ->orWhere('usuario_apm', 'like', "%$busqueda%")
                             ->orWhere('email', 'like', "%$busqueda%");
                     });
                 })
@@ -68,9 +68,9 @@ class UserController extends Controller
             $e = User::role('profesor')
                 ->when($busqueda, function ($query, $busqueda) {
                     $query->where(function ($q) use ($busqueda) {
-                        $q->where('name', 'like', "%$busqueda%")
-                            ->orWhere('apepat', 'like', "%$busqueda%")
-                            ->orWhere('apemat', 'like', "%$busqueda%")
+                        $q->where('usuario_nombres', 'like', "%$busqueda%")
+                            ->orWhere('usuario_app', 'like', "%$busqueda%")
+                            ->orWhere('usuario_apm', 'like', "%$busqueda%")
                             ->orWhere('email', 'like', "%$busqueda%");
                     });
                 })

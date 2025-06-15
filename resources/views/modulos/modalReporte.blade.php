@@ -2,7 +2,7 @@
   <!-- Modal -->
   <style>
     #reportModal .modal-content {
-    background-image: url('{{ asset('/storage/imagenes/imagenreporte.jpg') }}');
+    background-image: url('{{ asset('/imagenes/imagenreporte.jpg') }}');
     background-size: cover;
 
     }
@@ -158,8 +158,10 @@
 
   <div class="modal fade" id="modalAsigna" tabindex="-1" aria-labelledby="modalAsignaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div
+      class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }} ">
+      <div class="modal-header 
+    ">
 
       </div>
       <div class="modal-body">

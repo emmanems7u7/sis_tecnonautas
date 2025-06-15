@@ -60,7 +60,7 @@
                         <select class="form-control" id="profesor" name="profesor">
                             @foreach($profesores as $prof)
                                 <option value="{{ $prof->id }}" {{ $prof->id === $dato['profesorid'] ? 'selected' : '' }}>
-                                    {{ $prof->name }} {{ $prof->apepat }} {{ $prof->apemat }}
+                                    {{ $prof->usuario_nombres }} {{ $prof->usuario_app }} {{ $prof->usuario_apm }}
                                 </option>
                             @endforeach
                         </select>

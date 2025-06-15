@@ -59,6 +59,8 @@ class RespuestasPreguntaController extends Controller
     public function store(Request $request, $id_pm, $id_m)
     {
 
+
+
         $preguntas = Preguntas::where('evaluacion_id', $request->input('id_e'))->get();
 
 
@@ -78,6 +80,8 @@ class RespuestasPreguntaController extends Controller
 
 
         $user_id = Auth::id();
+
+
 
 
         $evaluacion = evaluacionCompleta::where('id_e', $id_e)->where('id_u', $user_id)->first();
@@ -114,8 +118,7 @@ class RespuestasPreguntaController extends Controller
 
 
 
-
-        return redirect()->route('listarExamen', ['id_e' => $id_e]);
+        return redirect()->route('listarExamen', ['id_e' => $id_e])->with('success', 'Respuestas guardadas correctamente.')->with('nota', $nota);
 
 
     }
@@ -133,6 +136,9 @@ class RespuestasPreguntaController extends Controller
     public function listarPreguntasRespuestas($id_e)
     {
 
+
+
+
         $id = Auth::id();
         $respuestas = $this->respuestasInterface->listU($id, $id_e);
         $evaluacion = $this->evaluacionInterface->listarEvaluacion($id_e);
@@ -147,9 +153,15 @@ class RespuestasPreguntaController extends Controller
 
         $nota = $evaluacion_estudiante->nota ?? 0;
 
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Materias', 'url' => route('asignacion.index')],
+            ['name' => 'Modulos', 'url' => route('modulos.materia.show', ['id_n' => 0, 'id_a' => $id_a])],
+            ['name' => 'Contenido del modulo', 'url' => route('modulos.temas.show', ['id_pm' => $id_pm, 'id_m' => $id_m])],
+            ['name' => $evaluacion->nombre, 'url' => route('home')],
+        ];
 
-
-        return view('evaluacion.show', compact('respuestas', 'evaluacion', 'nota', 'id_a', 'id_pm', 'id_m'));
+        return view('evaluacion.show', compact('breadcrumb', 'respuestas', 'evaluacion', 'nota', 'id_a', 'id_pm', 'id_m'));
     }
 
     /**

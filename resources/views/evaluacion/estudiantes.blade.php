@@ -137,21 +137,19 @@
 
             $('#enviar_examen').click(function (event) {
                 event.preventDefault();
-                Swal.fire({
-                    icon: 'warning',
-                    title: '¿Estás seguro?',
-                    text: '¿Quieres enviar el examen? Esta acción no se puede deshacer.',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, publicar',
-                    cancelButtonText: 'Cancelar',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
+                alertify.confirm(
+                    '¿Estás seguro?',
+                    '¿Quieres enviar el examen? Esta acción no se puede deshacer.',
+                    function () {
+                        // Acción cuando el usuario confirma
                         document.getElementById('form_examen').submit();
-
-
+                    },
+                    function () {
+                        // Acción cuando el usuario cancela (opcional)
+                        alertify.error('Envío cancelado');
                     }
-                });
+                    ).set('labels', { ok: 'Sí, enviar', cancel: 'Cancelar' })
+                    .set('movable', false); // Opcional: no permitir mover la ventana
             });
 
 

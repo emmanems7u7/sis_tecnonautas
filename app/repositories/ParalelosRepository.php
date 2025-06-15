@@ -62,7 +62,7 @@ class ParalelosRepository implements ParalelosInterface
 
                 // Asignar profesor al arreglo
                 if ($profesor) {
-                    $paraleloArr['profesor'] = $profesor->name . " " . $profesor->apepat . " " . $profesor->apemat;
+                    $paraleloArr['profesor'] = $profesor->usuario_nombres . " " . $profesor->usuario_app . " " . $profesor->usuario_apm;
 
                 }
 
@@ -167,7 +167,7 @@ class ParalelosRepository implements ParalelosInterface
 
                     // Asignar profesor al arreglo
                     if ($profesor) {
-                        $paraleloArr['profesor'] = $profesor->name . " " . $profesor->apepat . " " . $profesor->apemat;
+                        $paraleloArr['profesor'] = $profesor->usuario_nombres . " " . $profesor->usuario_app . " " . $profesor->usuario_apm;
                     }
 
                     $paralelodatos = $this->getDatosParalelo($paraleloModulo->id);
@@ -237,7 +237,7 @@ class ParalelosRepository implements ParalelosInterface
 
             $profesor = $userRepository->GetProfesorParalelo($paraleloModulo->id);
             if ($profesor) {
-                $paraleloArr['profesor'] = $profesor->name . " " . $profesor->apepat . " " . $profesor->apemat;
+                $paraleloArr['profesor'] = $profesor->usuario_nombres . " " . $profesor->usuario_app . " " . $profesor->usuario_apm;
             }
 
 
@@ -245,7 +245,6 @@ class ParalelosRepository implements ParalelosInterface
             $paraleloArr['cupo'] = $paralelodatos->cupo;
             $paraleloArr['inscritos'] = $paralelodatos->inscritos;
             $paraleloArr['id_p'] = $paraleloModulo->id;
-
 
             return $paraleloArr;
         } else {

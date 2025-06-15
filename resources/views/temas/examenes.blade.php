@@ -66,7 +66,7 @@
 
                         @if($evaluacion->publicado == 1)
                             <a id="enlace_evaluacion_{{ $evaluacion->id }}"
-                                href="{{route('evaluacion.estudiantes', ['id_pm' => $evaluacion->id])}}">
+                                href="{{route('evaluacion.estudiantes', ['id_pm' => $evaluacion->id, 'id_a' => $id_a])}}">
 
                                 <div class="card">
                                     <div class="card-body">
@@ -138,7 +138,8 @@
     <div class="modal fade" id="crearEvaluacionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div
+                class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <form action="{{ route('evaluacion.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">

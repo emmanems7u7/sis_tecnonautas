@@ -107,14 +107,19 @@ class ParaleloController extends Controller
      */
     public function edit($id)
     {
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'configuracion', 'url' => route('admin.configuracion.edit')],
+            ['name' => 'Paralelos', 'url' => route('Paralelos.index')],
+            ['name' => 'Editar Paralelo', 'url' => route('asignacion.index')],
+
+        ];
+
         $paralelo = Paralelo::find($id);
         $paralelos = Paralelo::all();
 
-
-
-
-
-        return view('paralelos.edit', ['paralelos' => $paralelos, 'paralelo' => $paralelo]);
+        return view('paralelos.edit', ['breadcrumb' => $breadcrumb, 'paralelos' => $paralelos, 'paralelo' => $paralelo]);
     }
 
     /**
@@ -216,7 +221,7 @@ class ParaleloController extends Controller
         $profesor = $this->UserRepository->getProfesorParalelo($paralelo->id);
         if ($profesor !== null) {
             $id_prof = $profesor->id;
-            $nombreProf = $profesor->name . " " . $profesor->apepat . " " . $profesor->apemat;
+            $nombreProf = $profesor->usuario_nombres . " " . $profesor->usuario_app . " " . $profesor->usuario_apm;
         } else {
             $id_prof = null;
             $nombreProf = null;

@@ -10,6 +10,8 @@ use App\Models\Tareas_estudiante;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 class TareaController extends Controller
 {
     /**
@@ -74,10 +76,27 @@ class TareaController extends Controller
     public function storeTarea(request $request)
     {
 
+        $request->validate([
+            'archivo' => 'required|file|mimes:pdf,doc,docx,jpg,png',
+            'comentario' => 'nullable|string|max:1000',
+            'tarea_id' => 'required|integer|exists:tareas,id',
+        ]);
+
         $user = Auth::user();
+        $archivo = $request->file('archivo');
+
+        // Genera un nombre único con UUID y mantiene la extensión original
+        $nombreArchivo = Str::uuid() . '.' . $archivo->getClientOriginalExtension();
+
+        // Mueve el archivo directamente a public/archivos
+        $archivo->move(public_path('archivos'), $nombreArchivo);
+
+        // Guarda la ruta relativa para almacenar en BD
+        $rutaArchivo = 'archivos/' . $nombreArchivo;
+
 
         $tareasAsignadas = Tareas_estudiante::create([
-            'archivo' => $request->file('archivo')->store('archivos', 'public'),
+            'archivo' => $rutaArchivo,
             'user_id' => $user->id,
             'comentario' => $request->comentario ? $request->comentario : '',
             'tareas_id' => $request->tarea_id,
@@ -125,7 +144,6 @@ class TareaController extends Controller
      */
     public function showP($id_pm)
     {
-
 
         $tareas = Tarea::with('tareasEstudiantes.estudiantes')->where('id_pm', $id_pm)->get();
 

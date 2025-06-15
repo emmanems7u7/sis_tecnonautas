@@ -128,8 +128,8 @@
     <div class="card">
         <div class="card-body contenido-reporte">
             <h5 class="titulo-reporte">Reporte de Horarios</h5>
-            <p class="dato-reporte"><span class="etiqueta">Profesor:</span> {{ $usuario->name }}
-                {{  $usuario->apepat  }} {{  $usuario->apemat  }}
+            <p class="dato-reporte"><span class="etiqueta">Profesor:</span> {{ $usuario->usuario_nombres }}
+                {{  $usuario->usuario_app  }} {{  $usuario->usuario_apm  }}
             </p>
             <p class="dato-reporte"><span class="etiqueta">Fecha de generación de reporte:</span> {{ $fecha }}</p>
         </div>

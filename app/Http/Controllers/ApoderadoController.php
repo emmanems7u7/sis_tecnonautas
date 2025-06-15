@@ -117,28 +117,44 @@ class ApoderadoController extends Controller
     public function store(Request $request)
     {
 
-        $apoderado = Apoderado::create([
-            'id_u' => Auth::user()->id,
-            'nombre' => $request->nombre,
-            'parentezco' => $request->parentezco,
-            'apepat' => $request->apepat,
-            'apemat' => $request->apemat,
-            'fechanac' => $request->fechanac,
-            'ci' => $request->ci,
-            'nit' => $request->nit,
-            'email' => $request->email,
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'parentezco' => 'required|string|max:100',
+            'apepat' => 'required|string|max:100',
+            'apemat' => 'required|string|max:100',
+            'fechanac' => 'required|date|before:today',
+            'ci' => 'required|string|max:20|unique:apoderados,ci',
+            'nit' => 'nullable|string|max:20|unique:apoderados,nit',
+            'email' => 'required|email|max:255|unique:apoderados,email',
         ]);
-        foreach ($request->celulares as $celular) {
-            Celular::create([
 
-                'id_u' => $apoderado->id,
-                'celular' => $celular,
+        if (Auth::user()->hasRole('estudiante')) {
 
+            $apoderado = Apoderado::create([
+                'id_u' => Auth::user()->id,
+                'nombre' => $request->nombre,
+                'parentezco' => $request->parentezco,
+                'apepat' => $request->apepat,
+                'apemat' => $request->apemat,
+                'fechanac' => $request->fechanac,
+                'ci' => $request->ci,
+                'nit' => $request->nit,
+                'email' => $request->email,
             ]);
+            foreach ($request->celulares as $celular) {
+                Celular::create([
+
+                    'id_u' => $apoderado->id,
+                    'celular' => $celular,
+
+                ]);
+            }
+
+            return redirect()->back()->with('status', 'Apoderado creado exitosamente');
+        } else {
+            return redirect()->back()->with('error', 'El registro es unicamente para los usuarios con el rol de Estudiante');
+
         }
-
-
-        return redirect()->back();
     }
 
     public function edit(Apoderado $apoderado)

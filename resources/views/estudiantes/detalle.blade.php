@@ -10,28 +10,18 @@
                 <h1 class="display-6 mb-3 text-white">
                     <i class="bi bi-person-lines-fill "></i> Detalle de estudiante
                 </h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb"
-                        style="background-color: #f8f9fa; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}"
-                                style="color: #007bff; text-decoration: none;">Inicio</a>
-                        </li>
-
-                        <li class="breadcrumb-item active" aria-current="page" style="font-weight: 500;">Detalle
-                        </li>
-                    </ol>
-                </nav>
-
 
 
                 <div class="profile-header text-center p-4 bg-light">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="profile-picture mr-3">
-                            <img src="{{ asset('/storage' . $usuario->fotoperfil) }}" alt="Foto de perfil"
+                            <img src="{{ asset($usuario->fotoperfil) }}" alt="Foto de perfil"
                                 class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
                         </div>
                         <div>
-                            <h2 class="mb-1">{{ $usuario->name }} {{ $usuario->apepat }} {{ $usuario->apemat }}</h2>
+                            <h2 class="mb-1">{{ $usuario->usuario_nombres }} {{ $usuario->usuario_app }}
+                                {{ $usuario->usuario_apm }}
+                            </h2>
                         </div>
                         <div>
 

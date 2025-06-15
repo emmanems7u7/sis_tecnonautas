@@ -125,110 +125,121 @@
                 </div>
             </form>
 
-            <hr class="horizontal dark">
-            <p class="text-uppercase text-sm">Informacion Adicional</p>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">Address</label>
-                        <input class="form-control" type="text"
-                            value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <hr class="horizontal dark">
+                <p class="text-uppercase text-sm">Informacion Adicional</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Address</label>
+                            <input class="form-control" type="text"
+                                value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">City</label>
+                            <input class="form-control" type="text" value="New York">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Country</label>
+                            <input class="form-control" type="text" value="United States">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Postal code</label>
+                            <input class="form-control" type="text" value="437300">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">City</label>
-                        <input class="form-control" type="text" value="New York">
+
+
+                <hr class="horizontal dark">
+                <p class="text-uppercase text-sm">About me</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">About me</label>
+                            <input class="form-control" type="text"
+                                value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source.">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+
+
+
+
+                <hr class="horizontal dark">
+                <p class="text-uppercase text-sm">Documentos cargados</p>
+                <form action="{{ route('perfil.documentos.subir') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">Country</label>
-                        <input class="form-control" type="text" value="United States">
+                        <label for="archivo">Selecciona un documento:</label>
+                        <input type="file" name="archivo" id="archivo" required
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.bmp,.webp" class="form-control">
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">Postal code</label>
-                        <input class="form-control" type="text" value="437300">
+                    <button type="submit" class="btn btn-primary mt-2">Subir Documento</button>
+                </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul>
+
+                            @forelse ($user->documentos as $documento)
+                                @php
+                                    $ruta = asset($documento->ruta);
+                                    $ext = strtolower(pathinfo($ruta, PATHINFO_EXTENSION));
+                                    $id = 'preview-' . $documento->id;
+                                @endphp
+
+                                <li class="mb-3">
+                                    <a href="{{ $ruta }}" target="_blank" class="btn btn-primary btn-sm mb-1">Abrir en nueva
+                                        pestaña</a>
+
+                                    <button type="button" class="btn btn-info btn-sm mb-1"
+                                        onclick="togglePreview('{{ $id }}')">
+                                        {{ in_array($ext, ['jpg', 'jpeg', 'png', 'bmp', 'webp', 'pdf']) ? 'Mostrar Previsualización' : 'Ver Detalles' }}
+                                    </button>
+
+                                    @if (in_array($ext, ['jpg', 'jpeg', 'png', 'bmp', 'webp']))
+                                        <div id="{{ $id }}" style="display:none;">
+                                            <img src="{{ $ruta }}" alt="Imagen"
+                                                style="max-width: 400px; height: auto; border:1px solid #ccc; padding:5px;">
+                                        </div>
+                                    @elseif ($ext === 'pdf')
+                                        <div id="{{ $id }}" style="display:none;">
+                                            <embed src="{{ $ruta }}" type="application/pdf" width="100%" height="500px"
+                                                style="border:1px solid #ccc;" />
+                                        </div>
+                                    @else
+                                        <div id="{{ $id }}" style="display:none;">
+                                            <p>Previsualización no disponible para este tipo de archivo.</p>
+                                        </div>
+                                    @endif
+                                </li>
+                            @empty
+                                <li>No tienes documentos subidos.</li>
+                            @endforelse
+                        </ul>
+
+
                     </div>
-                </div>
-            </div>
-
-
-            <hr class="horizontal dark">
-            <p class="text-uppercase text-sm">About me</p>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">About me</label>
-                        <input class="form-control" type="text"
-                            value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source.">
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <hr class="horizontal dark">
-            <p class="text-uppercase text-sm">Documentos cargados</p>
-            <form action="{{ route('perfil.documentos.subir') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group">
-                    <label for="archivo">Selecciona un documento:</label>
-                    <input type="file" name="archivo" id="archivo" required
-                        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.bmp,.webp" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary mt-2">Subir Documento</button>
-            </form>
-            <div class="row">
-                <div class="col-md-12">
-                    <ul>
-
-                        @forelse ($user->documentos as $documento)
-                            @php
-                                $ruta = asset($documento->ruta);
-                                $ext = strtolower(pathinfo($ruta, PATHINFO_EXTENSION));
-                                $id = 'preview-' . $documento->id;
-                            @endphp
-
-                            <li class="mb-3">
-                                <a href="{{ $ruta }}" target="_blank" class="btn btn-primary btn-sm mb-1">Abrir en nueva
-                                    pestaña</a>
-
-                                <button type="button" class="btn btn-info btn-sm mb-1" onclick="togglePreview('{{ $id }}')">
-                                    {{ in_array($ext, ['jpg', 'jpeg', 'png', 'bmp', 'webp', 'pdf']) ? 'Mostrar Previsualización' : 'Ver Detalles' }}
-                                </button>
-
-                                @if (in_array($ext, ['jpg', 'jpeg', 'png', 'bmp', 'webp']))
-                                    <div id="{{ $id }}" style="display:none;">
-                                        <img src="{{ $ruta }}" alt="Imagen"
-                                            style="max-width: 400px; height: auto; border:1px solid #ccc; padding:5px;">
-                                    </div>
-                                @elseif ($ext === 'pdf')
-                                    <div id="{{ $id }}" style="display:none;">
-                                        <embed src="{{ $ruta }}" type="application/pdf" width="100%" height="500px"
-                                            style="border:1px solid #ccc;" />
-                                    </div>
-                                @else
-                                    <div id="{{ $id }}" style="display:none;">
-                                        <p>Previsualización no disponible para este tipo de archivo.</p>
-                                    </div>
-                                @endif
-                            </li>
-                        @empty
-                            <li>No tienes documentos subidos.</li>
-                        @endforelse
-                    </ul>
-
-
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <script>

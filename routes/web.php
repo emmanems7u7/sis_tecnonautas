@@ -40,7 +40,9 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\AsistenciaEstudianteController;
 use App\Http\Controllers\TipoPagoController;
+use App\Http\Controllers\UserPersonalizacionController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\UserPersonalizacion;
 
 Route::get('/', function () {
 
@@ -101,6 +103,8 @@ Route::middleware(['auth', 'can:Administración de Usuarios', 'check.password.ag
 Route::resource('secciones', SeccionController::class)->except([
     'show',
 ])->middleware(['auth', 'role:admin', 'check.password.age']);
+Route::post('/secciones/ordenar', [SeccionController::class, 'ordenar'])->name('secciones.ordenar');
+
 
 Route::post('/api/sugerir-icono', [SeccionController::class, 'SugerirIcono']);
 
@@ -360,6 +364,8 @@ Route::group(['prefix' => '/estudiantes', 'middleware' => 'auth'], function () {
     Route::get('/{id}/pagos', [UserController::class, 'EstudiantesMatPagos'])->name('estudiantes.pagos.materias')->middleware('can:estudiante.pagos_materias');
     Route::get('/cambiarEstado/{id}/{id_noti}', [UserController::class, 'cambiarestado'])->name('cambiarestado')->middleware('can:estudiante.cambiar_estado');
     Route::get('/detalle/{id}/{id_m}/{id_p}', [UserController::class, 'EstudianteReporte'])->name('estudiante.reporte');
+    Route::get('/{id}/ver', [UserController::class, 'estudentShow'])->name('estudiante.show');
+
     Route::get('/verE/{id_a}/{id_p}', [UserController::class, 'ver'])->name('studiantes.ver');
 });
 
@@ -368,6 +374,10 @@ Route::group(['prefix' => '/inscripcion', 'middleware' => 'auth'], function () {
     Route::get('/s', [AsignacionController::class, 'showI'])->name('inscripciones.index');
     Route::get('/pago', [AsignacionController::class, 'inscripcionpago'])->name('inscripcionpago.store');
     Route::get('/M', [AsignacionController::class, 'inscripcion'])->name('inscripcionModal.show');
+
+    Route::get('/estudiante', [AsignacionController::class, 'inscripcion_estudiante'])->name('inscripcion.index')->middleware('can:inscripcion.inscribir_estudiante');
+    Route::post('/completar', [AsignacionController::class, 'inscripcion_adm'])->name('inscripcion_adm.store')->middleware('can:inscripcion.guardar_inscripcion_estudiante');
+
 });
 
 // Contenido
@@ -378,7 +388,7 @@ Route::group(['prefix' => '/contenido', 'middleware' => 'auth'], function () {
     Route::get('/Crear/{id_t}', [ContenidoController::class, 'create'])->name('contenido.create');
 
     Route::post('/archivos', [ContenidoController::class, 'store'])->name('archivo.store');
-    Route::delete('/{id}', [ContenidoController::class, 'destroy'])->name('eliminar.contenido');
+    Route::delete('/{id}', [ContenidoController::class, 'destroy'])->name('eliminar.contenido')->middleware('can:contenido.contenido_tema_eliminar');
 });
 
 // Descargas
@@ -395,7 +405,7 @@ Route::group(['prefix' => '/Evaluacion', 'middleware' => 'auth'], function () {
     Route::delete('/eliminar/{evaluacion}/{id_pm}/{id_m}', [EvaluacionController::class, 'delete'])->name('evaluacion.delete');
     Route::get('/crear/{id_e}/{id_pm}/{id_m}', [EvaluacionController::class, 'create'])->name('evaluacion.create');
     Route::post('/guardar', [EvaluacionController::class, 'store'])->name('evaluacion.store');
-    Route::get('/estudiantes/{id_pm}', [EvaluacionController::class, 'estudianteseval'])->name('evaluacion.estudiantes');
+    Route::get('/estudiantes/{id_pm}/{id_a}', [EvaluacionController::class, 'estudianteseval'])->name('evaluacion.estudiantes');
     Route::get('/Revision/{id}/{id_e}', [EvaluacionController::class, 'Revision'])->name('evaluacion.revision');
     Route::get('/publicar/{id_e}', [EvaluacionController::class, 'publicar'])->name('evaluacion.publicar');
 
@@ -553,7 +563,7 @@ Route::group([
     Route::get('/pagos/rechazo/{id}', [PagoController::class, 'pago_rechazo'])->name('pago.rechazo');
 
 });
-Route::post('/pagos', [PagoController::class, 'store_pago'])->name('admpagos.store');
+Route::post('/pago/estudiante', [PagoController::class, 'store_pago'])->name('admpagos.store');
 
 Route::get('/pagos/detalle/{id}', [PagoController::class, 'detalle'])->name('admpagos.detalle');
 Route::get('/datos/cuentas/{cuenta}', [PagoController::class, 'datos_cuenta'])->name('admpagos.detalle');
@@ -580,3 +590,9 @@ Route::get('/editar/perfil', [UserController::class, 'Perfil'])->name('editar.pe
 Route::put('/perfil', [UserController::class, 'update_perfil'])->name('perfil.update');
 Route::put('/perfil/password', [UserController::class, 'updatePassword'])->name('perfil.updatePassword');
 Route::put('/perfil/actualizar-foto', [UserController::class, 'updatePhoto'])->name('perfil.updateFoto');
+
+
+Route::post('/guardar-color-sidebar', [UserPersonalizacionController::class, 'guardarSidebarColor'])->middleware('auth');
+// routes/web.php
+Route::post('/user/personalizacion/sidebar-type', [UserPersonalizacionController::class, 'updateSidebarType'])->middleware('auth');
+Route::post('/user/preferences', [UserPersonalizacionController::class, 'updateDark'])->middleware('auth');

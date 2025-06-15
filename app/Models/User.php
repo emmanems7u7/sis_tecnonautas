@@ -114,4 +114,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Estudiantes_asignacion_paramodulo::class, 'id_u');
     }
+
+    public function preferences()
+    {
+        return $this->hasOne(UserPersonalizacion::class);
+    }
 }

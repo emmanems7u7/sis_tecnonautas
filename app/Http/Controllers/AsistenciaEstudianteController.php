@@ -75,7 +75,7 @@ class AsistenciaEstudianteController extends Controller
 
             ->map(function ($user) {
                 $usuario = User::find($user->id_u);
-                $nombre_estudiante = $usuario->name . ' ' . $usuario->apepat . ' ' . $usuario->apemat;
+                $nombre_estudiante = $usuario->usuario_nombres . ' ' . $usuario->usuario_app . ' ' . $usuario->usuario_apm;
                 return (object) [
                     'id' => $user->id_u,
                     'nombre_completo' => $nombre_estudiante,

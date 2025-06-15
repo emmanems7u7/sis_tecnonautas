@@ -277,7 +277,6 @@
                             .then(data => {
                                 alertify.success(data.message);
 
-                                // Opcional: redirigir o recargar
                                 document.getElementById('contenido_modulo').click();
                             })
                             .catch(error => {

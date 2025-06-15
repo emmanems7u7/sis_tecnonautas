@@ -2,10 +2,7 @@
 
 
 @section('content')
-    <!-- Agregar enlaces a Bootstrap CSS y Font Awesome para los iconos -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Agregar estilos personalizados para niños -->
+
     <style>
         h1 {
             text-align: center;
@@ -90,6 +87,7 @@
             }
         }
     </style>
+
     @if($estado == 'inactivo')
         <div class="alert alert-danger">
             <i class="fas fa-exclamation-triangle"></i>
@@ -101,21 +99,17 @@
     @endif
 
 
-
-
-    <img src="{{ asset('/storage' . $portada->portada) }}" alt="Foto de portada" class="img-fluid w-100 h-auto">
-
-
+    <img src="{{ asset($portada->portada) }}" alt="Foto de portada" class="img-fluid w-100 h-auto">
 
 
     <div class="row mt-3">
 
-        <div class="col-md-7 ">
+        <div class="col-md-5">
             @include('temas.contenido')
             @yield('contenido')
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-7">
             @include('temas.examenes')
             @yield('examenes')
 
@@ -132,10 +126,10 @@
     <!-- Modal temas -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div
+                class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
+                <div class="modal-header border-0">
                     <h5 class="modal-title" id="myModalLabel"></h5>
-
                 </div>
 
                 <div class="modal-body" id="myModalContent">
@@ -143,63 +137,63 @@
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
                             <input type="text" class="form-control" id="nombreT" name="nombreT">
-
-
                         </div>
                         <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Enviar</button>
                     </form>
                 </div>
-                <button class="btn btn-success mt-2" onclick="obtenerTemas({{$id_m}})">Seleccionar tema existente en el
-                    modulo</button>
 
-                <div id="contenidoTemas">
+                <button class="btn btn-success mt-2" onclick="obtenerTemas({{ $id_m }})">
+                    Seleccionar tema existente en el módulo
+                </button>
 
-
-                </div>
+                <div id="contenidoTemas"></div>
             </div>
         </div>
     </div>
 
 
-    <!-- Modal de Contenido -->
+
     <div class="modal fade" id="contenidoModal" tabindex="-1" role="dialog" aria-labelledby="contenidoModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-
+            <div
+                class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
+                <div class="modal-header border-0">
                     <h5 class="modal-title" id="contenidoModalLabel">{{ __('Subir Contenido') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-reset" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-
                 </div>
+
                 <div class="modal-body">
                     <form id="contenidoForm">
                         @csrf
                         <input type="hidden" id="contenidoIdT" name="id_t" value="">
+
                         <div class="form-group">
-                            <label for="nombre">{{ __('nombre') }}</label>
+                            <label for="nombre">{{ __('Nombre') }}</label>
                             <input type="text" id="nombrecontenido" name="nombrecontenido" class="form-control">
                         </div>
+
                         <div class="form-group">
                             <label for="documento">{{ __('Documento') }}</label>
                             <input type="file" id="documento" name="documento" class="form-control-file">
                         </div>
+
                         <div class="form-group">
                             <label for="video">{{ __('Video') }}</label>
                             <input type="file" id="video" name="video" class="form-control-file">
                         </div>
+
                         <div class="form-group">
                             <label for="enlace">{{ __('Enlace') }}</label>
                             <input type="text" id="enlace" name="enlace" class="form-control">
                         </div>
-                        <button type="button" class="btn btn-primary"
-                            onclick="enviar()">{{ __('Subir Contenido') }}</button>
+
+                        <button type="button" class="btn btn-primary" onclick="enviar()">
+                            {{ __('Subir Contenido') }}
+                        </button>
                     </form>
-
-
                 </div>
             </div>
         </div>
@@ -347,62 +341,62 @@
 
             // Crear la tabla con estilo Bootstrap
             let tablaHtml = `
-                                                                                                                                                                                                                                                                                <div class="container mt-4">
-                                                                                                                                                                                                                                                                                    <table class="table table-striped table-bordered">
-                                                                                                                                                                                                                                                                                        <thead>
-                                                                                                                                                                                                                                                                                            <tr>
-                                                                                                                                                                                                                                                                                                <th>Nombre del Tema</th>
-                                                                                                                                                                                                                                                                                                <th>Contenidos</th>
-                                                                                                                                                                                                                                                                                                <th>Acción</th>
-                                                                                                                                                                                                                                                                                            </tr>
-                                                                                                                                                                                                                                                                                        </thead>
-                                                                                                                                                                                                                                                                                        <tbody>
-                                                                                                                                                                                                                                                                            `;
+                                                                                                                                                                                                                                                                                                    <div class="container mt-4">
+                                                                                                                                                                                                                                                                                                        <table class="table table-striped table-bordered">
+                                                                                                                                                                                                                                                                                                            <thead>
+                                                                                                                                                                                                                                                                                                                <tr>
+                                                                                                                                                                                                                                                                                                                    <th>Nombre del Tema</th>
+                                                                                                                                                                                                                                                                                                                    <th>Contenidos</th>
+                                                                                                                                                                                                                                                                                                                    <th>Acción</th>
+                                                                                                                                                                                                                                                                                                                </tr>
+                                                                                                                                                                                                                                                                                                            </thead>
+                                                                                                                                                                                                                                                                                                            <tbody>
+                                                                                                                                                                                                                                                                                                `;
 
             // Agregar filas a la tabla para cada tema
             response.forEach(tema => {
                 let opcionesContenido = tema.contenidos.map(contenido => `<option value="${contenido}">${contenido}</option>`).join('');
 
                 tablaHtml += `
-                                                                                                                                                                                                                                                                                    <tr>
-                                                                                                                                                                                                                                                                                        <td>${tema.nombre_tema}</td>
-                                                                                                                                                                                                                                                                                        <td>
-                                                                                                                                                                                                                                                                                            <select class="form-select">
-                                                                                                                                                                                                                                                                                                ${opcionesContenido}
-                                                                                                                                                                                                                                                                                            </select>
-                                                                                                                                                                                                                                                                                        </td>
-                                                                                                                                                                                                                                                                                        <td>
-                                                                                                                                                                                                                                                                                            <button class="btn btn-primary" onclick="añadirTema('${tema.nombre_tema}','${tema.id_tema}')">Añadir</button>
-                                                                                                                                                                                                                                                                                        </td>
-                                                                                                                                                                                                                                                                                    </tr>
-                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                        <tr>
+                                                                                                                                                                                                                                                                                                            <td>${tema.nombre_tema}</td>
+                                                                                                                                                                                                                                                                                                            <td>
+                                                                                                                                                                                                                                                                                                                <select class="form-select">
+                                                                                                                                                                                                                                                                                                                    ${opcionesContenido}
+                                                                                                                                                                                                                                                                                                                </select>
+                                                                                                                                                                                                                                                                                                            </td>
+                                                                                                                                                                                                                                                                                                            <td>
+                                                                                                                                                                                                                                                                                                                <button class="btn btn-primary" onclick="añadirTema('${tema.nombre_tema}','${tema.id_tema}')">Añadir</button>
+                                                                                                                                                                                                                                                                                                            </td>
+                                                                                                                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                                                                                                                    `;
             });
 
             tablaHtml += `
-                                                                                                                                                                                                                                                                                        </tbody>
-                                                                                                                                                                                                                                                                                    </table>
-                                                                                                                                                                                                                                                                            `;
+                                                                                                                                                                                                                                                                                                            </tbody>
+                                                                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                                                                `;
 
             // Agregar paginación si hay páginas
             if (response.links) {
                 tablaHtml += `
-                                                                                                                                                                                                                                                                                    <nav aria-label="Page navigation">
-                                                                                                                                                                                                                                                                                        <ul class="pagination">
-                                                                                                                                                                                                                                                                                            ${response.links.map(link => {
+                                                                                                                                                                                                                                                                                                        <nav aria-label="Page navigation">
+                                                                                                                                                                                                                                                                                                            <ul class="pagination">
+                                                                                                                                                                                                                                                                                                                ${response.links.map(link => {
                     let isActive = link.active ? 'active' : '';
                     let isDisabled = link.url ? '' : 'disabled';
 
                     return `
-                                                                                                                                                                                                                                                                                                    <li class="page-item ${isActive} ${isDisabled}">
-                                                                                                                                                                                                                                                                                                        <a class="page-link" href="${link.url || '#'}" ${link.url ? `onclick="event.preventDefault(); obtenerTemas(${link.label});"` : ''}>
-                                                                                                                                                                                                                                                                                                            ${link.label}
-                                                                                                                                                                                                                                                                                                        </a>
-                                                                                                                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                                        <li class="page-item ${isActive} ${isDisabled}">
+                                                                                                                                                                                                                                                                                                                            <a class="page-link" href="${link.url || '#'}" ${link.url ? `onclick="event.preventDefault(); obtenerTemas(${link.label});"` : ''}>
+                                                                                                                                                                                                                                                                                                                                ${link.label}
+                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                                                                                                    `;
                 }).join('')}
-                                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                                    </nav>
-                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                            </ul>
+                                                                                                                                                                                                                                                                                                        </nav>
+                                                                                                                                                                                                                                                                                                    `;
             }
 
             // Añadir el HTML al div

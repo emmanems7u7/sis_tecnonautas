@@ -57,10 +57,17 @@ class ProfesorController extends Controller
      */
     public function horarios()
     {
+
         $userid = Auth::id();
         $horariosF = $this->UserRepository->getHorariosProfesor($userid);
-
-        return view('personal.horarios', compact('horariosF'));
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'horarios', 'url' => route('home')],
+        ];
+        if ($horariosF == 0) {
+            return back()->with('error', 'No tienes horarios asignados o no tienes el rol de profesor');
+        }
+        return view('personal.horarios', compact('horariosF', 'breadcrumb'));
     }
 
     /**

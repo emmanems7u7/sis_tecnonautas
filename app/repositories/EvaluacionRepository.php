@@ -59,7 +59,7 @@ class EvaluacionRepository implements EvaluacionInterface
                     $nombre_estudiante = User::find($evaluacion->id_u);
                     $estudiantesEvaluaciones[] = [
                         'user_id' => $evaluacion->id_u,
-                        'estudiante' => $nombre_estudiante->name . ' ' . $nombre_estudiante->apepat . $nombre_estudiante->apemat,
+                        'estudiante' => $nombre_estudiante->usuario_nombres . ' ' . $nombre_estudiante->usuario_app . $nombre_estudiante->usuario_apm,
 
                         'evaluaciones' => [
                             [
@@ -112,7 +112,7 @@ class EvaluacionRepository implements EvaluacionInterface
                     $nombre_estudiante = User::find($evaluacion->id_u);
                     $estudiantesEvaluaciones[] = [
                         'user_id' => $evaluacion->id_u,
-                        'estudiante' => $nombre_estudiante->name . ' ' . $nombre_estudiante->apepat . $nombre_estudiante->apemat,
+                        'estudiante' => $nombre_estudiante->usuario_nombres . ' ' . $nombre_estudiante->usuario_app . $nombre_estudiante->usuario_apm,
 
                         'evaluaciones' => [
                             [

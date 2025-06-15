@@ -71,7 +71,8 @@
         <label for="role">Rol</label>
         <select name="role" id="role" class="form-control" required>
             @foreach(\Spatie\Permission\Models\Role::all() as $role)
-                <option value="{{ $role->name }}" {{ (isset($user) && $user->getRoleNames()->first() === $role->name) ? 'selected' : '' }}>
+                <option value="{{ $role->name }}" @if(old('role')) {{ old('role') === $role->name ? 'selected' : '' }}
+                @elseif(isset($user)) {{ $user->getRoleNames()->first() === $role->name ? 'selected' : '' }} @endif>
                     {{ ucfirst($role->name) }}
                 </option>
             @endforeach

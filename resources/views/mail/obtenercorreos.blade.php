@@ -15,9 +15,6 @@
 
 
 
-
-
-
     <!-- Fila de tarjetas para filtros y selección de correos -->
     <div class="row mb-4 mt-3">
         <!-- Card para selección de correos -->
@@ -67,7 +64,8 @@
             </div>
         </div>
         <!-- Contenedor del spinner -->
-        <div id="loading" class="d-none position-fixed top-50 start-50 translate-middle text-center bg-transparent">
+        <div id="loading" class="d-none position-fixed top-50 start-50 translate-middle text-center bg-transparent"
+            style="z-index: 1000;">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Cargando...</span>
             </div>
@@ -126,26 +124,35 @@
                     return response.json();
                 })
                 .then(emails => {
-                    const container = document.getElementById('filteredEmailsContainer');
-                    container.innerHTML = '';
-                    // Ocultar el spinner de carga
-                    document.getElementById('loading').classList.add('d-none');
-                    emails.forEach(email => {
-                        const card = document.createElement('div');
-                        card.classList.add('col-md-12');
-                        card.innerHTML = `
-                                <div class="card mb-4">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${email.subject}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">${email.date}</h6>
+                    console.log(emails)
+                    if (emails.status == 'error') {
+                        alertify.alert(emails.message);
+                        document.getElementById('loading').classList.add('d-none');
 
-                                        <p class="card-text"><strong>De:</strong> ${email.from}</p>
-                                    </div>
-                                </div>
-                            `;
-                        console.log("data " + email.body);
-                        container.appendChild(card);
-                    });
+                    }
+                    else {
+                        const container = document.getElementById('filteredEmailsContainer');
+                        container.innerHTML = '';
+                        // Ocultar el spinner de carga
+                        document.getElementById('loading').classList.add('d-none');
+                        emails.forEach(email => {
+                            const card = document.createElement('div');
+                            card.classList.add('col-md-12');
+                            card.innerHTML = `
+                                                                    <div class="card mb-4">
+                                                                        <div class="card-body">
+                                                                            <h5 class="card-title">${email.subject}</h5>
+                                                                            <h6 class="card-subtitle mb-2 text-muted">${email.date}</h6>
+
+                                                                            <p class="card-text"><strong>De:</strong> ${email.from}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                `;
+                            console.log("data " + email.body);
+                            container.appendChild(card);
+                        });
+                    }
+
                 })
                 .catch(error => {
                     alert(error.message);

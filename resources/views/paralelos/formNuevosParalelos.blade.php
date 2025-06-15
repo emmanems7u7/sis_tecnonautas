@@ -8,81 +8,81 @@
 
       <div class="form-group">
         @if($paradisp != null)
-      <label for="paralelo">Paralelos Disponibles</label>
-      <select class="form-control @error('paralelo') is-invalid @enderror" id="paralelo" name="paralelo">
-      @foreach($paradisp as $paralelo)
+        <label for="paralelo">Paralelos Disponibles</label>
+        <select class="form-control @error('paralelo') is-invalid @enderror" id="paralelo" name="paralelo">
+        @foreach($paradisp as $paralelo)
       <option value="{{ $paralelo->id }}" {{ old('paralelo') == $paralelo->id ? 'selected' : '' }}>
-      {{ $paralelo->nombre }}
+        {{ $paralelo->nombre }}
       </option>
-    @endforeach
-      </select>
-      @error('paralelo')
+      @endforeach
+        </select>
+        @error('paralelo')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-    @else
-    <label for="paralelo">No hay paralelos Disponibles, crear más desde configuración</label>
-  @endif
+      @enderror
+      @else
+      <label for="paralelo">No hay paralelos Disponibles, crear más desde configuración</label>
+      @endif
       </div>
 
       @if($paradisp != null)
       <div class="form-group">
-      <label for="mes">Fecha de inicio correspondiente al paralelo de este módulo</label>
-      <input type="date" name="mes" id="mes" class="form-control @error('mes') is-invalid @enderror"
-      value="{{ old('mes') }}">
-      @error('mes')
+        <label for="mes">Fecha de inicio correspondiente al paralelo de este módulo</label>
+        <input type="date" name="mes" id="mes" class="form-control @error('mes') is-invalid @enderror"
+        value="{{ old('mes') }}">
+        @error('mes')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
       </div>
 
       <div id="horarios">
-      <div class="form-row">
-      <div class="col-md-4">
+        <div class="form-row">
+        <div class="col-md-4">
         <label for="dia">Día</label>
         <select class="form-control @error('dia.0') is-invalid @enderror" name="dia[]">
         @php
-      $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-      @endphp
+        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+        @endphp
         @foreach($dias as $dia)
-      <option value="{{ $dia }}" {{ old('dia.0') == $dia ? 'selected' : '' }}>{{ $dia }}</option>
-    @endforeach
+        <option value="{{ $dia }}" {{ old('dia.0') == $dia ? 'selected' : '' }}>{{ $dia }}</option>
+      @endforeach
         </select>
         @error('dia.0')
-      <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-      </div>
-      <div class="col-md-4">
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+        <div class="col-md-4">
         <label for="horaInicio">Inicio</label>
         <input type="time" class="form-control @error('horaInicio.0') is-invalid @enderror" name="horaInicio[]"
         value="{{ old('horaInicio.0') }}">
         @error('horaInicio.0')
-      <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-      </div>
-      <div class="col-md-4">
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+        <div class="col-md-4">
         <label for="horaFin">Fin</label>
         <input type="time" class="form-control @error('horaFin.0') is-invalid @enderror" name="horaFin[]"
         value="{{ old('horaFin.0') }}">
         @error('horaFin.0')
-      <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-      </div>
-      </div>
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+        </div>
       </div>
 
       <button type="button" class="btn btn-primary mt-3" id="agregarHorario">Agregar Horario</button>
 
       <div class="form-group mt-3">
-      <label for="profesor">Asignar Profesor</label>
-      <select class="form-control @error('profesor') is-invalid @enderror" id="profesor" name="profesor">
-      @foreach($profesores as $profesor)
+        <label for="profesor">Asignar Profesor</label>
+        <select class="form-control @error('profesor') is-invalid @enderror" id="profesor" name="profesor">
+        @foreach($profesores as $profesor)
       <option value="{{ $profesor->id }}" {{ old('profesor') == $profesor->id ? 'selected' : '' }}>
-      {{ $profesor->name }} {{ $profesor->apepat }} {{ $profesor->apemat }}
+        {{ $profesor->usuario_nombres }} {{ $profesor->usuario_app }} {{ $profesor->usuario_apm }}
       </option>
-    @endforeach
-      </select>
-      @error('profesor')
+      @endforeach
+        </select>
+        @error('profesor')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
       </div>
 
       <input type="hidden" name="id_a" value="{{ $id_a }}">
@@ -92,7 +92,7 @@
 
       </form>
 
-    @endif
+      @endif
     </div>
     </div>
   </div>

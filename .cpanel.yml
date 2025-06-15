@@ -1,0 +1,6 @@
+deployment:
+  tasks:
+    - /usr/local/bin/php /home/USUARIO/path-a-tu-proyecto/artisan migrate --force
+    - /usr/local/bin/php /home/USUARIO/path-a-tu-proyecto/artisan config:cache
+    - /usr/local/bin/php /home/USUARIO/path-a-tu-proyecto/artisan route:cache
+    - /usr/local/bin/php /home/USUARIO/path-a-tu-proyecto/artisan view:cache

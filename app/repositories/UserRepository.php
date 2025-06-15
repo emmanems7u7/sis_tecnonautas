@@ -30,8 +30,8 @@ class UserRepository extends BaseRepository implements UserInterface
             'name' => $this->cleanHtml($request->input('name')),
             'email' => $this->cleanHtml($request->input('email')),
             'password' => Hash::make($this->configuracion->conf_defecto),
-            'usuario_fecha_ultimo_acceso' => now(),
-            'usuario_fecha_ultimo_password' => now(),
+            'usuario_fecha_ultimo_acceso' => null,
+            'usuario_fecha_ultimo_password' => null,
             'usuario_nombres' => $this->cleanHtml($request->input('usuario_nombres')),
             'usuario_app' => $this->cleanHtml($request->input('usuario_app')),
             'usuario_apm' => $this->cleanHtml($request->input('usuario_apm')),
@@ -209,8 +209,12 @@ class UserRepository extends BaseRepository implements UserInterface
 
     public function getHorariosProfesor($userid)
     {
+
         $datosP = asignacion_profesor::where('id_u', $userid)->get();
 
+        if ($datosP->isEmpty()) {
+            return 0;
+        }
         foreach ($datosP as $dat) {
 
             $paramod = paralelo_modulo::where('id', $dat->id_pm)->pluck('id_m')->first();

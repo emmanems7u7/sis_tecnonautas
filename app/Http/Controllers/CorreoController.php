@@ -12,6 +12,7 @@ use App\Mail\MiMailable;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Pago;
 use Carbon\Carbon;
+use Webklex\IMAP\Facades\Client;
 
 class CorreoController extends Controller
 {
@@ -149,7 +150,7 @@ class CorreoController extends Controller
         $emailFilter = $request->input('email');
 
 
-        $messages = $this->CorreoRepository->getMails($emailFilter, $startDate, $endDate);
+        $messages = $this->correoRepository->getMails($emailFilter, $startDate, $endDate);
 
         // Crear una estructura para almacenar los correos
         $emails = [];
@@ -257,7 +258,18 @@ class CorreoController extends Controller
         }
 
         // Devolver los resultados como JSON
-        return response()->json($result);
+
+        if (!$result || (is_array($result) && empty($result)) || (is_object($result) && $result->isEmpty())) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No se encontraron resultados.',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $result,
+        ]);
     }
 
 

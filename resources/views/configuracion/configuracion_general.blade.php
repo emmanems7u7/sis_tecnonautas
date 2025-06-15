@@ -33,6 +33,14 @@
                                     </label>
                                 </div>
 
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="mant"
+                                        name="mantenimiento" {{ $config->mantenimiento ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="mant">
+                                        Activar modo Mantenimiento
+                                    </label>
+                                </div>
+
                                 <!-- Límite de sesiones -->
                                 <div class="mb-3">
                                     <label for="limite_de_sesiones" class="form-label">Límite de sesiones</label>
