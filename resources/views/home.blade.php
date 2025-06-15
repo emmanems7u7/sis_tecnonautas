@@ -333,14 +333,11 @@
                             </div>
                         @endforeach
                     </div>
-
                 @endif
             </div>
 
-    
+
             <script>
-
-
 
                 function registrarAsistencia(id_pm) {
                     // Obtener la fecha actual en formato YYYY-MM-DD
