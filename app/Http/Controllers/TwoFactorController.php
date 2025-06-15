@@ -47,8 +47,8 @@ class TwoFactorController extends Controller
     public function resend()
     {
 
-        $correo = env('CONF_CORREO_ID');
-        $conf = ConfCorreo::find($correo);
+
+        $conf = ConfCorreo::first();
         if (!$conf) {
             return response()->json(['error' => 'Configuración no encontrada'], 404);
         }

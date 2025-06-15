@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('secciones', function (Blueprint $table) {
-            $table->integer('posicion')->after('id');
+            $table->integer('posicion')->default(0)->after('id');
         });
     }
 

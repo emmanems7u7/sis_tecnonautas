@@ -203,8 +203,8 @@ trait AuthenticatesUsers
     protected function authenticated(Request $request, $user)
     {
 
-        $correo = env('CONF_CORREO_ID');
-        $conf = ConfCorreo::find($correo);
+
+        $conf = ConfCorreo::first();
         if (!$conf) {
             return response()->json(['error' => 'Configuración no encontrada'], 404);
         }

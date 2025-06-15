@@ -33,6 +33,15 @@ class DatabaseSeeder extends Seeder
         $this->call(MenusSeeder::class);
         $this->call(ConfiguracionCredencialesSeeder::class);
         $this->call(registroVerificaSeeder::class);
+        $this->call(SeederMenu_20250605::class);
+        $this->call(SeederMenu_20250607::class);
+        $this->call(SeederPermisos_20250603::class);
+        $this->call(SeederPermisos_20250604::class);
+        $this->call(SeederPermisos_20250605::class);
+        $this->call(SeederPermisos_20250607::class);
+
+
+
 
     }
 }
