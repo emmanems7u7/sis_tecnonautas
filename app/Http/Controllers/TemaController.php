@@ -181,11 +181,13 @@ class TemaController extends Controller
             ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Materias', 'url' => route('asignacion.index')],
             ['name' => 'Modulos', 'url' => route('modulos.materia.show', ['id_n' => 0, 'id_a' => $id_a])],
-
-            ['name' => 'paralelos', 'url' => route('Paralelos.modulos.show', ['id_m' => $id_m, 'id_a' => $id_a])],
-            ['name' => 'Contenido del Modulo', 'url' => route('home')],
-
         ];
+
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('profesor')) {
+            $breadcrumb[] = ['name' => 'Paralelos', 'url' => route('Paralelos.modulos.show', ['id_m' => $id_m, 'id_a' => $id_a])];
+        }
+
+        $breadcrumb[] = ['name' => 'Contenido del Modulo', 'url' => route('home')];
 
         $user = Auth::user();
         $rol = $user->role;
