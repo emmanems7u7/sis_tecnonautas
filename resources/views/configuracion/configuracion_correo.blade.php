@@ -107,22 +107,28 @@
     <script>
         function enviarPrueba() {
             const url = "{{ route('correo.prueba') }}";
+            const loader = document.getElementById('loader');
+            loader.style.display = '';
 
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
+                        loader.style.display = 'none';
                         throw new Error('Error al enviar la prueba');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Respuesta:', data);
-                    alert('Correo de prueba enviado con éxito');
+                    loader.style.display = 'none';
+
+                    alertify.success('Correo de prueba enviado con éxito');
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al enviar correo de prueba');
+                    loader.style.display = 'none';
+
+                    alertify.error('Error al enviar correo de prueba');
                 });
         }
+
     </script>
 @endsection
