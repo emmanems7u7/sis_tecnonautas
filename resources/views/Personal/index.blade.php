@@ -89,86 +89,88 @@
 <!-- Mostrar todos los datos registrados -->
 
 
-<div class="container-p mt-5">
 
-  <div class="row">
+<div class="card">
+  <div class="card-body">
+    <div class="row">
 
-    <div class="col-md-5">
-      <!-- Información personal -->
-      <div class="text-center">
-        @if ($user->foto_perfil)
-      <img src="{{ asset($user->foto_perfil) }}" alt="profile_image" class="profile-img">
-    @else
-      <img src="{{ asset('update/imagenes/user.jpg') }}" alt="profile_image" class="profile-img">
-    @endif
+      <div class="col-md-5">
+        <!-- Información personal -->
+        <div class="text-center">
+          @if ($user->foto_perfil)
+        <img src="{{ asset($user->foto_perfil) }}" alt="profile_image" class="profile-img">
+      @else
+        <img src="{{ asset('update/imagenes/user.jpg') }}" alt="profile_image" class="profile-img">
+      @endif
 
 
 
-        <h3 class="text-dark">{{ Auth::user()->usuario_nombres }} {{ Auth::user()->usuario_app }}
-          {{ Auth::user()->usuario_apm }}</h3>
-        @if($datosP !== null)
-      <p class="lead text-secondary">{{$datosP->cargo}}</p>
-    @endif
-
-      </div>
-      <!-- Mensaje personal -->
-      <div class="section-title">
-        <h2>Mensaje
+          <h3 class="text-dark">{{ Auth::user()->usuario_nombres }} {{ Auth::user()->usuario_app }}
+            {{ Auth::user()->usuario_apm }}
+          </h3>
           @if($datosP !== null)
+        <p class="lead text-secondary">{{$datosP->cargo}}</p>
+      @endif
+
+        </div>
+
+        <div class="section-title">
+          <h2>Mensaje
+            @if($datosP !== null)
         <a href="" class="btn btn-primary">
-        <i class="fas fa-edit"></i>
+          <i class="fas fa-edit"></i>
 
         </a>
       @else
 
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mensajePersonalModal">
-        <i class="fas fa-plus"></i>
+          <i class="fas fa-plus"></i>
         </button>
       @endif
-        </h2>
-      </div>
-      @if($datosP !== null)
+          </h2>
+        </div>
+        @if($datosP !== null)
       <p class="text-justify">{{$datosP->mensaje}}</p>
     @endif
-    </div>
-    <div class="col-md-7">
-
-      <div class="section-title">
-        <h2>Educación
-
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#educacionModal">
-            <i class="fas fa-plus"></i>
-
-          </button>
-        </h2>
       </div>
-      <!-- Educación -->
-      <ul class="info-list">
-        @if($eduP !== null)
-        @foreach ($eduP as $edu)
+      <div class="col-md-7">
+
+        <div class="section-title">
+          <h2>Educación
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#educacionModal">
+              <i class="fas fa-plus"></i>
+
+            </button>
+          </h2>
+        </div>
+        <!-- Educación -->
+        <ul class="info-list">
+          @if($eduP !== null)
+          @foreach ($eduP as $edu)
         <li><strong>Institución:</strong> {{$edu->institucion}}</li>
         <li><strong>Carrera:</strong> {{$edu->carrera}}</li>
         <li><strong>Semestre:</strong> {{$edu->semestre}}</li>
         <li><strong>Concluido:</strong> {{$edu->concluido}}</li>
-      @endforeach
-    @endif
-      </ul>
-      <!-- Experiencia Profesional -->
-      <div class="section-title">
-        <h2>Experiencia Profesional
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#experienciaProfesionalModal">
-            <i class="fas fa-plus"></i>
+        @endforeach
+      @endif
+        </ul>
+        <!-- Experiencia Profesional -->
+        <div class="section-title">
+          <h2>Experiencia Profesional
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#experienciaProfesionalModal">
+              <i class="fas fa-plus"></i>
 
 
-        </h2>
-        </button>
+          </h2>
+          </button>
 
 
-      </div>
-      <ul class="info-list">
-        @if($expP !== null)
-        @foreach ($expP as $exp)
+        </div>
+        <ul class="info-list">
+          @if($expP !== null)
+          @foreach ($expP as $exp)
         <li><strong>Lugar:</strong> {{$exp->lugar}}
         <a href="#" class="btn btn-warning float-right mr-2"><i class="fas fa-edit"></i></a>
         <a href="#" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i></a>
@@ -177,19 +179,14 @@
         <li><strong>Duración:</strong> {{$exp->duracion}}</li>
         <div class="section-d mx-auto">
         </div>
-      @endforeach
-    @endif
-      </ul>
-      <hr>
+        @endforeach
+      @endif
+        </ul>
+        <hr>
 
 
+      </div>
     </div>
+
   </div>
-</div>
-
-
-
-
-
-
 </div>

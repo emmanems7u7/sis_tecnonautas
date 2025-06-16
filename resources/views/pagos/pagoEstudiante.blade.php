@@ -17,8 +17,8 @@
             @foreach ($materiaArray as $materia)
                 <div class="col-md-12 mb-4">
                     <div class="card shadow border-0 h-100">
-                        <div class="card-header text-black bg-gradient d-flex justify-content-between align-items-center"
-                            style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                        <div class="card-header text-black  d-flex justify-content-between align-items-center"
+                            >
                             <h5 class="mb-0">
                                 <i class="fas fa-book"></i> {{ $materia['asignacion'] }}
                             </h5>

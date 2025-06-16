@@ -160,7 +160,7 @@
                                 <!-- Auditoria Pagos -->
                                 <div class="col-md-6 mt-3">
                                     <a href="{{ route('pagos.index') }}"
-                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                        class="btn btn-info w-100 d-flex flex-column  text-center py-3">
                                         <i class="fas fa-file fa-2x mb-2"></i>
                                         <span>Auditoria Pagos</span>
                                     </a>
@@ -169,7 +169,7 @@
                                 <!-- Crear Materia -->
                                 <div class="col-md-6 mt-3">
                                     <a href="{{route('asignacion.create')}}"
-                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                        class="btn btn-info w-100 d-flex flex-column  text-center py-3">
                                         <i class="fas fa-chalkboard-teacher fa-2x mb-2"></i>
                                         <span>Crear Materia</span>
                                     </a>
@@ -177,11 +177,11 @@
 
                                 <!-- Editar Perfil -->
                                 <div class="col-md-6 mt-3">
-                                    <button
-                                        class="btn btn-info w-100 d-flex flex-column align-items-center justify-content-center text-center py-3">
+                                    <a href="{{route('perfil')}}"
+                                        class="btn btn-info w-100 d-flex flex-column  text-center py-3">
                                         <i class="fas fa-user-edit fa-2x mb-2"></i>
                                         <span>Editar Perfil</span>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
