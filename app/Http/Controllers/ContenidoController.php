@@ -38,33 +38,60 @@ class ContenidoController extends Controller
     {
 
         try {
+            // Validación mínima para permitir que al menos uno esté presente
             $validated = $request->validate([
                 'nombrecontenido' => 'required|string|max:255',
                 'id_t' => 'required|integer|exists:temas,id',
-                'documento' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
-                'video' => 'nullable|string',
+                'video' => 'nullable',
+                'documento' => 'nullable',
                 'enlace' => 'nullable|string|url|max:255',
-
             ], [
                 'nombrecontenido.required' => 'El nombre del contenido es obligatorio.',
                 'nombrecontenido.string' => 'El nombre del contenido debe ser un texto válido.',
                 'nombrecontenido.max' => 'El nombre del contenido no puede superar los 255 caracteres.',
-
                 'id_t.required' => 'El ID del tema es obligatorio.',
                 'id_t.integer' => 'El ID del tema debe ser un número entero.',
                 'id_t.exists' => 'El ID del tema no existe en la base de datos.',
-
-                'documento.file' => 'El documento debe ser un archivo.',
-                'documento.mimes' => 'El documento debe ser un archivo PDF o Word (doc, docx).',
-                'documento.max' => 'El documento no debe superar los 10 MB.',
-
-                'video.string' => 'El video debe ser un texto válido.',
                 'enlace.string' => 'El enlace debe ser un texto válido.',
                 'enlace.url' => 'El enlace debe ser una URL válida.',
                 'enlace.max' => 'El enlace no puede tener más de 255 caracteres.',
             ]);
 
+            // Validar que solo uno esté presente
+            $hasVideo = $request->hasFile('video');
+            $hasDoc = $request->hasFile('documento');
+            $hasLink = filled($request->input('enlace'));
 
+            $total = ($hasVideo ? 1 : 0) + ($hasDoc ? 1 : 0) + ($hasLink ? 1 : 0);
+
+            if ($total === 0) {
+                return back()->withErrors(['tipo_contenido' => 'Debes subir un documento, un video o ingresar un enlace.'])->withInput();
+            }
+
+            if ($total > 1) {
+                return back()->withErrors(['tipo_contenido' => 'Solo puedes enviar un video, un documento o un enlace, no más de uno.'])->withInput();
+            }
+
+            // Validación específica del archivo que realmente se subió
+            if ($hasVideo) {
+                $request->validate([
+                    'video' => 'file|mimetypes:video/mp4,video/x-msvideo,video/avi,video/mpeg|max:27480',
+                ], [
+                    'video.file' => 'El video debe ser un archivo.',
+                    'video.mimetypes' => 'El video debe ser un archivo en formato MP4, AVI o MPEG.',
+                    'video.max' => 'El video no debe superar los 20 MB.',
+                ]);
+            }
+
+            if ($hasDoc) {
+                $request->validate([
+                    'documento' => 'file|mimes:pdf,doc,docx|max:10240',
+                ], [
+                    'documento.file' => 'El documento debe ser un archivo.',
+                    'documento.mimes' => 'El documento debe ser un PDF o Word (doc, docx).',
+                    'documento.max' => 'El documento no debe superar los 10 MB.',
+                ]);
+            }
 
             $id_t = $request['id_t'];
 
