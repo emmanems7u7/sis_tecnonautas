@@ -41,7 +41,7 @@ class ContenidoController extends Controller
             $validated = $request->validate([
                 'nombrecontenido' => 'required|string|max:255',
                 'id_t' => 'required|integer|exists:temas,id',
-                'documento' => 'nullable|string',
+                'documento' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
                 'video' => 'nullable|string',
                 'enlace' => 'nullable|string|url|max:255',
 
@@ -54,7 +54,10 @@ class ContenidoController extends Controller
                 'id_t.integer' => 'El ID del tema debe ser un número entero.',
                 'id_t.exists' => 'El ID del tema no existe en la base de datos.',
 
-                'documento.string' => 'El documento debe ser un texto válido.',
+                'documento.file' => 'El documento debe ser un archivo.',
+                'documento.mimes' => 'El documento debe ser un archivo PDF o Word (doc, docx).',
+                'documento.max' => 'El documento no debe superar los 10 MB.',
+
                 'video.string' => 'El video debe ser un texto válido.',
                 'enlace.string' => 'El enlace debe ser un texto válido.',
                 'enlace.url' => 'El enlace debe ser una URL válida.',
