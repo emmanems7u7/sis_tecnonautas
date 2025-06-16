@@ -24,8 +24,8 @@ class Tarea extends Model
 
     public function tareasEstudiantes()
     {
-        return $this->hasMany(Tareas_Estudiante::class, 'tareas_id');
+        return $this->hasMany(tareas_estudiante::class, 'tareas_id');
     }
 
-    
+
 }
