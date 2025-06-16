@@ -35,8 +35,8 @@
                                 <th>{{$student->ci ?? 'No registrado'}}</th>
                                 <td>
                                     @if (isset($student->fotoperfil))
-                                        <img src="{{asset('/storage' . $student->fotoperfil)}}" class="rounded"
-                                            alt="Profile picture" height="30" width="30">
+                                        <img src="{{asset($student->fotoperfil)}}" class="rounded" alt="Profile picture"
+                                            height="30" width="30">
                                     @else
                                         <i class="fas fa-user"></i>
                                     @endif
