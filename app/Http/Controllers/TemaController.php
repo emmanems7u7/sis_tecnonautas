@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiantes_asignacion_paramodulo;
-use App\Models\Tareas_estudiante;
+use App\Models\tareas_estudiante;
 use App\Models\evaluacionCompleta;
 use App\Models\Tema;
 use App\Models\Tarea;
@@ -207,7 +207,7 @@ class TemaController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(3);
 
-            $tareasE = Tareas_estudiante::where('user_id', $userId)->get();
+            $tareasE = tareas_estudiante::where('user_id', $userId)->get();
 
             $evaluaciones = Evaluacion::where('id_pm', $id_pm)->get();
             $evaluacionE = EvaluacionCompleta::where('id_u', $userId)->get()->keyBy('id_e');
