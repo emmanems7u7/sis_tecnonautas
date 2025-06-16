@@ -197,7 +197,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div
-      class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
         <h5 class="modal-title" id="asistenciasModal_verLabel">Asistencia</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -285,9 +285,9 @@
       ${data.usuarios.map(usuario => {
       const asistenciasUsuario = data.asistencias.filter(a => a.user_id === usuario.id);
       return `
-        <tr>
-        <td>${usuario.nombre_completo}</td>
-        ${fechasUnicas.map(fecha => {
+      <tr>
+      <td>${usuario.nombre_completo}</td>
+      ${fechasUnicas.map(fecha => {
       const asistencia = asistenciasUsuario.find(a => a.fecha === fecha)?.asistencia || "-";
       let color = '';
       switch (asistencia) {
@@ -305,7 +305,7 @@
       }
       return `<td style="${color}"></td>`; // Solo pinta la celda sin texto
       }).join("")}
-        </tr>
+      </tr>
       `;
     }).join("")}
     </tbody>

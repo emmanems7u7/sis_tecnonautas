@@ -399,7 +399,7 @@
                 var cardBody = $('<div class="card border rounded-3 shadow-sm"></div>');
 
                 cardBody.append('<h5 class="card-title">' + detalle + '</h5>');
-                cardBody.append('<img src="{{ asset("/storage") }}' + imagen + '" alt="Imagen de pago" class="card-img-top custom-img-size">');
+                cardBody.append('<img src="{{ asset("") }}' + imagen + '" alt="Imagen de pago" class="card-img-top custom-img-size">');
                 cardBody.append('<p class="card-text">Banco: ' + banco + '</p>');
                 cardBody.append('<p class="card-text">Cuenta: ' + num_cuenta + '</p>');
                 cardBody.append('<p class="card-text">Email: ' + email + '</p>');
