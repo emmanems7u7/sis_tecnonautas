@@ -41,7 +41,7 @@
                         <p><strong>Fecha de Entrega:</strong> {{ $tarea->created_at }}</p>
                         <p><strong>Archivo:</strong>
                             @if($tarea->archivo)
-                                <a href="{{ asset('storage/' . $tarea->archivo) }}" target="_blank" class="btn btn-info">Ver
+                                <a href="{{ asset($tarea->archivo) }}" target="_blank" class="btn btn-info">Ver
                                     archivo</a>
                             @else
                                 No hay archivo subido.

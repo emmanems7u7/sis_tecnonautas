@@ -85,8 +85,7 @@ class TareaController extends Controller
         $user = Auth::user();
         $archivo = $request->file('archivo');
 
-        // Genera un nombre único con UUID y mantiene la extensión original
-        $nombreArchivo = Str::uuid() . '.' . $archivo->getClientOriginalExtension();
+        $nombreArchivo = uniqid();
 
         // Mueve el archivo directamente a public/archivos
         $archivo->move(public_path('archivos'), $nombreArchivo);
@@ -171,7 +170,7 @@ class TareaController extends Controller
     public function showE($id_pm)
     {
         $userId = Auth::id();
-        $d = paralelo_modulo::find($id_pm);
+        $d = paralelo_modulo::find(id: $id_pm);
         $id_a = asigModulo::where('id_m', $d->id_m)->first()->id_a;
         $id_m = $d->id_m;
         $estudiante = User::with('tareasEstudiantes.tarea')
