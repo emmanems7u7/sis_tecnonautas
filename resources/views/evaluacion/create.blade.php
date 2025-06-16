@@ -92,7 +92,7 @@
                             <div class="form-check">
                                 @foreach($pregunta->opciones as $opcion)
                                     <div class="form-check">
-                                        <input disabled class="form-check-input" type="radio" name="opcion_{{ $pregunta->id }}"
+                                        <input disabled class="form-check-input me-2" type="radio" name="opcion_{{ $pregunta->id }}"
                                             value="{{ $opcion->id }}" {{ $opcion->correcta ? 'checked' : '' }}>
                                         <label class="form-check-label" style="color: #007bff;">{{ $opcion->texto }}</label>
                                     </div>
@@ -102,8 +102,8 @@
                             <div class="form-check">
                                 @foreach($pregunta->opciones as $opcion)
                                     <div class="form-check">
-                                        <input disabled class="form-check-input" type="checkbox" name="opcion_{{ $pregunta->id }}[]"
-                                            value="{{ $opcion->id }}" {{ $opcion->correcta ? 'checked' : '' }}>
+                                        <input disabled class="form-check-input me-2" type="checkbox"
+                                            name="opcion_{{ $pregunta->id }}[]" value="{{ $opcion->id }}" {{ $opcion->correcta ? 'checked' : '' }}>
                                         <label class="form-check-label" style="color: #28a745;">{{ $opcion->texto }}</label>
                                     </div>
                                 @endforeach
@@ -118,7 +118,7 @@
                             <div class="card-actions">
 
                                 <a type="button" class="btn btn-sm btn-danger" id="modal_edit_usuario_button"
-                                    onclick="confirmarEliminacion('eliminarPreguntaForm-{{ $pregunta->id }}', '¿Estás seguro de que deseas eliminar este usuario?')">
+                                    onclick="confirmarEliminacion('eliminarPreguntaForm-{{ $pregunta->id }}', '¿Estás seguro de que deseas eliminar esta pregunta?')">
                                     <i class="fas fa-trash-alt"></i></a>
 
                                 <form id="eliminarPreguntaForm-{{ $pregunta->id }}" method="POST"
@@ -276,8 +276,7 @@
                             .then(response => response.json())
                             .then(data => {
                                 alertify.success(data.message);
-
-                                document.getElementById('contenido_modulo').click();
+                                window.location.href = "{{ route('modulos.temas.show', ['id_pm' => $id_pm, 'id_m' => $id_m]) }}";
                             })
                             .catch(error => {
                                 console.error('Error:', error);
@@ -389,15 +388,15 @@
                         var inputType = tipoPregunta === 'casillas' ? 'checkbox' : 'radio';
 
                         // Creamos la opción en función del tipo seleccionado
-                        var optionInput = '<input class="form-check-input" type="' + inputType + '" name="opcion_correcta" value="' + nuevaOpcionValue + '">';
+                        var optionInput = '<input class="form-check-input me-2" type="' + inputType + '" name="opcion_correcta" value="' + nuevaOpcionValue + '">';
 
                         if (inputType === 'checkbox') {
-                            optionInput = '<input class="form-check-input" type="' + inputType + '" name="opciones_correctas[]" value="' + nuevaOpcionValue + '">';
+                            optionInput = '<input class="form-check-input me-2" type="' + inputType + '" name="opciones_correctas[]" value="' + nuevaOpcionValue + '">';
                         }
 
                         // Añadimos la opción al formulario con el campo de texto
                         $('#opciones-field').append(
-                            '<div class="form-check d-flex align-items-center mb-2" id="opcion-' + nuevaOpcionValue + '">' +
+                            '<div class="form-check d-flex align-items-center mb-2 me-2" id="opcion-' + nuevaOpcionValue + '">' +
                             optionInput +
                             '<input type="text" class="form-control mt-2" name="opciones[]" placeholder="Nueva Opción">' +
                             '<button type="button" class="btn btn-danger btn-sm ms-2" onclick="eliminarOpcion(' + nuevaOpcionValue + ')">' +
@@ -406,11 +405,8 @@
                             '</div>'
                         );
                     } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Tipo de pregunta no seleccionado',
-                            text: 'Seleccione un tipo de pregunta diferente a "Párrafo".',
-                        });
+                        alertify.warning('Seleccione un tipo de pregunta diferente a "Párrafo".');
+
                     }
                 });
 
@@ -443,26 +439,7 @@
 
 
         <script>
-            function actualizarListaPreguntas() {
-                $.ajax({
-                    url: '{{ route('preguntas.list', ['id_e' => $id_e]) }}', // Cambia la ruta según tu configuración
-                    type: 'GET',
-                    success: function (response) {
-                        $('#preguntas-list').html(response);
-                    },
-                    error: function (xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            }
 
-            $(document).ready(function () {
-                actualizarListaPreguntas();
-
-                $('#agregar-pregunta').click(function () {
-                    // ... Código para agregar pregunta (puede incluir llamada a actualizarListaPreguntas())
-                });
-            });
             $(document).ready(function () {
                 // Validación al enviar el formulario
                 $('form').submit(function (event) {
@@ -474,23 +451,15 @@
                     let tipo = document.getElementById("tipo_pregunta").value;
 
                     if (tipo == -1) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Tipo de pregunta no seleccionado',
-                            text: 'Seleccione un tipo de pregunta',
-                        });
+                        alertify.alert('Tipo de pregunta no seleccionado', 'Seleccione un tipo de pregunta').set('iconClass', 'alertify-warning');
+
                         event.preventDefault(); // Evitar que el formulario se envíe
                         return;
                     }
 
                     // Validar el campo de texto de la pregunta
                     if (textoPregunta.trim() === "") {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Alerta',
-                            text: 'Por favor, ingrese el texto de la pregunta.',
-                        });
-
+                        alertify.alert('Alerta', 'Por favor, ingrese el texto de la pregunta.').set('iconClass', 'alertify-warning');
 
                         event.preventDefault(); // Evitar que el formulario se envíe
                         return;
@@ -499,11 +468,8 @@
                     // Validar las opciones dependiendo del tipo de pregunta
                     if ((tipoPregunta === 'opciones' || tipoPregunta === 'casillas') && opcionesCorrectas.length === 0) {
 
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Alerta',
-                            text: 'Por favor, agregue al menos una opción.',
-                        });
+                        alertify.alert('Alerta', 'Por favor, agregue al menos una opción.').set('iconClass', 'alertify-warning');
+
 
                         event.preventDefault(); // Evitar que el formulario se envíe
                         return;
@@ -512,12 +478,8 @@
                     // Si es una pregunta de tipo 'opciones' o 'casillas', asegurarse de que al menos una opción esté seleccionada
                     if ((tipoPregunta === 'opciones' || tipoPregunta === 'casillas') && $('input[name="opciones[]"]').filter(function () { return this.value.trim() !== ''; }).length === 0) {
 
+                        alertify.alert('Alerta', 'Por favor, ingrese las opciones de respuesta.').set('iconClass', 'alertify-warning');
 
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Alerta',
-                            text: 'Por favor, ingrese las opciones de respuesta.',
-                        });
                         event.preventDefault(); // Evitar que el formulario se envíe
                         return;
                     }
