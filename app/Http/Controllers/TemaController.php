@@ -12,7 +12,7 @@ use App\Models\Asignacion;
 use App\Interfaces\TareasInterface;
 use App\Interfaces\EvaluacionInterface;
 use App\Models\Evaluacion;
-use App\Models\admPago;
+use App\Models\admpago;
 use App\Models\ContenidoTema;
 use App\Models\Temas_paramodulo;
 use App\Models\asigModulo;
@@ -253,7 +253,7 @@ class TemaController extends Controller
 
 
         ];
-        $pagos = admPago::all();
+        $pagos = admpago::all();
 
         $materia = asigModulo::join('modulos as m', 'asig_modulos.id_m', '=', 'm.id')
             ->join('asignacions as ai', 'asig_modulos.id_a', '=', 'ai.id')

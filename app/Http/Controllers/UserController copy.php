@@ -515,7 +515,7 @@ class UserController extends Controller
      */
     public function EstudiantesMatPagos($id)
     {
-        $data = admPago::select('admpagos.id', 'users.name', 'modulos.nombreM', 'admpagos.pagado', 'admpagos.comprobante')
+        $data = admpago::select('admpagos.id', 'users.name', 'modulos.nombreM', 'admpagos.pagado', 'admpagos.comprobante')
             ->join('users', 'admpagos.id_u', '=', 'users.id')
             ->join('asignacions', 'asignacions.id', '=', 'admpagos.id_a')
             ->join('modulos', 'modulos.id', '=', 'admpagos.id_m')
