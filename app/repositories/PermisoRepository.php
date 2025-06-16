@@ -27,6 +27,8 @@ class PermisoRepository extends BaseRepository implements PermisoInterface
     {
         $permission = Permission::findOrFail($id);
 
+
+
         $menus = Seccion::with('menus')->find($permission->id_relacion)->menus;
 
         if ($rol_id != -1) {
@@ -34,8 +36,8 @@ class PermisoRepository extends BaseRepository implements PermisoInterface
 
         } else {
             $role = Role::all();
-
         }
+
 
         $permisos_menu = $permission->where('tipo', 'menu')->get();
 
@@ -58,6 +60,7 @@ class PermisoRepository extends BaseRepository implements PermisoInterface
             }
 
         }
+
         return $permisosPorTipo;
     }
     public function GetPermisoTipo($id, $tipo)
@@ -87,17 +90,17 @@ class PermisoRepository extends BaseRepository implements PermisoInterface
             $permiso = Permission::create($data);
         }
 
-        $this->registrarEnSeeder($permiso);
+        $this->registrarEnSeeder($permiso, $idRelacion);
 
         return $permiso;
     }
-    protected function registrarEnSeeder(Permission $permiso)
+    protected function registrarEnSeeder(Permission $permiso, $relacion = null)
     {
         $fecha = now()->format('Ymd');
         $nombreClase = 'SeederPermisos_' . $fecha;
         $rutaSeeder = database_path("seeders/{$nombreClase}.php");
 
-        $lineaPermiso = "            ['id' => '{$permiso->id}', 'name' => '{$permiso->name}', 'tipo' => '{$permiso->tipo}', 'guard_name' => '{$permiso->guard_name}' ],";
+        $lineaPermiso = "['id' => '{$permiso->id}', 'name' => '{$permiso->name}', 'tipo' => '{$permiso->tipo}','id_relacion' => '{$relacion}', 'guard_name' => '{$permiso->guard_name}' ],";
 
         // Si no existe el seeder, lo creamos
         if (!File::exists($rutaSeeder)) {

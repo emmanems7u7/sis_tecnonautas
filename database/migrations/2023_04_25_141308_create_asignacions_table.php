@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('asignacions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 200);
-            $table->string('descripcion', 500);
-            $table->string('descripcionCorta', 500);
+            $table->text('descripcion');
+            $table->text('descripcionCorta');
             $table->string('tipo', 20)->nullable();
             $table->string('imagen1')->nullable();
             $table->string('portada')->nullable();

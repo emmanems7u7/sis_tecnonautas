@@ -11,22 +11,16 @@ class SeederMenu_20250607 extends Seeder
     {
         $menus = [
             [
-                'nombre' => 'Inscribir estudiante',
-                'orden' => 2,
+                'id' => 25,
+                'nombre' => 'Credenciales',
+                'orden' => 4,
                 'padre_id' => null,
-                'seccion_id' => 10,
-                'ruta' => 'inscripcion.index',
+                'seccion_id' => 6,
+                'ruta' => 'configuracion.credenciales.index',
                 'accion_usuario' => '',
             ],
             [
-                'nombre' => 'Ver Email',
-                'orden' => 1,
-                'padre_id' => null,
-                'seccion_id' => 21,
-                'ruta' => 'emails.index',
-                'accion_usuario' => '',
-            ],
-            [
+                'id' => 26,
                 'nombre' => 'Pagos Estudiantes',
                 'orden' => 2,
                 'padre_id' => null,
@@ -35,13 +29,27 @@ class SeederMenu_20250607 extends Seeder
                 'accion_usuario' => '',
             ],
             [
-                'nombre' => 'Credenciales',
-                'orden' => 4,
+                'id' => 27,
+                'nombre' => 'Ver Email',
+                'orden' => 1,
                 'padre_id' => null,
-                'seccion_id' => 6,
-                'ruta' => 'configuracion.credenciales.index',
+                'seccion_id' => 21,
+                'ruta' => 'emails.index',
                 'accion_usuario' => '',
             ],
+            [
+                'id' => 28,
+                'nombre' => 'Inscribir estudiante',
+                'orden' => 2,
+                'padre_id' => null,
+                'seccion_id' => 10,
+                'ruta' => 'inscripcion.index',
+                'accion_usuario' => '',
+            ],
+
+
+
+
         ];
 
         foreach ($menus as $data) {

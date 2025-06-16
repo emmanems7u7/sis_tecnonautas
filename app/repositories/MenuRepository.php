@@ -39,6 +39,8 @@ class MenuRepository extends BaseRepository implements MenuInterface
         $rutaSeeder = database_path("seeders/{$nombreSeeder}");
 
         // Preparamos los valores
+        $id = $menu->id;
+
         $nombre = addslashes($menu->nombre);
         $orden = (int) $menu->orden;
         $padreId = $menu->padre_id !== null ? $menu->padre_id : 'null';
@@ -48,6 +50,7 @@ class MenuRepository extends BaseRepository implements MenuInterface
 
         $registro = <<<PHP
                                     [
+                                        'id' => '{$id}',
                                         'nombre' => '{$nombre}',
                                         'orden' => {$orden},
                                         'padre_id' => {$padreId},
