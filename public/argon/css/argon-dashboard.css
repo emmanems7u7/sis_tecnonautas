@@ -21492,7 +21492,7 @@ fieldset:disabled .btn {
 }
 
 .alert {
-  z-index: 999;
+  z-index: 900;
 }
 
 .avatar {
