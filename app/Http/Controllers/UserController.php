@@ -388,20 +388,17 @@ class UserController extends Controller
         return view('estudiantes.inactivos', ['e' => $estudiantes, 'id_noti' => $id, 'breadcrumb' => $breadcrumb]);
 
     }
-    public function cambiarestado($id, $id_noti)
+    public function cambiarestado($id)
     {
         Estudiantes_asignacion_paramodulo::where('id_u', $id)->update(['activo' => 'activo']);
 
-
-        $this->NotificationRepository->markAsRead($id_noti);
 
         $estudiantes = Estudiantes_asignacion_paramodulo::join('users', 'estudiantes_asignacion_paramodulos.id_u', '=', 'users.id')
             ->select('users.id', 'users.fotoperfil', 'users.usuario_nombres', 'users.usuario_app', 'users.usuario_apm', 'users.email', 'estudiantes_asignacion_paramodulos.activo')
             ->where('activo', 'inactivo')
             ->get();
 
-        //return view('estudiantes.inactivos',['e' =>$estudiantes,'id_noti' =>$id_noti]);
-        return redirect()->back();
+        return redirect()->back()->with('statuts', 'Se cambió el estado correctamente');
 
     }
     /**

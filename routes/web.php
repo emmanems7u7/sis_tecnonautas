@@ -362,7 +362,7 @@ Route::group(['prefix' => '/estudiantes', 'middleware' => 'auth'], function () {
     Route::get('/inactivos/ver/{UserId}', [UserController::class, 'EstudiantesInactivos'])->name('estudiantesinactivos.show')->middleware('can:estudiante.ver_inactivos');
     Route::get('/detalle/{id}/{id_m}', [UserController::class, 'detalleEstudiante'])->name('estudiante.detalle')->middleware('can:estudiante.ver_detalle');
     Route::get('/{id}/pagos', [UserController::class, 'EstudiantesMatPagos'])->name('estudiantes.pagos.materias')->middleware('can:estudiante.pagos_materias');
-    Route::get('/cambiarEstado/{id}/{id_noti}', [UserController::class, 'cambiarestado'])->name('cambiarestado')->middleware('can:estudiante.cambiar_estado');
+    Route::get('/cambiarEstado/{id}', [UserController::class, 'cambiarestado'])->name('cambiarestado')->middleware('can:estudiante.cambiar_estado');
     Route::get('/detalle/{id}/{id_m}/{id_p}', [UserController::class, 'EstudianteReporte'])->name('estudiante.reporte');
     Route::get('/{id}/ver', [UserController::class, 'estudentShow'])->name('estudiante.show');
 
