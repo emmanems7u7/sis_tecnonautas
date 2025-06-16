@@ -43,7 +43,8 @@ class ContenidoController extends Controller
                 'id_t' => 'required|integer|exists:temas,id',
                 'documento' => 'nullable|string',
                 'video' => 'nullable|string',
-                'enlace' => 'nullable|string|url',
+                'enlace' => 'nullable|string|url|max:255',
+
             ], [
                 'nombrecontenido.required' => 'El nombre del contenido es obligatorio.',
                 'nombrecontenido.string' => 'El nombre del contenido debe ser un texto válido.',
@@ -57,6 +58,7 @@ class ContenidoController extends Controller
                 'video.string' => 'El video debe ser un texto válido.',
                 'enlace.string' => 'El enlace debe ser un texto válido.',
                 'enlace.url' => 'El enlace debe ser una URL válida.',
+                'enlace.max' => 'El enlace no puede tener más de 255 caracteres.',
             ]);
 
 
