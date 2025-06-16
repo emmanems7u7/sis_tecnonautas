@@ -209,7 +209,9 @@
         <p><span class="cuadro-atraso"></span> Atraso</p>
         <p><span class="cuadro-asistencia"></span> Asistencia</p>
         </div>
+        <div class="table-responsive">
         <div id="contenedorTabla"></div> <!-- Contenedor para la tabla -->
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
