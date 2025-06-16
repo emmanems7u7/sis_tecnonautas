@@ -129,7 +129,7 @@ Route::middleware(['auth', 'can:Configuración', 'check.password.age'])->group(f
 
     Route::get('/correo/prueba', [ConfCorreoController::class, 'enviarPrueba'])
         ->name('correo.prueba')
-        ->middleware('can:correo.envio_prueba');
+        ->middleware('can:configuracion_correo.ver');
 
     Route::get('/correos/plantillas', [CorreoController::class, 'index'])
         ->name('correos.index')
@@ -143,6 +143,10 @@ Route::middleware(['auth', 'can:Configuración', 'check.password.age'])->group(f
         ->name('obtener.correo');
 
 });
+
+
+Route::get('configuracion_correo', [ConfCorreoController::class, 'index'])->name('configuracion_correo.index');
+Route::put('configuracion_correo', [ConfCorreoController::class, 'update'])->name('configuracion_correo.update');
 
 //cambio de contraseña
 Route::middleware(['auth'])->group(function () {
@@ -368,6 +372,7 @@ Route::group(['prefix' => '/estudiantes', 'middleware' => 'auth'], function () {
 
     Route::get('/verE/{id_a}/{id_p}', [UserController::class, 'ver'])->name('studiantes.ver');
 });
+
 
 // Inscripciones
 Route::group(['prefix' => '/inscripcion', 'middleware' => 'auth'], function () {

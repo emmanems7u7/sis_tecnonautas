@@ -209,15 +209,6 @@ trait AuthenticatesUsers
             return response()->json(['error' => 'Configuración no encontrada'], 404);
         }
 
-        config([
-            'mail.mailers.smtp.host' => $conf->conf_smtp_host,
-            'mail.mailers.smtp.port' => $conf->conf_smtp_port,
-            'mail.mailers.smtp.username' => $conf->conf_smtp_user,
-            'mail.mailers.smtp.password' => $conf->conf_smtp_pass,
-            'mail.mailers.smtp.encryption' => $conf->conf_protocol,
-            'mail.default' => 'smtp',
-        ]);
-
 
         if (twoFactorGlobalEnabled()) {
             $user->generateTwoFactorCode();

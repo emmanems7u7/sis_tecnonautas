@@ -24,14 +24,14 @@ class ConfCorreoController extends Controller
 
     function index()
     {
-        $conf_correo = ConfCorreo::find(env('CONF_CORREO_ID'));
+        $config = ConfCorreo::first();
 
 
         $breadcrumb = [
             ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Configuracion', 'url' => route('configuracion.correo.index')],
         ];
-        return view('configuracion.configuracion_correo', compact('breadcrumb', 'conf_correo'));
+        return view('configuracion.configuracion_correo', compact('breadcrumb', 'config'));
     }
 
     function store(request $request)
@@ -86,7 +86,30 @@ class ConfCorreoController extends Controller
 
 
     }
+    public function update(Request $request)
+    {
+        $request->validate([
+            'host' => 'required|string',
+            'port' => 'required|integer',
+            'username' => 'required|email',
+            'password' => 'required|string',
+            'encryption' => 'nullable|string',
+            'from_address' => 'required|email',
+            'from_name' => 'required|string',
+        ]);
 
+        $config = ConfCorreo::first();
+
+        if ($config) {
+            $config->update($request->all());
+        } else {
+            // Si no existe configuración, la crea
+            ConfCorreo::create($request->all());
+        }
+
+        return redirect()->back()
+            ->with('status', 'Configuración actualizada correctamente.');
+    }
     public function enviarPrueba()
     {
 
@@ -98,17 +121,8 @@ class ConfCorreoController extends Controller
         }
 
 
-        config([
-            'mail.mailers.smtp.host' => $conf->conf_smtp_host,
-            'mail.mailers.smtp.port' => $conf->conf_smtp_port,
-            'mail.mailers.smtp.username' => $conf->conf_smtp_user,
-            'mail.mailers.smtp.password' => $conf->conf_smtp_pass,
-            'mail.mailers.smtp.encryption' => $conf->conf_protocol,
-            'mail.default' => 'smtp',
-        ]);
-
         // Enviar el correo de prueba
-        Mail::to($conf->conf_smtp_user)->send(new CorreoPrueba('Este es un correo de prueba.'));
+        Mail::to('emmanuelz7u7@gmail.com')->send(new CorreoPrueba('Este es un correo de prueba.'));
 
         // $this->enviarCorreoPrueba(1, 'emmanuelz7u7@gmail.com');
 
