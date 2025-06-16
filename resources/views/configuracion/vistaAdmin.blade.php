@@ -297,20 +297,16 @@
     <script>
 
         function confirmarEliminacion(tipoId) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Esta acción no se puede deshacer.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
+            alertify.confirm(
+                '¿Estás seguro?',
+                'Esta acción no se puede deshacer.',
+                function () {
                     document.getElementById('formEliminar' + tipoId).submit();
+                },
+                function () {
+                    // Cancelado, no se hace nada
                 }
-            });
+            ).set('labels', { ok: 'Sí, eliminar', cancel: 'Cancelar' }).set('closable', false);
         }
         function openModal() {
             $('#myModal').modal('show');
@@ -444,12 +440,7 @@
 
             if (!detalle || !banco || !archivo || !email || !tipoPagoSeleccionado || !num_cuenta) {
 
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Error de datos',
-                    text: 'Por favor, complete todos los campos',
-                });
-
+                alertify.warning('Por favor, complete todos los campos');
                 return;
             }
 

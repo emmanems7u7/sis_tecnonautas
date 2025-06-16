@@ -362,120 +362,69 @@
       // Aquí se manejan las respuestas de la solicitud
       if (data.success) {
         // Si la respuesta es exitosa, mostramos el mensaje con SweetAlert
-        Swal.fire({
-        icon: 'success',
-        title: 'Asistencia Generada',
-        text: 'La asistencia se ha registrado correctamente.',
-        });
+        alertify.success('La asistencia se ha registrado correctamente.');
         // Cerramos el modal después de un segundo
         setTimeout(() => $('#asistenciaModal').modal('hide'), 1000);
       } else {
         // Si hay algún error
-        Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: data.message,
-        });
+        alertify.error(data.message);
       }
       })
       .catch(error => {
       // Si ocurre un error en la solicitud fetch
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Hubo un problema al generar la asistencia.',
-      });
+      alertify.error('Error: Hubo un problema al generar la asistencia.');
       });
     }
     //  });
 
     function finalizar(id_pm, id_a) {
+    const url = `{{ route('modulos.temas.finalizar', ['id_pm' => '__id_pm__']) }}`.replace('__id_pm__', id_pm);
 
-    const url = `{{ route('modulos.temas.finalizar', ['id_pm' => '__id_pm__']) }}`
-      .replace('__id_pm__', id_pm);
-
-    // Confirmación con SweetAlert2
-    Swal.fire({
-      title: '¿Estás seguro de realizar esta accion?',
-      text: "Al finalizar el paralelo se generará las notas de tus estudiantes y su promedio final. Por lo que esta acciòn es importante hacerlo al finalizar el modulo",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, finalizar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-      // Ejecutar fetch si el usuario confirma
+    alertify.confirm(
+      '¿Estás seguro de realizar esta acción?',
+      'Al finalizar el paralelo se generarán las notas de tus estudiantes y su promedio final. Por lo que esta acción es importante hacerlo al finalizar el módulo.',
+      function () {
       fetch(url)
         .then(response => response.json())
-
         .then(data => {
-        Swal.fire({
-          icon: data.status,
-          title: data.title,
-          text: data.message,
-          showCancelButton: data.button === 1, // Mostrar botón de cancelación solo si `data.button` es 1
-          confirmButtonText: data.button === 1 ? 'Sí, asignar' : 'Cerrar', // Cambia el texto según el valor de `data.button`
-          cancelButtonText: data.button === 1 ? 'No, lo haré después' : undefined, // Solo se usa si hay botón de cancelación
-          confirmButtonColor: '#007bff',
-          cancelButtonColor: '#d33'
-        }).then((result) => {
-          if (result.isConfirmed) {
-
-          //if (data.button == 1) {
-          const urlAprobados = `{{ route('asignar.aprobados', ['id_pm' => '__id_pm__', 'id_m' => '__id_m__']) }}`
+        if (data.button === 1) {
+          alertify.confirm(
+          data.title,
+          data.message,
+          function () {
+            const urlAprobados = `{{ route('asignar.aprobados', ['id_pm' => '__id_pm__', 'id_m' => '__id_m__']) }}`
             .replace('__id_pm__', id_pm)
             .replace('__id_m__', id_a);
 
-
-          fetch(urlAprobados)
-
+            fetch(urlAprobados)
             .then(response => response.json())
             .then(data => {
-            Swal.fire({
-              icon: data.status,
-              title: data.title,
-              text: data.message
-            }).then((result) => {
-              // Verificar si se cierra la notificación (ya sea con el botón de confirmación o de cerrar)
-              if (result.isConfirmed || result.isDismissed) {
-              // Recargar la página
+              alertify.alert(data.title, data.message, function () {
               window.location.reload();
-              }
-            });
+              });
             })
             .catch(error => {
-            // Maneja errores en la solicitud
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: error.message
+              alertify.error('Error: ' + error.message);
             });
-            });
-          // }
-
-
-          } else {
-          Swal.fire({
-            icon: 'success',
-            title: 'Cancelo la asignacion automatica',
-            text: 'Puede realizarlo manualmente en la administracion de este modulo'
-          });
+          },
+          function () {
+            alertify.success('Canceló la asignación automática. Puede realizarlo manualmente en la administración de este módulo.');
           }
-        });
+          );
+        } else {
+          alertify.alert(data.title, data.message);
+        }
         })
         .catch(error => {
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Hubo un problema al finalizar.'
+        alertify.error('Hubo un problema al finalizar.');
         });
-        });
+      },
+      function () {
+      alertify.message('Acción cancelada');
       }
-    });
+    );
     }
+
   </script>
 
 

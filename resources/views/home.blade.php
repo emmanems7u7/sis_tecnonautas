@@ -346,15 +346,10 @@
                     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                     // Mostrar un mensaje de confirmación antes de editar
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: `¿Deseas registrar tu asistencia para la fecha ${fechaActual}?`,
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sí',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                    alertify.confirm(
+                        '¿Estás seguro?',
+                        `¿Deseas registrar tu asistencia para la fecha ${fechaActual}?`,
+                        function () {
                             // Hacer una solicitud al servidor para verificar si ya existe un registro de asistencia para la fecha y id_pm
                             let url = '/registra/asistencia/{id_pm}';
 
@@ -365,35 +360,25 @@
                                 method: 'PUT',
                                 headers: {
                                     'X-CSRF-TOKEN': csrfToken,
-                                    'Content-Type': 'application/json',  // Agrega el token CSRF en los encabezados
+                                    'Content-Type': 'application/json',
                                 },
-
                                 body: JSON.stringify({
                                     asistencia: "asistencia",
                                 }),
                             })
                                 .then(response => response.json())
                                 .then(updatedData => {
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Asistencia editada',
-                                        text: 'La asistencia ha sido editada correctamente.',
-                                    });
-
+                                    alertify.success('La asistencia ha sido editada correctamente.');
                                 })
                                 .catch(error => {
-
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: 'Ocurrió un error al editar la asistencia.',
-                                    });
+                                    alertify.error('Ocurrió un error al editar la asistencia.');
                                 });
-
+                        },
+                        function () {
 
                         }
-                    });
+                    );
+
                 }
 
             </script>
