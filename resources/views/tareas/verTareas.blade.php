@@ -2,7 +2,7 @@
 
 
     <!-- Contenedor para el título y la descripción -->
-    <div class="alert alert-info mb-5" role="alert">
+    <div class="alert alert-info text-white mb-5" role="alert">
         <h5 class="alert-heading text-center">📘 Tareas Entregadas</h5>
         <p class="mb-2 text-center">
             Aquí puedes ver una lista de todas las tareas que has entregado, junto con sus notas, comentarios y archivos
@@ -16,7 +16,8 @@
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h3 class="card-title">{{ $estudiante->usuario_nombres }} {{ $estudiante->usuario_app }}
-                {{ $estudiante->usuario_apm }}</h3>
+                {{ $estudiante->usuario_apm }}
+            </h3>
         </div>
         <div class="card-body">
             @forelse ($estudiante->tareasEstudiantes as $tarea)

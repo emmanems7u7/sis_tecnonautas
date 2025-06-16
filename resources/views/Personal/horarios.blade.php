@@ -16,7 +16,7 @@
     </nav>
 
 
-    <div class="alert alert-info shadow-sm" role="alert">
+    <div class="alert alert-info text-white shadow-sm" role="alert">
         <h1 class="mb-3"><i class="fas fa-clock"></i> Visualización de Horarios</h1>
         <p class="mb-1">Aquí puede visualizar los horarios de sus clases de manera clara y organizada. Revise sus materias,
             horarios de inicio y fin.</p>

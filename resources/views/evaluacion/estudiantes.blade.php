@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <div class="container-fluid mt-4">
-        <div class="alert alert-info shadow-sm" role="alert">
+        <div class="alert alert-info shadow-sm text-white" role="alert">
             <h4 class="alert-heading"><i class="fas fa-clipboard-list"></i> Instrucciones para Resolver el Examen</h4>
 
             <p><strong>Resolución del Examen:</strong> Para completar el examen, deberás responder a las preguntas de

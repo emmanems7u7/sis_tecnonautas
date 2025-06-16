@@ -33,7 +33,7 @@
   </style>
 
 
-  <div class="alert alert-info shadow-sm" role="alert">
+  <div class="alert alert-info text-white shadow-sm" role="alert">
     <div class="row align-items-center">
     <!-- Columna de la imagen -->
     <div class="col-md-3 text-center mb-3 mb-md-0">
@@ -43,7 +43,7 @@
 
 
     <!-- Columna del texto -->
-    <div class="col-md-9 text-justify">
+    <div class="col-md-9 text-justify text-white">
       <h4 class="alert-heading">
       <i class="fas fa-chalkboard-teacher"></i> ¡Bienvenido a la sección de Cursos!
       </h4>

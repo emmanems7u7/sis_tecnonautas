@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container-fluid mt-4">
-    <div class="alert alert-info" role="alert" style="text-align: justify;">
+    <div class="alert alert-info text-white" role="alert" style="text-align: justify;">
     <h5 class="alert-heading">Información sobre el proceso de pago</h5>
     <p><strong>Aceptación Automática del Pago:</strong> La aceptación de su pago es automática. Sin embargo, debe esperar entre 5 y 30 minutos para que su pago sea aceptado y procesado correctamente.</p>
     <p><strong>Acceso al Contenido:</strong> Mientras su pago no sea rechazado, podrá acceder al contenido de la materia y módulo correspondiente al pago realizado.</p>
@@ -115,7 +115,7 @@
                                 @csrf
 
                                 <!-- Mensaje de cabecera -->
-                                <div class="alert alert-info mb-4" role="alert">
+                                <div class="alert alert-info text-white mb-4" role="alert">
                                     <strong>Por favor, lea e ingrese los datos correctamente.</strong> Asegúrese de que
                                     todos los
                                     campos sean correctos antes de enviar el formulario.
@@ -231,7 +231,7 @@
                                 <input type="hidden" id="pago_id" name="pago_id">
 
                                
-                                <div class="alert alert-info" role="alert" >
+                                <div class="alert alert-info text-white" role="alert" >
                                 Por favor, reenvía el correo del pago que realizaste a <strong>diegoc9716@gmail.com</strong> con el asunto <strong>Pago Estudiante</strong>.
                                 Ten en cuenta que el correo puede demorar entre 30 minutos y 1 hora en llegar, por lo que te pedimos un poco de paciencia.
                                 Una vez que lo hayas recibido y reenviado, marca el check para confirmar.

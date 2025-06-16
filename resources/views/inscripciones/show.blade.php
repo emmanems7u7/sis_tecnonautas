@@ -7,7 +7,7 @@
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
-  <div class="alert alert-info shadow-sm" role="alert">
+  <div class="alert alert-info shadow-sm text-white" role="alert">
     <div class="row align-items-center">
     <!-- Columna de la imagen -->
     <div class="col-md-3 text-center mb-3 mb-md-0">

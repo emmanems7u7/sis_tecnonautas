@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="alert alert-info shadow-sm" role="alert">
+<div class="alert alert-info text-white shadow-sm" role="alert">
   <h1 class="mb-3"><i class="fas fa-user-cog"></i> Bienvenido a la Administración de Datos Personales</h1>
   <p class="mb-1">Gestione sus datos de manera segura y eficiente. Aquí puede actualizar su información personal,
     cambiar configuraciones de acceso.</p>

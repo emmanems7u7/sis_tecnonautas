@@ -5,7 +5,7 @@
 
     <div class="container-fluid mt-4">
         <div class="container-fluid mt-4">
-            <div class="alert alert-info shadow-sm" role="alert">
+            <div class="alert alert-info text-white shadow-sm" role="alert">
                 <h4 class="alert-heading"><i class="fas fa-book-open"></i> Administración de Materias y Módulos</h4>
                 <p><strong>Gestión de Materias:</strong> Aquí puedes visualizar las materias asignadas, los módulos
                     inscritos y el estado de cada usuario.</p>

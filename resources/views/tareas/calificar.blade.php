@@ -2,7 +2,7 @@
 
 
 
-    <div class="alert alert-info text-center my-4" role="alert">
+    <div class="alert alert-info text-white text-center my-4" role="alert">
         <h5 class="alert-heading">📚 Tareas Realizadas por Estudiantes</h5>
         <p class="mb-0">
             En esta sección puedes ver todas las tareas que han sido completadas por los estudiantes. Revisa los

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="alert alert-info text-justify shadow-lg rounded py-4">
+    <div class="alert alert-info text-justify shadow-lg rounded py-4 text-white">
         <h5 class="fw-bold mb-3">
             ¡Bienvenido a la administración de <span class="text-warning">apoderados o tutores</span>!
         </h5>

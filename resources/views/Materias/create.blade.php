@@ -22,7 +22,7 @@
     </style>
 
     <!-- Breadcrumb -->
-    <div class="alert alert-info shadow-sm" role="alert">
+    <div class="alert alert-info shadow-sm text-white" role="alert">
         <div class="row align-items-center">
             <!-- Columna de la imagen -->
             <div class="col-md-3 text-center mb-3 mb-md-0">
@@ -247,9 +247,9 @@
             const newInput = document.createElement('div');
             newInput.classList.add('input-group', 'mb-3');
             newInput.innerHTML = `
-                                                                                    <input type="text" class="form-control" name="${containerId}[]" placeholder="${containerId.charAt(0).toUpperCase() + containerId.slice(1)}" required>
-                                                                                    <button class="btn btn-outline-secondary" type="button" onclick="eliminarCampo(this)">-</button>
-                                                                                `;
+                                                                                        <input type="text" class="form-control" name="${containerId}[]" placeholder="${containerId.charAt(0).toUpperCase() + containerId.slice(1)}" required>
+                                                                                        <button class="btn btn-outline-secondary" type="button" onclick="eliminarCampo(this)">-</button>
+                                                                                    `;
             container.appendChild(newInput);
         }
 

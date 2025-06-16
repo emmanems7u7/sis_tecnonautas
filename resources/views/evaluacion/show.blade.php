@@ -41,7 +41,7 @@
 
 
 
-    <div class="alert alert-info shadow-sm" role="alert">
+    <div class="alert alert-info shadow-sm text-white" role="alert">
         <div class="row align-items-center">
             <!-- Columna de imagen -->
             <div class="col-md-3 text-center mb-3 mb-md-0">

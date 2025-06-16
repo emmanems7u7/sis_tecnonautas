@@ -4,7 +4,7 @@
 @section('content')
 
 
-    <div class="alert alert-info shadow-sm" role="alert">
+    <div class="alert alert-info text-white shadow-sm" role="alert">
         <h4 class="alert-heading"><i class="fas fa-book-open"></i> Revisión de Registros de Pago por Materia y Módulo</h4>
         <p><strong>Estado de los Registros:</strong> En esta página puedes consultar el estado de los pagos realizados por
             los estudiantes en relación a las materias y módulos correspondientes.</p>

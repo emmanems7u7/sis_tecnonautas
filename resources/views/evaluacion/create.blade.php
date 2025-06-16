@@ -39,7 +39,7 @@
     </style>
 
     <div class="container-fluid mt-4">
-        <div class="alert alert-info shadow-sm" role="alert">
+        <div class="alert alert-info shadow-sm text-white" role="alert">
             <h4 class="alert-heading"><i class="fas fa-clipboard-list"></i> Creación de Exámenes</h4>
 
             <p><strong>Crear Examen:</strong> Esta herramienta permite crear exámenes de forma rápida y estructurada,
@@ -206,7 +206,7 @@
                 @endif
                 <!-- Sección para publicar el examen -->
                 <div class="container-fluid mt-4">
-                    <div class="alert alert-info shadow-sm" role="alert">
+                    <div class="alert alert-info shadow-sm text-white" role="alert">
                         <h4 class="alert-heading"><i class="fas fa-clipboard-list"></i> Publicar el Examen</h4>
 
                         <p><strong>Publicar el examen:</strong> Una vez hayas configurado todas las preguntas del examen,

@@ -202,7 +202,7 @@
 
 
 
-  <div class="alert alert-info text-justify shadow-lg rounded py-4">
+  <div class="alert alert-info text-white text-justify shadow-lg rounded py-4">
     <h5 class="fw-bold mb-3">
         ¡Bienvenido a la materia de <span class="text-warning">{{$e->nombre}}</span>!
     </h5>

@@ -23,7 +23,7 @@
             <i class="fas fa-clipboard-check check-icon"></i> Exámenes
         </div>
         <div class="card-body">
-            <div class="alert alert-info shadow-sm" role="alert">
+            <div class="alert alert-info text-white shadow-sm" role="alert">
                 @role('admin|profesor')
 
                 <h5 class="alert-heading"><i class="fas fa-clipboard-list"></i> Estado de los Exámenes</h5>
