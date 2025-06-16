@@ -3,7 +3,8 @@
   <div class="modal fade" id="mensajePersonalModal" tabindex="-1" aria-labelledby="mensajePersonalModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
-    <div class="modal-content">
+    <div
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header bg-primary">
       <h5 class="modal-title text-white" id="mensajePersonalModalLabel">Mensaje Personal</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -30,7 +31,8 @@
   <div class="modal fade" id="experienciaProfesionalModal" tabindex="-1"
     aria-labelledby="experienciaProfesionalModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-    <div class="modal-content">
+    <div
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header bg-primary">
       <h5 class="modal-title text-white" id="experienciaProfesionalModalLabel">Experiencia Profesional</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -60,7 +62,8 @@
   <!-- Educación -->
   <div class="modal fade" id="educacionModal" tabindex="-1" aria-labelledby="educacionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-    <div class="modal-content">
+    <div
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header bg-primary">
       <h5 class="modal-title text-white" id="educacionModalLabel">Educación</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>

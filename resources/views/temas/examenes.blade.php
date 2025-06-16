@@ -139,7 +139,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div
-                class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
+                class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <form action="{{ route('evaluacion.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">

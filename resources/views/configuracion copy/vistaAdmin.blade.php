@@ -167,7 +167,8 @@
     <!-- Modal para mostrar detalles de pago y añadir método de pago -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
+            <div
+                class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Detalles de Pago</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -268,7 +269,8 @@
 
     <div class="modal fade" id="modalTipoPago" tabindex="-1" aria-labelledby="modalTipoPagoLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div
+                class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTipoPagoLabel">Registrar Tipo de Pago</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

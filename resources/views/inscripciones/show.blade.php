@@ -241,7 +241,8 @@
     const modalHtml = `
     <div id="Modal_inscripcion" class="modal fade" tabindex="-1" aria-labelledby="Modal_inscripcionLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
+      <div class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}
+  ">
       <div class="modal-header">
       <h5 class="modal-title" id="Modal_inscripcionLabel">Inscripción de curso</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>

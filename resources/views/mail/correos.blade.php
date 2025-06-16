@@ -93,7 +93,8 @@
     <!-- Modal para mostrar detalles del correo -->
     <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div
+                class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="emailModalLabel">Detalles del Correo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -188,15 +189,15 @@
                     if (data.length > 0) {
                         data.forEach(email => {
                             resultsDiv.innerHTML += `
-                                                                                    <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#emailModal" 
-                                                                                        onclick="abrir_modal_pagos('${email.subject}', '${email.from}', '${email.date}', '${encodeURIComponent(email.body)}')">
-                                                                                        <div class="card-body">
-                                                                                            <h5 class="card-title">${email.subject}</h5>
-                                                                                            <h6 class="card-subtitle mb-2 text-muted">Desde: ${email.from}</h6>
-                                                                                            <h6 class="card-subtitle mb-2 text-muted" style="text-align: right;">Fecha: ${email.date}</h6>
+                                                                                        <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#emailModal" 
+                                                                                            onclick="abrir_modal_pagos('${email.subject}', '${email.from}', '${email.date}', '${encodeURIComponent(email.body)}')">
+                                                                                            <div class="card-body">
+                                                                                                <h5 class="card-title">${email.subject}</h5>
+                                                                                                <h6 class="card-subtitle mb-2 text-muted">Desde: ${email.from}</h6>
+                                                                                                <h6 class="card-subtitle mb-2 text-muted" style="text-align: right;">Fecha: ${email.date}</h6>
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                `;
+                                                                                    `;
 
                         });
                     } else {

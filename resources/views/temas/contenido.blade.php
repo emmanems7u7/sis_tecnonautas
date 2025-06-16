@@ -61,7 +61,8 @@
                                                                 <div class="modal fade" id="modalVideo{{ $contenido->id }}" tabindex="-1"
                                                                     aria-labelledby="modalVideoLabel{{ $contenido->id }}" aria-hidden="true">
                                                                     <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
+                                                                        <div
+                                                                            class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title"
                                                                                     id="modalVideoLabel{{ $contenido->id }}">

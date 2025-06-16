@@ -2,7 +2,8 @@
     <div class="modal fade" id="modalAgregarApoderado" tabindex="-1" role="dialog"
         aria-labelledby="modalAgregarApoderadoLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div
+                class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalAgregarApoderadoLabel">Agregar Apoderado</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -148,7 +149,7 @@
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-outline-secondary" onclick="addCelular()"
                                                 type="
-                                                        button">+</button>
+                                                            button">+</button>
                                         </div>
                                     </div>
                                 </div>

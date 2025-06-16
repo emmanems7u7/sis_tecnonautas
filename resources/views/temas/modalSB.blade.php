@@ -2,7 +2,7 @@
 
 <div class="modal fade" id="tareaModal{{ $tarea->id }}" tabindex="-1" aria-labelledby="tareaModalLabel{{ $tarea->id }}" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
+                    <div class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                         <div class="modal-header">
                             <h5 class="modal-title" id="tareaModalLabel{{ $tarea->id }}">Detalles de Tarea: {{ $tarea->nombre }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

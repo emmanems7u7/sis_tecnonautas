@@ -57,7 +57,8 @@
   </script>
   <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
+    <div
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
       <h5 class="modal-title mx-auto colorcafe font-weight-bold text-3rem" id="reportModalLabel">REPORTE ESTUDIANTE
       </h5>
@@ -158,8 +159,8 @@
 
   <div class="modal fade" id="modalAsigna" tabindex="-1" aria-labelledby="modalAsignaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div
-      class="modal-content {{ auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }} ">
+    <div class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}
+     ">
       <div class="modal-header 
     ">
 
@@ -182,7 +183,8 @@
   <!-- Modal -->
   <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
       <h5 class="modal-title" id="commentModalLabel">Deja un comentario Para generar el reporte</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
