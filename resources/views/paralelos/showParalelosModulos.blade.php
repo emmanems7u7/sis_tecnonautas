@@ -272,8 +272,7 @@
     const fechasUnicas = [...new Set(data.asistencias.map(a => a.fecha))];
 
     const tabla = document.createElement("table");
-    tabla.className = "table table-bordered";
-
+    tabla.className = "table table-bordered table-dark";  // Agregué table-dark
 
     tabla.innerHTML += `
     <thead>
@@ -286,9 +285,9 @@
       ${data.usuarios.map(usuario => {
       const asistenciasUsuario = data.asistencias.filter(a => a.user_id === usuario.id);
       return `
-      <tr>
-      <td>${usuario.nombre_completo}</td>
-      ${fechasUnicas.map(fecha => {
+        <tr>
+        <td>${usuario.nombre_completo}</td>
+        ${fechasUnicas.map(fecha => {
       const asistencia = asistenciasUsuario.find(a => a.fecha === fecha)?.asistencia || "-";
       let color = '';
       switch (asistencia) {
@@ -306,7 +305,7 @@
       }
       return `<td style="${color}"></td>`; // Solo pinta la celda sin texto
       }).join("")}
-      </tr>
+        </tr>
       `;
     }).join("")}
     </tbody>
