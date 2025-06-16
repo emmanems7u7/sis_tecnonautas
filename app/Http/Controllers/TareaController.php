@@ -6,7 +6,7 @@ use App\Models\asigModulo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tarea;
 use App\Models\paralelo_modulo;
-use App\Models\Tareas_estudiante;
+use App\Models\tareas_estudiante;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -95,7 +95,7 @@ class TareaController extends Controller
         $rutaArchivo = 'archivos/' . $nombreArchivo;
 
 
-        $tareasAsignadas = Tareas_estudiante::create([
+        $tareasAsignadas = tareas_estudiante::create([
             'archivo' => $rutaArchivo,
             'user_id' => $user->id,
             'comentario' => $request->comentario ? $request->comentario : '',
@@ -190,7 +190,7 @@ class TareaController extends Controller
     }
     public function calificar(Request $request, $id)
     {
-        $tarea = Tareas_estudiante::find($id);
+        $tarea = tareas_estudiante::find($id);
         $tarea->nota = $request->nota;
         $tarea->save();
         return redirect()->back()->with('success', 'Tarea calificada exitosamente.');

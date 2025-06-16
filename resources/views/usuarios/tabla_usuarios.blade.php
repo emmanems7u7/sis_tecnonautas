@@ -24,7 +24,14 @@
                 <td>
                     <div class="d-flex px-2 py-1">
                         <div>
-                            <img src="{{ asset($usuario->foto_perfil)}}" class="avatar avatar-sm me-3">
+                            @if ($usuario->foto_perfil)
+                                <img src="{{ asset($usuario->foto_perfil)}}" class="avatar avatar-sm me-3">
+
+                            @else
+                                <img src="{{ asset('update/imagenes/user.jpg') }}" alt="Foto de perfil"
+                                    class="avatar avatar-sm me-3">
+                            @endif
+
                         </div>
                         <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-xs">{{ $usuario->name }}

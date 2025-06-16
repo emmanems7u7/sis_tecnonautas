@@ -103,7 +103,7 @@ class User extends Authenticatable
 
     public function tareasEstudiantes()
     {
-        return $this->hasMany(Tareas_estudiante::class, 'user_id');
+        return $this->hasMany(tareas_estudiante::class, 'user_id');
     }
     public function profesores()
     {
