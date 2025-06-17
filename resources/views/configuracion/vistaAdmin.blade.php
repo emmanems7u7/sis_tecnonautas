@@ -1,16 +1,16 @@
 @section('adminConf')
 
-    <!-- Pagos de Estudiantes -->
     <div class="row">
-        <!-- Columna 1: Métodos de pago y opciones -->
-        <div class="col-12 col-md-12 mb-4">
+        <!-- Pagos de Estudiantes -->
+        <div class="col-12 mb-4">
             <div class="card border rounded-3 shadow-sm">
                 <div class="card-header text-center fw-semibold">
                     <i class="fas fa-credit-card"></i> Pagos de Estudiantes
                 </div>
-                <div class="card-body rounded-3 shadow-sm">
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-4">
+                        <!-- Menú lateral -->
+                        <div class="col-12 col-md-4 mb-4 mb-md-0">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" data-bs-toggle="modal" data-bs-target="#modalTipoPago"
                                     style="cursor: pointer;">
@@ -24,80 +24,75 @@
                                         </a>
                                     </li>
                                 @endif
-
-
                                 <li class="list-group-item">
                                     <a href="{{ route('Pago.index') }}" class="d-block text-decoration-none">
                                         <i class="fas fa-chart-bar"></i> Reportes de pagos
                                     </a>
                                 </li>
-
-
                             </ul>
                         </div>
-                        <div class="col-8 text-center">
-                            <h4>Tipos de pagos</h4>
-                            <table class="table">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tipo de Pago</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($tiposDePago as $tipo)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $tipo->nombre }}</td>
-                                            <td>{{ $tipo->activo == 1 ? 'Activo' : 'No Activo'}}</td>
-                                            <td>
-                                                <form id="formEliminar{{ $tipo->id }}"
-                                                    action="{{ route('tipo_pago.destroy', $tipo->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="confirmarEliminacion({{ $tipo->id }})">
-                                                        <i class="fas fa-trash"></i> Eliminar
-                                                    </button>
-                                                </form>
-                                                <a href="{{ route('tipo_pago.estado', ['id' => $tipo->id]) }}"
-                                                    class="btn btn-sm btn-warning mt-1">
-                                                    <i class="fas fa-edit"></i> Cambiar estado
-                                                </a>
 
-                                            </td>
+                        <!-- Tabla de tipos de pagos -->
+                        <div class="col-12 col-md-8">
+                            <h5 class="text-center mb-3">Tipos de pagos</h5>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-dark text-center">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tipo de Pago</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($tiposDePago as $tipo)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $tipo->nombre }}</td>
+                                                <td>{{ $tipo->activo == 1 ? 'Activo' : 'No Activo'}}</td>
+                                                <td>
+                                                    <form id="formEliminar{{ $tipo->id }}"
+                                                        action="{{ route('tipo_pago.destroy', $tipo->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-danger btn-sm"
+                                                            onclick="confirmarEliminacion({{ $tipo->id }})">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="{{ route('tipo_pago.estado', ['id' => $tipo->id]) }}"
+                                                        class="btn btn-warning btn-sm mt-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div> <!-- /.table-responsive -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-    </div>
-
-    <div class="row">
         <!-- Paralelos -->
-        <div class="col-md-6 mb-4">
+        <div class="col-12 col-md-6 mb-4">
             <div class="card border rounded-3 shadow-sm">
-                <div class="card-header">
-                    Paralelos
-                </div>
+                <div class="card-header">Paralelos</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <i class="fas fa-users"></i><a class="text-black"
-                                href="{{route('Paralelos.index')}}">administrar
+                            <i class="fas fa-users"></i>
+                            <a class="text-black text-decoration-none" href="{{route('Paralelos.index')}}">Administrar
                                 Paralelos</a>
                         </li>
                         <li class="list-group-item">
-                            <i class="fas fa-calendar-alt"></i><a class="text-black" href="{{route('Paralelos.horarios')}}">
-                                Horarios de clases</a>
+                            <i class="fas fa-calendar-alt"></i>
+                            <a class="text-black text-decoration-none" href="{{route('Paralelos.horarios')}}">Horarios de
+                                clases</a>
                         </li>
                         <li class="list-group-item">
                             <i class="fas fa-bell"></i> Notificaciones de paralelos
@@ -107,35 +102,26 @@
             </div>
         </div>
 
-
-
-        <div class="col-md-6 mb-4">
+        <!-- Administración Registros -->
+        <div class="col-12 col-md-6 mb-4">
             <div class="card border rounded-3 shadow-sm">
-                <div class="card-header">
-                    Administración Registros en pagina principal
-                </div>
+                <div class="card-header">Administración Registros en Página Principal</div>
                 <div class="card-body">
-
                     <ul class="list-group list-group-flush">
-
-                        <li class="list-group-item {{ $registro->activo === 1 ? 'active' : '' }}">
+                        <li class="list-group-item {{ $registro->activo === 1 ? 'active text-white bg-primary' : '' }}">
                             <i class="fas fa-book"></i>
                             <a href="{{ route('cambioEstudiantes') }}"
                                 class="{{ $registro->activo === 1 ? 'text-white' : 'text-black' }}">
                                 Estudiantes
                             </a>
                         </li>
-                        <li class="list-group-item {{ $registro->activo === 2 ? 'active' : '' }}">
+                        <li class="list-group-item {{ $registro->activo === 2 ? 'active text-white bg-primary' : '' }}">
                             <i class="fas fa-graduation-cap"></i>
                             <a href="{{ route('cambioProfesores') }}"
                                 class="{{ $registro->activo === 2 ? 'text-white' : 'text-black' }}">
                                 Profesores
                             </a>
                         </li>
-
-
-
-
                     </ul>
                 </div>
             </div>
