@@ -92,7 +92,7 @@
                 
 
 
-                @include('personal.index')
+                @include('Personal.index')
             </div>
 
             <div class="tab-pane fade" id="tab-config" role="tabpanel">
