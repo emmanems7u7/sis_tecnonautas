@@ -6,6 +6,7 @@ use App\Models\Tarea;
 use App\Models\User;
 use App\Models\evaluacionCompleta;
 use App\Interfaces\TareasInterface;
+use App\Models\Estudiantes_asignacion_paramodulo;
 use Illuminate\Support\Facades\Auth;
 
 class TareasRepository implements TareasInterface
@@ -24,51 +25,35 @@ class TareasRepository implements TareasInterface
     }
     public function GetTareasEstudiantes($id_pm)
     {
-        // Obtener todas las tareas con las tareas de los estudiantes asociadas
+
+        $estudiantes = Estudiantes_asignacion_paramodulo::where('id_pm', $id_pm)->get();
         $tareas = Tarea::with('tareasEstudiantes')->where('id_pm', $id_pm)->get();
 
         $estudiantesTareas = [];
 
-        // Iterar sobre las tareas para obtener las tareas de los estudiantes
+        // Paso 1: Armar la base de todos los estudiantes
+        foreach ($estudiantes as $est) {
+            $user = $est->usuario; // Asumiendo relación 'usuario' con User
+            $estudiantesTareas[$est->id_u] = [
+                'user_id' => $est->id_u,
+                'estudiante' => $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm,
+                'tareas' => [] // Se llenará después
+            ];
+        }
+
+        // Paso 2: Para cada tarea, asignar nota si entregó o 'No entregado'
         foreach ($tareas as $tarea) {
-            // Obtener las tareas de los estudiantes relacionadas con la tarea actual
-            $tareasEstudiantes = $tarea->tareasEstudiantes;
+            foreach ($estudiantesTareas as $user_id => &$estudiante) {
+                // Buscar si este estudiante entregó esta tarea
+                $entrega = $tarea->tareasEstudiantes->firstWhere('user_id', $user_id);
 
-            foreach ($tareasEstudiantes as $tareaEstudiante) {
-                // Verificar si el estudiante ya está en el array $estudiantesTareas
-
-                $encontrado = false;
-                foreach ($estudiantesTareas as &$estudiante) {
-                    if ($estudiante['user_id'] == $tareaEstudiante->user_id) {
-                        // Añadir la tarea a su lista de tareas
-                        $estudiante['tareas'][] = [
-                            'tareas_id' => $tareaEstudiante->tareas_id,
-
-                            'nota' => $tareaEstudiante->nota,
-                        ];
-                        $encontrado = true;
-                        break;
-                    }
-                }
-
-                // Si el estudiante no está en el array, crear una nueva entrada
-                if (!$encontrado) {
-                    $nombre_estudiante = User::find($tareaEstudiante->user_id);
-
-
-                    $estudiantesTareas[] = [
-                        'user_id' => $tareaEstudiante->user_id,
-                        'estudiante' => $nombre_estudiante->usuario_nombres . ' ' . $nombre_estudiante->usuario_app . ' ' . $nombre_estudiante->usuario_apm,
-                        'tareas' => [
-                            [
-                                'tareas_id' => $tareaEstudiante->tareas_id,
-                                'nota' => $tareaEstudiante->nota,
-                            ]
-                        ],
-                    ];
-                }
+                $estudiante['tareas'][] = [
+                    'tareas_id' => $tarea->id,
+                    'nota' => $entrega ? $entrega->nota : 0,
+                ];
             }
         }
+
         return $estudiantesTareas;
     }
     public function GetTareasEstudiante($id_pm, $estudiante_id)

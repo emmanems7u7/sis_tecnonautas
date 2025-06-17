@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\evaluacionCompleta;
 use App\Interfaces\EvaluacionInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Estudiantes_asignacion_paramodulo;
 
 class EvaluacionRepository implements EvaluacionInterface
 {
@@ -28,52 +29,47 @@ class EvaluacionRepository implements EvaluacionInterface
     }
     public function GetEvaluacionesEstudiantes($id_pm)
     {
-        // Encuentra el eval_paramodulo por su ID
+
+        $estudiantes = Estudiantes_asignacion_paramodulo::with('usuario') // <- Cargar relación con User si existe
+            ->where('id_pm', $id_pm)
+            ->get();
+
         $evaluaciones = Evaluacion::where('id_pm', $id_pm)->get();
 
+        // Indexar todas las evaluaciones completas por id_e + id_u
+        $evalCompletaRaw = evaluacionCompleta::whereIn('id_e', $evaluaciones->pluck('id'))
+            ->get()
+            ->groupBy('id_u');
+
+        // Inicializar estructura base
         $estudiantesEvaluaciones = [];
-        foreach ($evaluaciones as $evaluacion) {
-            // Obtiene las evaluaciones completas relacionadas a las evaluaciones
-            $evaluaciones_c = evaluacionCompleta::where('id_e', $evaluacion->id)->get();
 
-            // Itera sobre cada evaluación
-            foreach ($evaluaciones_c as $evaluacion) {
-                // Si el estudiante ya está en el array, añade la evaluación a su lista
+        foreach ($estudiantes as $est) {
+            $user = $est->usuario;
 
-                $encontrado = false;
-                foreach ($estudiantesEvaluaciones as &$estudiante) {
+            $registro = [
+                'user_id' => $est->id_u,
+                'estudiante' => $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm,
+                'evaluaciones' => []
+            ];
 
+            foreach ($evaluaciones as $evaluacion) {
+                // Buscar si el estudiante tiene nota en esta evaluación
+                $nota = optional(
+                    $evalCompletaRaw->get($est->id_u)
+                )->firstWhere('id_e', $evaluacion->id);
 
-                    if ($estudiante['user_id'] == $evaluacion->id_u) {
-                        $estudiante['evaluaciones'][] = [
-                            'id_e' => $evaluacion->id_e,
-                            'nota' => $evaluacion->nota,
-                        ];
-                        $encontrado = true;
-                        break;
-                    }
-                }
-
-                // Si el estudiante no está en el array, crea una nueva entrada
-                if (!$encontrado) {
-                    $nombre_estudiante = User::find($evaluacion->id_u);
-                    $estudiantesEvaluaciones[] = [
-                        'user_id' => $evaluacion->id_u,
-                        'estudiante' => $nombre_estudiante->usuario_nombres . ' ' . $nombre_estudiante->usuario_app . $nombre_estudiante->usuario_apm,
-
-                        'evaluaciones' => [
-                            [
-                                'id_e' => $evaluacion->id_e,
-                                'nota' => $evaluacion->nota,
-                            ]
-                        ],
-                    ];
-                }
+                $registro['evaluaciones'][] = [
+                    'id_e' => $evaluacion->id,
+                    'nota' => $nota ? $nota->nota : 0,
+                ];
             }
+
+            $estudiantesEvaluaciones[] = $registro;
         }
 
-
         return $estudiantesEvaluaciones;
+
     }
 
     public function GetEvaluacionesEstudiante($id_pm, $estudiante_id)
