@@ -198,54 +198,11 @@ class EvaluacionController extends Controller
     }
     public function notasEstudiantes($id_a, $id_pm, $id_p)
     {
-
         $estudiantesEvaluaciones = $this->evaluacionInterface->GetEvaluacionesEstudiantes($id_p);
 
         $estudiantesTareas = $this->TareasInterface->GetTareasEstudiantes($id_p);
 
-        // Si no hay tareas, inicializa un array vacío o con valores predeterminados.
-        if (empty($estudiantesTareas)) {
-            // Si no hay tareas, asignamos solo las evaluaciones a los estudiantes.
-            $estudiantesTareas = array_map(function ($evaluacion) {
-                return [
-                    'user_id' => $evaluacion['user_id'],
-                    'estudiante' => $evaluacion['estudiante'],
-                    'evaluaciones' => $evaluacion['evaluaciones'], // Asocia las evaluaciones directamente.
-                    'tareas' => [] // Asigna un array vacío de tareas.
-                ];
-            }, $estudiantesEvaluaciones);
-        } else {
-            // Si hay tareas, pero no evaluaciones, las tareas se asignan sin evaluaciones.
-            if (empty($estudiantesEvaluaciones)) {
-                $estudiantesTareas = array_map(function ($tarea) {
-                    return [
-                        'user_id' => $tarea['user_id'],
-                        'estudiante' => $tarea['estudiante'],
-                        'evaluaciones' => [], // Asigna un array vacío de evaluaciones.
-                        'tareas' => $tarea['tareas'], // Asocia las tareas directamente.
-                    ];
-                }, $estudiantesTareas);
-            } else {
-                // Si hay tareas y evaluaciones, combinamos ambos.
-                foreach ($estudiantesEvaluaciones as $evaluacion) {
-                    foreach ($estudiantesTareas as &$estudiante) {
-                        if ($estudiante['user_id'] == $evaluacion['user_id']) {
-                            $estudiante['evaluaciones'] = $evaluacion['evaluaciones'];
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        $tareas = Tarea::where('id_pm', $id_p)->get();
-        $Evaluaciones = Evaluacion::where('id_pm', $id_p)->get();
-
-        $data = [
-            'estudiantesTareas' => $estudiantesTareas,
-            'tareas' => $tareas,
-            'evaluaciones' => $Evaluaciones,
-        ];
+        $data = $this->evaluacionInterface->notasEstudiantes($estudiantesEvaluaciones, $estudiantesTareas, $id_p);
 
         return response()->json($data);
 

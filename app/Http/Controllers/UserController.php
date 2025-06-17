@@ -197,6 +197,79 @@ class UserController extends Controller
     }
 
 
+
+    public function exportNotasExcel($id_a, $id_m, $id_p)
+    {
+
+        $user = Auth::user();
+
+        $nombre = $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm;
+
+        $hora = now();
+
+        $asignacion = Asignacion::find($id_a);
+
+        $modulo = Modulo::find($id_m);
+
+        $total = Estudiantes_asignacion_paramodulo::where('id_pm', operator: $id_p)->count();
+
+
+        $estudiantesEvaluaciones = $this->EvaluacionRepository->GetEvaluacionesEstudiantes($id_p);
+
+        $estudiantesTareas = $this->TareasRepository->GetTareasEstudiantes($id_p);
+
+        $data = $this->EvaluacionRepository->notasEstudiantes($estudiantesEvaluaciones, $estudiantesTareas, $id_p);
+
+
+        $export = new ExportExcel('modulos.export_notas', [
+            'data' => $data,
+            'export' => 'Notas',
+            'nombre' => $nombre,
+            'hora' => $hora,
+            'asignacion' => $asignacion,
+            'modulo' => $modulo,
+            'total' => $total
+
+
+        ], 'notas');
+        return Excel::download($export, $export->getFileName());
+    }
+
+    public function exportNotasPDF($id_a, $id_m, $id_p)
+    {
+        $user = Auth::user();
+
+        $nombre = $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm;
+
+        $hora = now();
+
+        $asignacion = Asignacion::find($id_a);
+
+        $modulo = Modulo::find($id_m);
+
+        $total = Estudiantes_asignacion_paramodulo::where('id_pm', operator: $id_p)->count();
+
+
+        $estudiantesEvaluaciones = $this->EvaluacionRepository->GetEvaluacionesEstudiantes($id_p);
+
+        $estudiantesTareas = $this->TareasRepository->GetTareasEstudiantes($id_p);
+
+        $data = $this->EvaluacionRepository->notasEstudiantes($estudiantesEvaluaciones, $estudiantesTareas, $id_p);
+
+        return ExportPDF::exportPdf('modulos.export_notas', [
+            'data' => $data,
+            'export' => 'Notas',
+            'nombre' => $nombre,
+            'hora' => $hora,
+            'asignacion' => $asignacion,
+            'modulo' => $modulo,
+            'total' => $total
+
+
+        ], 'Notas', false, ['orientation' => 'L']);
+    }
+
+
     public function Asignar($estudiante_id, $id_m, $id_p)
     {
 

@@ -8,5 +8,5 @@ interface EvaluacionInterface
     public function GetEvaluacionesEstudiantes($id_pm);
     public function GetEvaluacionesEstudiante($id_pm, $estudiante_id);
 
-
+    public function notasEstudiantes($estudiantesEvaluaciones, $estudiantesTareas, $id_p);
 }

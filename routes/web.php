@@ -94,6 +94,10 @@ Route::middleware(['auth', 'can:Administración de Usuarios', 'check.password.ag
     Route::get('/usuarios/exportar/excel', [UserController::class, 'exportExcel'])->name('usuarios.exportar_excel')->middleware(middleware: 'can:usuarios.exportar_excel');
     Route::get('/usuarios/exportar/pdf', [UserController::class, 'exportPDF'])->name('usuarios.exportar_pdf')->middleware('can:usuarios.exportar_pdf');
 
+    Route::get('/notas/exportar/pdf/{id_a}/{id_m}/{id_p}', [UserController::class, 'exportNotasPDF'])->name('notas.exportar_pdf')->middleware('can:notas.exportar_pdf');
+    Route::get('/notas/exportar/excel/{id_a}/{id_m}/{id_p}', [UserController::class, 'exportNotasExcel'])->name('notas.exportar_excel')->middleware('can:notas.exportar_excel');
+
+
 
 });
 
