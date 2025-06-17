@@ -82,30 +82,65 @@
             </div>
         @endforelse
     </div>
+    <style>
+        @media (max-width: 576px) {
+            .pagination .page-item {
+                margin: 2px 3px;
+            }
 
+            .pagination .page-link {
+                padding: 4px 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
     {{-- Paginación --}}
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
+    @php
+        $current = $permissions->currentPage();
+        $last = $permissions->lastPage();
+    @endphp
 
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center flex-wrap">
+
+            {{-- Botón Anterior --}}
             <li class="page-item {{ $permissions->onFirstPage() ? 'disabled' : '' }}">
-                <a class="page-link" href="{{ $permissions->previousPageUrl() }}" aria-label="Previous">
+                <a class="page-link" href="{{ $permissions->previousPageUrl() }}" aria-label="Anterior">
                     <i class="fa fa-angle-left"></i>
-                    <span class="sr-only">Anterior</span>
                 </a>
             </li>
 
+            {{-- Página 1 --}}
+            @if($current > 2)
+                <li class="page-item"><a class="page-link" href="{{ $permissions->url(1) }}">1</a></li>
+            @endif
 
-            @foreach ($permissions->getUrlRange(1, $permissions->lastPage()) as $page => $url)
-                <li class="page-item {{ $page == $permissions->currentPage() ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+            {{-- ... anterior --}}
+            @if($current > 3)
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            @endif
+
+            {{-- Página actual y vecinas --}}
+            @for ($i = max(1, $current - 1); $i <= min($last, $current + 1); $i++)
+                <li class="page-item {{ $i == $current ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $permissions->url($i) }}">{{ $i }}</a>
                 </li>
-            @endforeach
+            @endfor
 
+            {{-- ... siguiente --}}
+            @if($current < $last - 2)
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            @endif
 
+            {{-- Última página --}}
+            @if($current < $last - 1)
+                <li class="page-item"><a class="page-link" href="{{ $permissions->url($last) }}">{{ $last }}</a></li>
+            @endif
+
+            {{-- Botón Siguiente --}}
             <li class="page-item {{ $permissions->hasMorePages() ? '' : 'disabled' }}">
-                <a class="page-link" href="{{ $permissions->nextPageUrl() }}" aria-label="Next">
+                <a class="page-link" href="{{ $permissions->nextPageUrl() }}" aria-label="Siguiente">
                     <i class="fa fa-angle-right"></i>
-                    <span class="sr-only">Siguiente</span>
                 </a>
             </li>
         </ul>
