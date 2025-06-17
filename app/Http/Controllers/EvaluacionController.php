@@ -199,7 +199,6 @@ class EvaluacionController extends Controller
     public function notasEstudiantes($id_a, $id_pm, $id_p)
     {
 
-
         $estudiantesEvaluaciones = $this->evaluacionInterface->GetEvaluacionesEstudiantes($id_p);
 
         $estudiantesTareas = $this->TareasInterface->GetTareasEstudiantes($id_p);
