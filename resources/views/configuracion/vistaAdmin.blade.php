@@ -158,75 +158,63 @@
                             <div class="row">
                                 <!-- Tipo de Pago -->
                                 <div class="col-md-6 mb-3">
-                                    <div class="form-floating">
-                                        <select class="form-select" name="tipo_pago" id="tipo_pago">
-                                            <option value="" disabled selected>Seleccione un tipo de pago</option>
-                                            @foreach($tiposDePago as $tipoPago)
-                                                <option value="{{ $tipoPago->id }}">{{ $tipoPago->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                        <label for="tipo_pago">Tipo de Pago</label>
-                                    </div>
+                                    <label for="tipo_pago" class="form-label">Tipo de Pago</label>
+                                    <select class="form-select" name="tipo_pago" id="tipo_pago">
+                                        <option value="" disabled selected>Seleccione un tipo de pago</option>
+                                        @foreach($tiposDePago as $tipoPago)
+                                            <option value="{{ $tipoPago->id }}">{{ $tipoPago->nombre }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Detalle -->
                                 <div class="col-md-6 mb-3">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="detalle" name="detalle"
-                                            placeholder="Detalle">
-                                        <label for="detalle">Detalle</label>
-                                    </div>
+                                    <label for="detalle" class="form-label">Detalle</label>
+                                    <input type="text" class="form-control" id="detalle" name="detalle"
+                                        placeholder="Ingrese un detalle">
                                 </div>
 
                                 <!-- Banco -->
                                 <div class="col-md-6 mb-3">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="banco" name="banco" placeholder="Banco">
-                                        <label for="banco">Banco</label>
-                                    </div>
+                                    <label for="banco" class="form-label">Banco</label>
+                                    <input type="text" class="form-control" id="banco" name="banco"
+                                        placeholder="Nombre del banco">
                                 </div>
 
+                                <!-- Número de Cuenta -->
                                 <div class="col-md-6 mb-3">
-                                    <div class="form-floating">
-                                        <input type="numeric" class="form-control" id="num_cuenta" name="num_cuenta"
-                                            placeholder="num_cuenta">
-                                        <label for="num_cuenta">Numero de Cuenta</label>
-                                    </div>
+                                    <label for="num_cuenta" class="form-label">Número de Cuenta</label>
+                                    <input type="number" class="form-control" id="num_cuenta" name="num_cuenta"
+                                        placeholder="Ej. 12345678">
                                 </div>
 
                                 <!-- Imagen -->
                                 <div class="col-md-6 mb-3">
-                                    <div class="form-floating">
-                                        <input class="form-control" type="file" id="formFile"
-                                            onchange="previewFile('#formFile', '#previewPhoto', '#photoHiddenInput1')"
-                                            placeholder="Imagen">
-                                        <label for="formFile">Imagen</label>
-                                    </div>
+                                    <label for="formFile" class="form-label">Imagen</label>
+                                    <input class="form-control" type="file" id="formFile"
+                                        onchange="previewFile('#formFile', '#previewPhoto', '#photoHiddenInput1')">
                                 </div>
 
-                                <!-- Campo de correo electrónico -->
+                                <!-- Correo Electrónico -->
                                 <div class="col-md-6 mb-3">
-                                    <div class="form-floating">
-                                        <input type="email" name="email" id="email" class="form-control"
-                                            placeholder="Correo Electrónico">
-                                        <label for="email">Email</label>
-                                    </div>
+                                    <label for="email" class="form-label">Correo Electrónico</label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        placeholder="correo@ejemplo.com">
                                 </div>
 
+                                <!-- Vista previa -->
                                 <div id="previewPhoto" class="mb-3"></div>
                                 <input type="hidden" id="photoHiddenInput1" name="imagen" value="">
+
                                 <!-- Botón de Guardar -->
                                 <div class="col-12 text-center">
                                     <button type="button" class="btn btn-primary"
                                         onclick="guardarMetodoPago()">Guardar</button>
                                 </div>
                             </div>
-
-                            <!-- Vista previa de la imagen -->
-
-
                         </div>
                     </form>
+
 
                 </div>
                 <!-- Botón para cambiar entre mostrar detalles y añadir método de pago -->
