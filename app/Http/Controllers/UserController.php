@@ -38,9 +38,8 @@ use App\Models\AsistenciaEstudiante;
 use App\Interfaces\TareasInterface;
 use App\Interfaces\EvaluacionInterface;
 
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Profesor;
 use App\Models\Experiencia;
@@ -49,10 +48,18 @@ use App\Models\Estudio;
 class UserController extends Controller
 {
     protected $userRepository;
+    protected $NotificationRepository;
+    protected $TareasRepository;
+    protected $EvaluacionRepository;
 
-    public function __construct(UserInterface $userInterface)
+    public function __construct(UserInterface $userInterface, NotificationInterface $NotificationRepository, TareasInterface $TareasRepository, EvaluacionInterface $EvaluacionRepository)
     {
         $this->userRepository = $userInterface;
+
+        $this->NotificationRepository = $NotificationRepository;
+
+        $this->TareasRepository = $TareasRepository;
+        $this->EvaluacionRepository = $EvaluacionRepository;
     }
 
     public function index()
@@ -594,7 +601,11 @@ class UserController extends Controller
 
         $sumTotal = $sumaNotasTareas + $sumaNotasEvs;
 
-        $nota = $sumTotal / $total;
+        if ($total > 0) {
+            $nota = $sumTotal / $total;
+        } else {
+            $nota = 0;
+        }
 
         $profesor = asignacion_profesor::join('users as u', 'asignacion_profesor.id_u', '=', 'u.id')
             ->select('u.usuario_nombres', 'u.usuario_app', 'u.usuario_apm')

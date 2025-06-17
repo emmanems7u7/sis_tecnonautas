@@ -11,21 +11,33 @@
                     <i class="bi bi-person-lines-fill "></i> Detalle de estudiante
                 </h1>
 
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="profile-picture mr-3">
 
-                <div class="profile-header text-center p-4 bg-light">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="profile-picture mr-3">
-                            <img src="{{ asset($usuario->fotoperfil) }}" alt="Foto de perfil"
-                                class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
-                        </div>
-                        <div>
-                            <h2 class="mb-1">{{ $usuario->usuario_nombres }} {{ $usuario->usuario_app }}
-                                {{ $usuario->usuario_apm }}
-                            </h2>
-                        </div>
-                        <div>
 
+                                    @if ($usuario->foto_perfil)
+                                        <img src="{{ asset($usuario->fotoperfil) }}" alt="Foto de perfil"
+                                            class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
+                                    @else
+                                        <img src="{{ asset('update/imagenes/user.jpg') }}" alt="Foto de perfil"
+                                            class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+
+                                <div>
+                                    <h2 class="mb-1">{{ $usuario->usuario_nombres }} {{ $usuario->usuario_app }}
+                                        {{ $usuario->usuario_apm }}
+                                    </h2>
+                                </div>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
 
