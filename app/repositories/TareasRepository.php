@@ -56,6 +56,45 @@ class TareasRepository implements TareasInterface
 
         return $estudiantesTareas;
     }
+
+    public function GetAllTareasEstudiante($id_pm, $id_u)
+    {
+        // Obtener la asignación del estudiante al módulo con su relación usuario
+        $estudiante = Estudiantes_asignacion_paramodulo::with('usuario')
+            ->where('id_pm', $id_pm)
+            ->where('id_u', $id_u)
+            ->first();
+
+        if (!$estudiante) {
+            return null; // O manejar con error personalizado
+        }
+
+        // Obtener todas las tareas del módulo con sus entregas
+        $tareas = Tarea::with([
+            'tareasEstudiantes' => function ($query) use ($id_u) {
+                $query->where('user_id', $id_u);
+            }
+        ])->where('id_pm', $id_pm)->get();
+
+        $user = $estudiante->usuario;
+
+        $registro = [
+            'user_id' => $id_u,
+            'estudiante' => $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm,
+            'tareas' => []
+        ];
+
+        foreach ($tareas as $tarea) {
+            $entrega = $tarea->tareasEstudiantes->first();
+
+            $registro['tareas'][] = [
+                'tareas_id' => $tarea->id,
+                'nota' => $entrega ? $entrega->nota : 0,
+            ];
+        }
+
+        return $registro;
+    }
     public function GetTareasEstudiante($id_pm, $estudiante_id)
     {
         // Obtener todas las tareas con las tareas del estudiante asociadas al id_pm y user_id

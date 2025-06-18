@@ -582,38 +582,33 @@ class UserController extends Controller
     }
 
 
-    public function detalleEstudiante($id, $id_m)
+    public function detalleEstudiante($id, $id_p, $id_a, $id_m)
     {
 
+
+
         $breadcrumb = [
-            ['name' => 'Inicio', 'url' => route('home')],
-            ['name' => 'Estudiantes', 'url' => route('home')],
-            ['name' => 'Detalle Estudiante', 'url' => route('home')],
+            ['name' => 'Materias', 'url' => route('asignacion.index')],
+            ['name' => 'Modulos', 'url' => route('modulos.materia.show', ['id_a' => $id])],
+            ['name' => 'Paralelos', 'url' => route('Paralelos.modulos.show', ['id_m' => $id_m, 'id_a' => $id])],
+            ['name' => 'Administrar', 'url' => route('modulos.temas.admin', [$id_a, $id_m, $id_p])],
+            ['name' => 'Detalle', 'url' => route('home')],
+
         ];
 
         $usuario = User::find($id);
 
 
-        $usuarioDetalle = DB::table('evaluacion_completas as ec')
-
-            ->join('evaluacions as e', 'ec.id_e', '=', 'e.id')
-            ->select('e.nombre', 'ec.completado', 'ec.nota', 'e.detalle', 'e.creado', 'e.limite', 'ec.id_u', 'ec.id_e')
-            ->where('ec.id_u', $usuario->id)
-            ->where('e.id_pm', $id_m)
-            ->get();
-
-        $tareasEstudiantes = DB::table('tareas_estudiantes as te')
-            ->join('tareas as t', 'te.tareas_id', '=', 't.id')
-            ->select('t.id', 't.nombre', 't.detalle', 't.limite', 'te.nota', 'te.created_at as entregado')
-            ->where('te.user_id', $id)
-            ->get();
+        $estudiantesEvaluaciones = $this->EvaluacionRepository->GetAllEvaluacionesEstudiante($id_p, $usuario->id);
 
 
+        $estudiantesTareas = $this->TareasRepository->GetAllTareasEstudiante($id_p, $usuario->id);
+
+        $data = $this->EvaluacionRepository->notasEstudiante($estudiantesEvaluaciones, $estudiantesTareas, $id_p);
 
         return view('estudiantes.detalle', [
             'usuario' => $usuario,
-            'detalles' => $usuarioDetalle,
-            'tareasEstudiantes' => $tareasEstudiantes,
+            'data' => $data,
             'breadcrumb' => $breadcrumb
         ]);
     }

@@ -73,6 +73,49 @@ class EvaluacionRepository implements EvaluacionInterface
 
     }
 
+    public function GetAllEvaluacionesEstudiante($id_pm, $id_u)
+    {
+        // Obtener al estudiante con su usuario relacionado
+        $estudiante = Estudiantes_asignacion_paramodulo::with('usuario')
+            ->where('id_pm', $id_pm)
+            ->where('id_u', $id_u)
+            ->first();
+
+        if (!$estudiante) {
+            return null; // O puedes lanzar una excepción o retornar un mensaje
+        }
+
+        // Obtener las evaluaciones del módulo
+        $evaluaciones = Evaluacion::where('id_pm', $id_pm)->get();
+
+        // Obtener evaluaciones completas de este estudiante
+        $evalCompleta = evaluacionCompleta::whereIn('id_e', $evaluaciones->pluck('id'))
+            ->where('id_u', $id_u)
+            ->get()
+            ->keyBy('id_e');
+
+        $user = $estudiante->usuario;
+
+        // Preparar estructura de retorno
+        $registro = [
+            'user_id' => $id_u,
+            'estudiante' => $user->usuario_nombres . ' ' . $user->usuario_app . ' ' . $user->usuario_apm,
+            'evaluaciones' => []
+        ];
+
+        foreach ($evaluaciones as $evaluacion) {
+            $nota = optional($evalCompleta->get($evaluacion->id))->nota;
+
+            $registro['evaluaciones'][] = [
+                'id_e' => $evaluacion->id,
+                'nota' => $nota ?? 0,
+            ];
+        }
+
+        return $registro;
+    }
+
+
     public function GetEvaluacionesEstudiante($id_pm, $estudiante_id)
     {
         // Encuentra el eval_paramodulo por su ID
@@ -174,4 +217,30 @@ class EvaluacionRepository implements EvaluacionInterface
 
         return $data;
     }
+
+    public function notasEstudiante($evaluacion, $tarea, $id_p)
+    {
+        // Normaliza los datos por si alguno es null
+        $evaluaciones = $evaluacion['evaluaciones'] ?? [];
+        $tareas = $tarea['tareas'] ?? [];
+
+        $estudiante = [
+            'user_id' => $evaluacion['user_id'] ?? $tarea['user_id'],
+            'estudiante' => $evaluacion['estudiante'] ?? $tarea['estudiante'],
+            'evaluaciones' => $evaluaciones,
+            'tareas' => $tareas,
+        ];
+
+        $tareasDB = Tarea::where('id_pm', $id_p)->get();
+        $evaluacionesDB = Evaluacion::where('id_pm', $id_p)->get();
+
+        return [
+            'estudiante' => $estudiante,
+            'tareas' => $tareasDB,
+            'evaluaciones' => $evaluacionesDB,
+        ];
+    }
+
+
+
 }

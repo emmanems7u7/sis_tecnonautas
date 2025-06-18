@@ -250,7 +250,7 @@ class TemaController extends Controller
         $breadcrumb = [
             ['name' => 'Materias', 'url' => route('asignacion.index')],
             ['name' => 'Modulos', 'url' => route('modulos.materia.show', ['id_a' => $id])],
-            ['name' => 'Modulos', 'url' => route('Paralelos.modulos.show', ['id_m' => $id_m, 'id_a' => $id])],
+            ['name' => 'Paralelos', 'url' => route('Paralelos.modulos.show', ['id_m' => $id_m, 'id_a' => $id])],
             ['name' => 'Administrar', 'url' => route('home')],
 
 
