@@ -44,6 +44,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Profesor;
 use App\Models\Experiencia;
 use App\Models\Estudio;
+use App\Models\EvalPorEstudiante;
+use App\Models\tareas_estudiante;
+use PhpParser\Node\Expr\Eval_;
 
 class UserController extends Controller
 {
@@ -623,6 +626,47 @@ class UserController extends Controller
         $id_pp = paralelo_modulo::where('id', $id_p)->select('id_p')->first();
         $paralelo = Paralelo::find($id_pp)->first();
 
+
+        $estudiantesEvaluaciones = $this->EvaluacionRepository->GetAllEvaluacionesEstudiante($id_p, $usuario->id);
+
+        $estudiantesTareas = $this->TareasRepository->GetAllTareasEstudiante($id_p, $usuario->id);
+
+
+        foreach ($estudiantesEvaluaciones['evaluaciones'] as &$ev_data) {
+            $eval_c = Evaluacion::find($ev_data['id_e']);
+
+            $ev_data['nombre'] = $eval_c->nombre;
+            $ev_data['detalle'] = $eval_c->detalle;
+            $ev_data['creado'] = $eval_c->creado;
+            $ev_data['limite'] = $eval_c->limite;
+
+
+            $entregado = evaluacionCompleta::where('id_u', $usuario->id)->where('id_e', $eval_c->id)->first();
+
+            if ($entregado != null) {
+                $ev_data['entregado'] = $entregado->created_at;
+            } else {
+                $ev_data['entregado'] = 'No Entregado';
+            }
+
+
+        }
+
+        foreach ($estudiantesTareas['tareas'] as &$tarea_data) {
+            $tarea_c = Tarea::find($tarea_data['tareas_id']);
+
+            $tarea_data['nombre'] = $tarea_c->nombre;
+            $tarea_data['detalle'] = $tarea_c->detalle;
+            $tarea_data['limite'] = $tarea_c->limite;
+
+            if ($tarea_data['nota'] != 0) {
+                $tarea_data['entregado'] = tareas_estudiante::where('user_id', $usuario->id, 'tareas_id', $tarea_c->id)->first()->created_at;
+            } else {
+                $tarea_data['entregado'] = 'No Entregado / No Revisado';
+            }
+        }
+
+
         $evaluaciones = evaluacionCompleta::join('evaluacions as e', 'evaluacion_completas.id_e', '=', 'e.id')
             ->select(
                 'e.id',
@@ -638,6 +682,7 @@ class UserController extends Controller
 
 
         $sumaNotasEvs = 0;
+
         foreach ($evaluaciones as $evaluacion) {
             $evaluacion->creado = Carbon::parse($evaluacion->creado)->translatedFormat('j \d\e F \d\e Y \a \l\a\s h:i A');
             $evaluacion->limite = Carbon::parse($evaluacion->limite)->translatedFormat('j \d\e F \d\e Y \a \l\a\s h:i A');
@@ -648,6 +693,8 @@ class UserController extends Controller
         }
 
         $sumaNotasTareas = 0;
+
+
         $tareasEstudiantes = DB::table('tareas_estudiantes as te')
             ->join('tareas as t', 'te.tareas_id', '=', 't.id')
             ->select('t.nombre', 't.detalle', 't.limite', 'te.nota', 'te.created_at as entregado')
@@ -661,6 +708,8 @@ class UserController extends Controller
                 $sumaNotasTareas += $tarea->nota;
             }
         }
+
+
         $cantidadEvs = $evaluaciones->count();
         $cantidadTareas = $tareasEstudiantes->count();
 
@@ -681,15 +730,23 @@ class UserController extends Controller
             ->first();
 
 
+
+        // dd($estudiantesEvaluaciones, $estudiantesTareas);
+
+
         $data = [
             'usuario' => $usuario,
             'nombreMod' => $nombreMod,
             'paralelo' => $paralelo,
-            'evaluaciones' => $evaluaciones,
+
             'profesor' => $profesor,
             'materia' => $materia,
-            'tareasEstudiantes' => $tareasEstudiantes,
-            'nota' => $nota
+
+            'nota' => $nota,
+
+            'evaluacionesEstudiante' => $estudiantesEvaluaciones['evaluaciones'],
+            'tareasEstudiantes' => $estudiantesTareas['tareas']
+
 
         ];
 

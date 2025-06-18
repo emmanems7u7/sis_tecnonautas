@@ -37,6 +37,23 @@
       /* Reduce el espaciado dentro de la tarjeta */
     }
     }
+
+    #evaluacionesTable td,
+    #tareasTable td {
+    font-size: 0.85rem;
+    padding: 4px 6px;
+    vertical-align: middle;
+    }
+
+    #evaluacionesTable tr,
+    #tareasTable tr {
+    line-height: 1.2;
+    }
+
+    #evaluacionesTable td,
+    #tareasTable td {
+    white-space: nowrap;
+    }
   </style>
   <script>
 
@@ -60,13 +77,14 @@
     <div
       class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
-      <h5 class="modal-title mx-auto colorcafe font-weight-bold text-3rem" id="reportModalLabel">REPORTE ESTUDIANTE
-      </h5>
+
       <button type="button" class="btn-close" id="btn_cerrar_report" data-bs-dismiss="modal"
         aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <!-- Container -->
+      <h5 class="modal-title mx-auto colorcafe font-weight-bold text-3rem" id="reportModalLabel">REPORTE ESTUDIANTE
+      </h5>
       <div class="container-fluid">
         <!-- Primer Card -->
         <div class="card mb-3">
@@ -97,23 +115,22 @@
         </div>
 
         <!-- Encabezado Reporte -->
-        <h4>Reporte</h4>
+        <h4 class="text-dark">Reporte</h4>
 
         <!-- Segundo Card - Evaluaciones -->
         <div class="card mb-3">
-        <div class="card-header">
-          <h5 class="card-title">Evaluaciones</h5>
-        </div>
+
         <div class="card-body">
+          <h5 class="card-title">Evaluaciones</h5>
           <div class="table-responsive">
-          <table class="table table-sm table-hover" id="evaluacionesTable">
+          <table class="table table-sm table-bordered" id="evaluacionesTable">
             <thead>
             <tr>
               <th scope="col">Evaluación</th>
               <th scope="col">Nota</th>
               <th scope="col">Creado</th>
               <th scope="col">Límite</th>
-              <th scope="col">Completado</th>
+              <th scope="col">Entregado</th>
             </tr>
             </thead>
             <tbody>
@@ -126,12 +143,12 @@
 
         <!-- Tercer Card - Tareas Asignadas -->
         <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">Tareas Asignadas</h5>
-        </div>
+
         <div class="card-body">
+          <h5 class="card-title">Tareas Asignadas</h5>
+
           <div class="table-responsive">
-          <table class="table table-sm table-hover" id="tareasTable">
+          <table class="table table-sm table-bordered" id="tareasTable">
             <thead>
             <tr>
               <th scope="col">Nombre</th>
