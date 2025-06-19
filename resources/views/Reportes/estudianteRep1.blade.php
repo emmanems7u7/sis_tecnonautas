@@ -117,8 +117,7 @@
     #evaluacionesTable th,
     #evaluacionesTable td {
         border: 1px solid #dee2e6;
-        /* Añade un borde suave a las celdas */
-        padding: 8px;
+        font-size: 12px !important;
         text-align: left;
     }
 
@@ -130,26 +129,23 @@
 </style>
 
 <style>
-    .table-bordered {
+    #tareasTable {
         border-collapse: collapse;
         width: 100%;
     }
 
-    .table-bordered th,
-    .table-bordered td {
+    #tareasTable th,
+    #tareasTable td {
         border: 1px solid #dee2e6;
-        /* Bordes suaves para las celdas */
-        padding: 8px;
+        font-size: 12px !important;
         text-align: left;
     }
 
-    .table-bordered th {
+    #tareasTable th {
         background-color: #f8f9fa;
         /* Color de fondo para los encabezados */
         font-weight: bold;
     }
-
-    .margin_b {}
 </style>
 
 <style>
@@ -232,76 +228,61 @@
         <h4 style="font-size: 17px;">Reporte de evaluaciones y tareas</h4>
         <br>
         <!-- Segundo Card - Evaluaciones -->
-        <div class="card mb-3">
-            <div class="card-header">
-                <h5 class="card-title">Evaluaciones</h5>
-            </div>
-            <div class="card-body">
 
-                <table class="table table-sm" id="evaluacionesTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Evaluación</th>
-                            <th scope="col">Nota</th>
-                            <th scope="col">Creado</th>
-                            <th scope="col">Límite</th>
-                            <th scope="col">Completado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($data['evaluaciones'] as $evaluacion)
-                            <tr>
-                                <td>{{ $evaluacion->nombre }}</td>
-                                <td>{{ $evaluacion->nota }}</td>
-                                <td>{{ $evaluacion->creado }}</td>
-                                <td>{{ $evaluacion->limite }}</td>
-                                <td>{{ $evaluacion->completado }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+
+        <h5 class="card-title">Evaluaciones</h5>
+        <table class="table table-striped" id="evaluacionesTable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Detalle</th>
+                    <th>Fecha de creación</th>
+                    <th>Fecha límite</th>
+                    <th>Entregado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($evaluacionesEstudiante as $evaluacion)
+                    <tr>
+                        <td>{{ $evaluacion['nombre'] }}</td>
+                        <td>{{ $evaluacion['detalle'] }}</td>
+                        <td>{{ $evaluacion['creado'] }}</td>
+                        <td>{{ $evaluacion['limite'] }}</td>
+                        <td>{{ $evaluacion['entregado'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
 
 
 
-            </div>
-        </div>
+
         <br>
-        <!-- Tercer Card - Tareas Asignadas -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Tareas</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Tarea</th>
-                            <th>Descripción</th>
-                            <th>Nota</th>
-                            <th>Entregado</th>
-                            <th>Límite</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($tareasEstudiantes as $tarea)
-                            <tr>
-                                <td>{{ $tarea->nombre }}</td>
-                                <td>{{ $tarea->detalle }}</td>
-                                <td>
-                                    <span style="color: {{ $tarea->nota > 51 ? 'green' : 'red' }}">
-                                        {{ $tarea->nota }}
-                                    </span>
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($tarea->entregado)->format('d/m/Y H:i') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($tarea->limite)->format('d/m/Y H:i') }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <h5 class="card-title">Tareas</h5>
+        <table class="table table-striped mt-4" id="tareasTable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Detalle</th>
+                    <th>Entregado</th>
+                    <th>Fecha límite</th>
+                    <th>Nota</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($tareasEstudiantes as $tarea)
+                    <tr>
+                        <td>{{ $tarea['nombre'] }}</td>
+                        <td>{{ $tarea['detalle'] }}</td>
+                        <td>{{ $tarea['entregado'] }}</td>
+                        <td>{{ $tarea['limite'] }}</td>
+                        <td>{{ $tarea['nota'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-            </div>
-        </div>
         @if($comentario)
             <div
                 style=" text-align: justify; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-left: 4px solid #0d6efd; border-radius: 0.25rem;">

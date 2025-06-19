@@ -440,12 +440,13 @@ class TemaController extends Controller
 
             $estudiante['nota_tareas'] = $sumaNotasTareas;
             $estudiante['nota_evaluaciones'] = $sumaNotasEvaluaciones;
-            $estudiante['nota_final'] = round(($estudiante['nota_tareas'] + $estudiante['nota_evaluaciones']) / $totalProm, 1);
+            if ($totalProm > 0) {
+                $estudiante['nota_final'] = round(($estudiante['nota_tareas'] + $estudiante['nota_evaluaciones']) / $totalProm, 1);
+            } else {
+                $estudiante['nota_final'] = 0;
+            }
+
         }
-
-        // dd($estudiantesTareas);
-
-
 
         $estasignacion = Estudiantes_asignacion_paramodulo::where('id_pm', $id_pm)->get();
 

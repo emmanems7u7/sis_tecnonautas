@@ -78,7 +78,6 @@ class PermissionSeeder extends Seeder
             ['id' => 83, 'name' => 'modulos.materia.guardar', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
             ['id' => 84, 'name' => 'modulos.materia.delete', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
             ['id' => 85, 'name' => 'modulo.store', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
-            ['id' => 86, 'name' => 'studiantes.index', 'tipo' => 'permiso', 'id_relacion' => NULL, 'guard_name' => 'web', 'created_at' => '2025-05-19 18:19:56', 'updated_at' => '2025-05-19 18:19:56'],
         ]);
 
 

@@ -81,6 +81,13 @@
                             @method('DELETE')
                         </form>
                     @endcan
+                    @can('usuarios.reestablecer_contraseña')
+                        <a href="{{ route('reestablecer.contraseña', ['id' => $usuario->id]) }}"
+                            class="text-secondary font-weight-bold text-xs" id="modal_edit_usuario_button">Reestablecer
+                            Contraseña</a>
+
+                    @endcan
+
                 </td>
 
             </tr>

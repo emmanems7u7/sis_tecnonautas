@@ -42,7 +42,8 @@ use App\Http\Controllers\AsistenciaEstudianteController;
 use App\Http\Controllers\TipoPagoController;
 use App\Http\Controllers\UserPersonalizacionController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\UserPersonalizacion;
+
+use App\Http\Controllers\EstudianteController;
 
 Route::get('/', function () {
 
@@ -57,11 +58,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-Route::middleware(['auth', 'can:Administración de Usuarios', 'check.password.age'])->group(function () {
+Route::middleware(['auth', 'check.password.age'])->group(function () {
 
     Route::get('/usuarios', [UserController::class, 'index'])
         ->name('users.index')
         ->middleware('can:usuarios.ver');
+
+    Route::get('/estudiantes', [EstudianteController::class, 'index'])
+        ->name('estudiantes.index')
+        ->middleware('can:usuarios.ver_estudiantes');
 
     Route::get('/usuarios/crear', [UserController::class, 'create'])
         ->name('users.create')
@@ -160,6 +165,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/usuario/perfil', [UserController::class, 'Perfil'])
         ->name('perfil');
+
+    Route::get('/reestablecer/contraseña/{id}', [UserController::class, 'reestablecer_contraseña'])->name('reestablecer.contraseña');
+
 
     Route::post('/perfil/documentos', [DocumentosUsuarioController::class, 'subirDesdePerfil'])
         ->name('perfil.documentos.subir');
@@ -293,6 +301,7 @@ Route::post('/usuario/configuracion', [UserController::class, 'guardarConfigurac
 
 //--------------------- Logica de negocio -------------------------------------------------------------
 
+
 // Cursos
 Route::middleware(['auth', 'check.password.age'])->group(function () {
 
@@ -305,6 +314,7 @@ Route::middleware(['auth', 'check.password.age'])->group(function () {
     Route::get('materias/vermat', [AsignacionController::class, 'showJ'])->name('asignacion.showJ')->middleware('can:asignacion.ver_materias');
     Route::delete('materias/asignacion/{id}', [AsignacionController::class, 'destroy'])->name('asignacion.delete')->middleware('can:asignacion.eliminar');
 });
+
 
 Route::get('/mails/filtra', [CorreoController::class, 'filtraIndex'])->name('emails.index')->middleware('can:email.ver');
 ;
@@ -346,18 +356,18 @@ Route::group(['prefix' => '/modulos', 'middleware' => 'auth'], function () {
 // Temas
 
 Route::group(['prefix' => '/tema', 'middleware' => 'auth'], function () {
-    Route::get('/admin/{id_a}/{id_m}/{id_p}', [TemaController::class, 'admin'])->name('modulos.temas.admin')->middleware('can:modulos.modulos.temas_administrar');
-    Route::get('/contenido/{id}', [TemaController::class, 'Temacontenido'])->name('tema.ver')->middleware('can:modulos.modulos.temas_contenido');
-    Route::get('/ver/{id_pm}/{id_m}', [TemaController::class, 'show'])->name('modulos.temas.show')->middleware('can:modulos.modulos.temas_detalles');
-    Route::get('/finalizar/{id_pm}', [TemaController::class, 'finalizar'])->name('modulos.temas.finalizar')->middleware('can:modulos.modulos.temas_finalizar');
-    Route::get('/editar', [TemaController::class, 'edit'])->name('modulos.temas.edit')->middleware('can:modulos.modulos.temas_editar');
-    Route::put('/editado', [TemaController::class, 'update'])->name('modulos.temas.guardar')->middleware('can:modulos.modulos.temas_actualizar');
-    Route::delete('/eliminar', [TemaController::class, 'delete'])->name('modulos.temas.delete')->middleware('can:modulos.modulos.temas_eliminar');
-    Route::get('/crear/{id_m}', [TemaController::class, 'create'])->name('temas.create')->middleware('can:modulos.modulos.temas_crear');
-    Route::post('/guardar', [TemaController::class, 'store'])->name('temas.store')->middleware('can:modulos.modulos.temas_guardar');
-    Route::get('/contenidos/{id_t}/{id_pm}', [TemaController::class, 'storeTemasContenidos'])->name('temas.contenidos.store')->middleware('can:modulos.modulos.temas_guardar_contenido');
-    Route::get('/obtener/{id_m}', [TemaController::class, 'obtenerTemas'])->name('temas.obtener')->middleware('can:modulos.modulos.temas_obtener');
-    Route::delete('/tema/eliminar/{id}', [TemaController::class, 'eliminarTema'])->name('eliminar.tema')->middleware('can:modulos.modulos.temas_eliminar_contenido');
+    Route::get('/admin/{id_a}/{id_m}/{id_p}', [TemaController::class, 'admin'])->name('modulos.temas.admin')->middleware('can:modulos.temas_administrar');
+    Route::get('/contenido/{id}', [TemaController::class, 'Temacontenido'])->name('tema.ver')->middleware('can:modulos.temas_contenido');
+    Route::get('/ver/{id_pm}/{id_m}', [TemaController::class, 'show'])->name('modulos.temas.show')->middleware('can:modulos.temas_detalles');
+    Route::get('/finalizar/{id_pm}', [TemaController::class, 'finalizar'])->name('modulos.temas.finalizar')->middleware('can:modulos.temas_finalizar');
+    Route::get('/editar', [TemaController::class, 'edit'])->name('modulos.temas.edit')->middleware('can:modulos.temas_editar');
+    Route::put('/editado', [TemaController::class, 'update'])->name('modulos.temas.guardar')->middleware('can:modulos.temas_actualizar');
+    Route::delete('/eliminar', [TemaController::class, 'delete'])->name('modulos.temas.delete')->middleware('can:modulos.temas_eliminar');
+    Route::get('/crear/{id_m}', [TemaController::class, 'create'])->name('temas.create')->middleware('can:modulos.temas_crear');
+    Route::post('/guardar', [TemaController::class, 'store'])->name('temas.store')->middleware('can:modulos.temas_guardar');
+    Route::get('/contenidos/{id_t}/{id_pm}', [TemaController::class, 'storeTemasContenidos'])->name('temas.contenidos.store')->middleware('can:modulos.temas_guardar_contenido');
+    Route::get('/obtener/{id_m}', [TemaController::class, 'obtenerTemas'])->name('temas.obtener')->middleware('can:modulos.temas_obtener');
+    Route::delete('/tema/eliminar/{id}', [TemaController::class, 'eliminarTema'])->name('eliminar.tema')->middleware('can:modulos.temas_eliminar_contenido');
 });
 
 Route::post('/crear/asistencia', [UserController::class, 'Generar_asistencia'])->name('asistencia.generar')->middleware('can:asistencia.generar');
@@ -396,8 +406,8 @@ Route::group(['prefix' => '/contenido', 'middleware' => 'auth'], function () {
     Route::post('/CreadoEnlaces', [ContenidoController::class, 'storeenlace'])->name('enlaces.store');
     Route::get('/Crear/{id_t}', [ContenidoController::class, 'create'])->name('contenido.create');
 
-    Route::post('/archivos', [ContenidoController::class, 'store'])->name('archivo.store');
-    Route::delete('/{id}', [ContenidoController::class, 'destroy'])->name('eliminar.contenido')->middleware('can:contenido.contenido_tema_eliminar');
+    Route::post('/archivos', [ContenidoController::class, 'store'])->name('archivo.store')->middleware('can:contenido.tema_crear');
+    Route::delete('/{id}', [ContenidoController::class, 'destroy'])->name('eliminar.contenido')->middleware('can:contenido.tema_eliminar');
 });
 
 // Descargas
@@ -412,8 +422,9 @@ Route::group(['prefix' => '/Evaluacion', 'middleware' => 'auth'], function () {
     Route::get('/editar', [EvaluacionController::class, 'edit'])->name('evaluacion.edit');
     Route::put('/guardar', [EvaluacionController::class, 'update'])->name('evaluacion.guardar');
     Route::delete('/eliminar/{evaluacion}/{id_pm}/{id_m}', [EvaluacionController::class, 'delete'])->name('evaluacion.delete');
-    Route::get('/crear/{id_e}/{id_pm}/{id_m}', [EvaluacionController::class, 'create'])->name('evaluacion.create');
-    Route::post('/guardar', [EvaluacionController::class, 'store'])->name('evaluacion.store');
+    Route::get('/crear/{id_e}/{id_pm}/{id_m}', [EvaluacionController::class, 'create'])->name('evaluacion.create')->middleware('can:evaluacion.crear_preguntas');
+
+    Route::post('/guardar', [EvaluacionController::class, 'store'])->name('evaluacion.store')->middleware('can:evaluacion.crear');
     Route::get('/estudiantes/{id_pm}/{id_a}', [EvaluacionController::class, 'estudianteseval'])->name('evaluacion.estudiantes');
     Route::get('/Revision/{id}/{id_e}', [EvaluacionController::class, 'Revision'])->name('evaluacion.revision');
     Route::get('/publicar/{id_e}', [EvaluacionController::class, 'publicar'])->name('evaluacion.publicar');
@@ -476,11 +487,11 @@ Route::group([
     Route::post('/guardar/{id}', [ParaleloController::class, 'update'])->name('Paralelos.update');
     Route::delete('/eliminar/{id}', [ParaleloController::class, 'destroy'])->name('Paralelos.delete');
     Route::post('/guardar', [ParaleloController::class, 'store'])->name('Paralelos.store');
-    Route::get('/Modulos/{id_a}/{id_m}', [ParaleloController::class, 'ShowParelelosModulos'])->name('Paralelos.modulos.show');
-    Route::post('/Horario', [ParaleloController::class, 'storeParaleloModulo'])->name('paraleloModulo.store');
-    Route::get('/horario/editar/{id}/{id_a}/{id_m}', [ParaleloController::class, 'editParaleloModulo'])->name('ParaleloHorario.edit');
+    Route::get('/Modulos/{id_a}/{id_m}', [ParaleloController::class, 'ShowParelelosModulos'])->name('Paralelos.modulos.show')->middleware('can:paralelos.gestion');
+    Route::post('/Horario', [ParaleloController::class, 'storeParaleloModulo'])->name('paraleloModulo.store')->middleware('can:paralelos.crear_gestion');
+    Route::get('/horario/editar/{id}/{id_a}/{id_m}', [ParaleloController::class, 'editParaleloModulo'])->name('ParaleloHorario.edit')->middleware('can:paralelos.editar_gestion');
     Route::post('/horario/guardar/{id}', [ParaleloController::class, 'updateParaleloModulo'])->name('ParaleloModulo.update');
-    Route::delete('/eliminar/para_mod/{id}/{id_a}/{id_m}', [ParaleloController::class, 'destroy_para_mod'])->name('Paralelo_modulo.delete');
+    Route::delete('/eliminar/para_mod/{id}/{id_a}/{id_m}', [ParaleloController::class, 'destroy_para_mod'])->name('Paralelo_modulo.delete')->middleware('can:paralelos.eliminar_gestion');
 });
 Route::group([
 
@@ -545,9 +556,10 @@ Route::prefix('Reporte')->group(function () {
 Route::prefix('tareas')->group(function () {
     Route::get('/', [TareaController::class, 'index'])->name('tareas.index');
     Route::get('/create', [TareaController::class, 'create'])->name('tareas.create');
-    Route::post('/', [TareaController::class, 'store'])->name('tareas.store');
-    Route::get('/profesor/{id_pm}', [TareaController::class, 'showP'])->name('tareas.showP');
-    Route::get('/estudiante/{id_pm}', [TareaController::class, 'showE'])->name('tareas.showE');
+    Route::post('/', [TareaController::class, 'store'])->name('tareas.store')->middleware('can:tarea.crear');
+    ;
+    Route::get('/profesor/{id_pm}', [TareaController::class, 'showP'])->name('tareas.showP')->middleware('can:tarea.revisar');
+    Route::get('/estudiante/{id_pm}', [TareaController::class, 'showE'])->name('tareas.showE')->middleware('can:tarea.revisar_estudiantes');
     Route::get('/{tarea}/edit', [TareaController::class, 'edit'])->name('tareas.edit');
     Route::put('/{tarea}', [TareaController::class, 'update'])->name('tareas.update');
     Route::delete('/{tarea}', [TareaController::class, 'destroy'])->name('tareas.destroy');

@@ -125,78 +125,82 @@
             @endif
 
 
-            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('profesor'))
+            @can('evaluacion.crear')
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#crearEvaluacionModal">
                     Crear Evaluación
                 </button>
+
+
+            @endcan
+
+            <!-- Modal crear evaluacion -->
+            <div class="modal fade" id="crearEvaluacionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div
+                        class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
+                        <form action="{{ route('evaluacion.store') }}" method="POST">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">Crear Nueva Evaluación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <input type="hidden" class="form-control" id="id_pm" name="id_pm"
+                                value="{{ old('id_pm', $id_pm) }}" required>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre de la Evaluación</label>
+                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
+                                        id="nombre" name="nombre" value="{{ old('nombre') }}">
+                                    @error('nombre')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="detalle">Detalle de la Evaluación</label>
+                                    <input type="text" class="form-control @error('detalle') is-invalid @enderror"
+                                        id="detalle" name="detalle" value="{{ old('detalle') }}">
+                                    @error('detalle')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="limite">Fecha Límite</label>
+                                    <input type="datetime-local" class="form-control @error('limite') is-invalid @enderror"
+                                        id="limite" name="limite" value="{{ old('limite') }}">
+                                    @error('limite')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Crear Evaluación</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            @if(session('modal') == 'crearEvaluacionModal')
+                @if(session(key: 'abrir') == true)
+
+                    <script>
+                        $(document).ready(function () {
+                            $('#crearEvaluacionModal').modal('show');
+                        });
+
+                    </script>
+
+                    {{ session(['modal' => 'crearEvaluacionModal', 'abrir' => false]) }}
+                @endif
             @endif
         </div>
     </div>
 
 
-    <!-- Modal crear evaluacion -->
-    <div class="modal fade" id="crearEvaluacionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div
-                class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
-                <form action="{{ route('evaluacion.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Crear Nueva Evaluación</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <input type="hidden" class="form-control" id="id_pm" name="id_pm" value="{{ old('id_pm', $id_pm) }}"
-                        required>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="nombre">Nombre de la Evaluación</label>
-                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre"
-                                name="nombre" value="{{ old('nombre') }}">
-                            @error('nombre')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="detalle">Detalle de la Evaluación</label>
-                            <input type="text" class="form-control @error('detalle') is-invalid @enderror" id="detalle"
-                                name="detalle" value="{{ old('detalle') }}">
-                            @error('detalle')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="limite">Fecha Límite</label>
-                            <input type="datetime-local" class="form-control @error('limite') is-invalid @enderror"
-                                id="limite" name="limite" value="{{ old('limite') }}">
-                            @error('limite')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Crear Evaluación</button>
-                    </div>
-                </form>
 
-            </div>
-        </div>
-    </div>
-
-    @if(session('modal') == 'crearEvaluacionModal')
-        @if(session(key: 'abrir') == true)
-
-            <script>
-                $(document).ready(function () {
-                    $('#crearEvaluacionModal').modal('show');
-                });
-
-            </script>
-
-            {{ session(['modal' => 'crearEvaluacionModal', 'abrir' => false]) }}
-        @endif
-    @endif
 @endsection

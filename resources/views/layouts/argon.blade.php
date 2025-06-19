@@ -299,16 +299,17 @@
             <div class="main-content position-relative max-height-vh-100 h-100">
 
            
-                @foreach (['status' => 'success', 'error' => 'error', 'warning' => 'warning'] as $msg => $type)
+            @foreach (['status' => 'success', 'error' => 'error', 'warning' => 'warning'] as $msg => $type)
                 @if(session($msg))
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
+                      
                         alertify.set('notifier', 'position', 'top-right');
-                        alertify.{ { $type } } (@json(session($msg)));
+                        alertify.{{ $type }}(@json(session($msg)));
                     });
                 </script>
                 @endif
-                @endforeach
+            @endforeach
                 
                 @yield('content')
             </div>

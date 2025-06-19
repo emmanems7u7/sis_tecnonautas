@@ -27,7 +27,7 @@ class MenuController extends Controller
             ['name' => 'Menus', 'url' => route('menus.index')],
         ];
 
-        $secciones = Seccion::paginate(10);
+        $secciones = Seccion::paginate(50);
 
         $menus = Menu::with('seccion')->paginate(10);
 

@@ -20,15 +20,29 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\UserInterface;
 use App\Models\evaluacionCompleta;
+use App\Models\Evaluacion;
+use App\Models\Tarea;
+use App\Models\tareas_estudiante;
+
+use App\Interfaces\TareasInterface;
+use App\Interfaces\EvaluacionInterface;
+
+
+
+
 
 
 class PdfController extends Controller
 {
     protected $UserRepository;
-    public function __construct(UserInterface $UserRepository)
+    protected $TareasRepository;
+    protected $EvaluacionRepository;
+    public function __construct(UserInterface $UserRepository, TareasInterface $TareasRepository, EvaluacionInterface $EvaluacionRepository)
     {
 
         $this->UserRepository = $UserRepository;
+        $this->TareasRepository = $TareasRepository;
+        $this->EvaluacionRepository = $EvaluacionRepository;
 
     }
 
@@ -59,50 +73,47 @@ class PdfController extends Controller
         $nombreMod = Modulo::where('id', $id_m)->select('nombreM')->first();
         $id_pp = paralelo_modulo::where('id', $id_p)->select('id_p')->first();
         $paralelo = Paralelo::find($id_pp)->first();
-        $evaluaciones = evaluacionCompleta::join('evaluacions as e', 'evaluacion_completas.id_e', '=', 'e.id')
-            ->select(
-                'e.id',
-                'e.nombre',
-                'e.detalle',
-                \DB::raw('CONCAT(DAY(e.creado), " de ", CASE MONTH(e.creado)
-            WHEN 1 THEN "Enero"
-            WHEN 2 THEN "Febrero"
-            WHEN 3 THEN "Marzo"
-            WHEN 4 THEN "Abril"
-            WHEN 5 THEN "Mayo"
-            WHEN 6 THEN "Junio"
-            WHEN 7 THEN "Julio"
-            WHEN 8 THEN "Agosto"
-            WHEN 9 THEN "Septiembre"
-            WHEN 10 THEN "Octubre"
-            WHEN 11 THEN "Noviembre"
-            WHEN 12 THEN "Diciembre"
-            END) AS creado'),
-                \DB::raw('CONCAT(DAY(e.limite), " de ", CASE MONTH(e.limite)
-            WHEN 1 THEN "Enero"
-            WHEN 2 THEN "Febrero"
-            WHEN 3 THEN "Marzo"
-            WHEN 4 THEN "Abril"
-            WHEN 5 THEN "Mayo"
-            WHEN 6 THEN "Junio"
-            WHEN 7 THEN "Julio"
-            WHEN 8 THEN "Agosto"
-            WHEN 9 THEN "Septiembre"
-            WHEN 10 THEN "Octubre"
-            WHEN 11 THEN "Noviembre"
-            WHEN 12 THEN "Diciembre"
-            END) AS limite'),
-                'evaluacion_completas.completado',
-                'evaluacion_completas.nota'
-            )
-            ->where('evaluacion_completas.id_u', $id)
-            ->get();
 
-        $tareasEstudiantes = DB::table('tareas_estudiantes as te')
-            ->join('tareas as t', 'te.tareas_id', '=', 't.id')
-            ->select('t.id', 't.nombre', 't.detalle', 't.limite', 'te.nota', 'te.created_at as entregado')
-            ->where('te.user_id', $id)
-            ->get();
+
+        $estudiantesEvaluaciones = $this->EvaluacionRepository->GetAllEvaluacionesEstudiante($id_p, $usuario->id);
+
+        $estudiantesTareas = $this->TareasRepository->GetAllTareasEstudiante($id_p, $usuario->id);
+
+
+        foreach ($estudiantesEvaluaciones['evaluaciones'] as &$ev_data) {
+            $eval_c = Evaluacion::find($ev_data['id_e']);
+
+            $ev_data['nombre'] = $eval_c->nombre;
+            $ev_data['detalle'] = $eval_c->detalle;
+            $ev_data['creado'] = $eval_c->creado;
+            $ev_data['limite'] = $eval_c->limite;
+
+
+            $entregado = evaluacionCompleta::where('id_u', $usuario->id)->where('id_e', $eval_c->id)->first();
+
+            if ($entregado != null) {
+                $ev_data['entregado'] = $entregado->created_at;
+            } else {
+                $ev_data['entregado'] = 'No Entregado';
+            }
+
+
+        }
+
+        foreach ($estudiantesTareas['tareas'] as &$tarea_data) {
+            $tarea_c = Tarea::find($tarea_data['tareas_id']);
+
+            $tarea_data['nombre'] = $tarea_c->nombre;
+            $tarea_data['detalle'] = $tarea_c->detalle;
+            $tarea_data['limite'] = $tarea_c->limite;
+
+            if ($tarea_data['nota'] != 0) {
+                $tarea_data['entregado'] = tareas_estudiante::where('user_id', $usuario->id, 'tareas_id', $tarea_c->id)->first()->created_at;
+            } else {
+                $tarea_data['entregado'] = 'No Entregado / No Revisado';
+            }
+        }
+
 
 
         $profesor = asignacion_profesor::join('users as u', 'asignacion_profesor.id_u', '=', 'u.id')
@@ -134,11 +145,13 @@ class PdfController extends Controller
         $imgData_body = base64_encode(file_get_contents($path_body));
         $src_body = 'data:image/' . $type_body . ';base64,' . $imgData_body;
 
+        $evaluacionesEstudiante = $estudiantesEvaluaciones['evaluaciones'];
+        $tareasEstudiantes = $estudiantesTareas['tareas'];
         $data = [
             'usuario' => $usuario,
             'nombreMod' => $nombreMod,
             'paralelo' => $paralelo,
-            'evaluaciones' => $evaluaciones,
+
             'profesor' => $profesor,
             'materia' => $materia,
             'img_src' => $src,
@@ -151,7 +164,12 @@ class PdfController extends Controller
         $dompdf = new Dompdf($options);
 
         // Carga la vista y renderiza su contenido
-        $html = view('Reportes.estudianteRep1', compact('data', 'tareasEstudiantes', 'comentario'))->render();
+        $html = view('Reportes.estudianteRep1', compact(
+            'data',
+            'comentario',
+            'evaluacionesEstudiante',
+            'tareasEstudiantes'
+        ))->render();
 
         // Renderiza la vista HTML a PDF
         $dompdf->loadHtml($html);
@@ -167,10 +185,12 @@ class PdfController extends Controller
 
     }
 
+
+
     public function reporte_horarios()
     {
 
-        $path_body = public_path('storage/imagenes/imagenreporte.jpg');
+        $path_body = public_path('imagenes/imagenreporte.jpg');
         $type_body = pathinfo($path_body, PATHINFO_EXTENSION);
         $imgData_body = base64_encode(file_get_contents($path_body));
         $src_body = 'data:image/' . $type_body . ';base64,' . $imgData_body;

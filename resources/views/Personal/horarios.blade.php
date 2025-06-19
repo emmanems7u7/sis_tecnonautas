@@ -4,17 +4,6 @@
 @section('content')
 
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb"
-            style="background-color: #f8f9fa; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}"
-                    style="color: #007bff; text-decoration: none;">Inicio</a>
-            </li>
-
-            <li class="breadcrumb-item active" aria-current="page" style="font-weight: 500;">Horarios</li>
-        </ol>
-    </nav>
-
 
     <div class="alert alert-info text-white shadow-sm" role="alert">
         <h1 class="mb-3"><i class="fas fa-clock"></i> Visualización de Horarios</h1>
@@ -32,6 +21,15 @@
 
     <a href="{{ route('reporte.horarios') }}" class="btn btn-sm btn-info mb-3" target="_blank"> Exportar PDF</a>
 
-    @include('Personal.tabla_horarios')
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                @include('Personal.tabla_horarios')
+
+            </div>
+
+
+        </div>
+    </div>
 
 @endsection

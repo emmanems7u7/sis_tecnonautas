@@ -88,49 +88,5 @@
 
     </div>
 
-    <script>
 
-        var ModalEditar = new bootstrap.Modal(document.getElementById('modal_edit_usuario'));
-        function editarModal(user_id) {
-
-            fetch(`/datos/usuario/${user_id}`)
-                .then(response => response.json())
-                .then(data => {
-
-                    var actionUrl = "{{ route('users.update', ['id' => '_id_', 'perfil' => 0]) }}";
-                    actionUrl = actionUrl.replace('_id_', user_id);
-
-                    document.getElementById('form_edit').action = actionUrl;
-                    document.getElementById('user_id').value = data.user_id;
-                    document.getElementById('name_edit').value = data.name;
-                    document.getElementById('email_edit').value = data.email;
-                    document.getElementById('usuario_nombres_edit').value = data.usuario_nombres;
-                    document.getElementById('usuario_app_edit').value = data.usuario_app;
-                    document.getElementById('usuario_apm_edit').value = data.usuario_apm;
-                    document.getElementById('usuario_telefono_edit').value = data.usuario_telefono;
-                    document.getElementById('usuario_direccion_edit').value = data.usuario_direccion;
-                    ModalEditar.show();
-                })
-                .catch(error => console.error('Error al obtener los datos:', error));
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-
-            // Verifica si hay errores de validación
-            let hasErrors = @json($errors->any());
-            let formAction = @json(session('form_action'));
-            let user_id = @json(session('user_id'));
-            if (hasErrors) {
-                if (formAction == 'update') {
-                    editarModal(user_id)
-                }
-                else {
-                    document.getElementById('modal_create_usuario_button').click();
-                }
-
-            }
-
-        });
-
-    </script>
 @endsection

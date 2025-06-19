@@ -37,8 +37,7 @@ use App\Models\horario;
 use App\Models\AsistenciaEstudiante;
 use App\Interfaces\TareasInterface;
 use App\Interfaces\EvaluacionInterface;
-
-
+use App\Models\ConfiguracionCredenciales;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Profesor;
@@ -78,11 +77,17 @@ class UserController extends Controller
     public function reestablecer_contraseña($id)
     {
         $user = User::find($id);
-        $user->password = Hash::make(substr($user->name, 0, 3) . $user->ci);
+        $conf = ConfiguracionCredenciales::first();
+
+        $user->password = Hash::make($conf->conf_defecto);
+        $user->usuario_fecha_ultimo_password = null;
         $user->save();
+
         return redirect()->back()->with('status', 'Se reestablecio la contraseña de ' . $user->name . ' Correctamente');
 
     }
+
+
 
     // Mostrar el formulario para crear un nuevo usuario
     public function create()

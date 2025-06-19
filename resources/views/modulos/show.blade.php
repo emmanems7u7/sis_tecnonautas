@@ -313,26 +313,32 @@
       </a>
       @endrole
 
-      @role('admin|profesor')
+      @can('paralelos.gestion')
       <a href="{{ route('Paralelos.modulos.show', ['id_m' => $dat->id, 'id_a' => $id_a]) }}"
       class="btn btn-info btn-sm" title="Ver Contenido">
       <i class="fas fa-eye"></i>
       </a>
-      @endrole
+      @endcan
 
-      @can('modulos.materia.edit')
-      <a href="{{ route('modulos.materia.edit', ['id' => $dat->id]) }}" class="btn btn-secondary btn-sm"
+      @can('modulos.editar')
+      <a href="{{ route('modulos.materia.edit', ['id' => $dat->id]) }}" class="btn btn-warning btn-sm"
       title="Editar Módulo">
       <i class="fas fa-edit"></i>
       </a>
-    @endcan
+      @endcan
 
-      @can('modulos.materia.delete')
-      <a href="{{ route('modulos.materia.delete', ['id' => $dat->id]) }}" class="btn btn-danger btn-sm"
-      title="Eliminar Módulo">
-      <i class="fas fa-trash"></i>
-      </a>
-    @endcan
+        @can('modulos.materia.delete')
+        
+
+        <a type="button" class="btn btn-danger btn-sm" id="modal_edit_usuario_button"
+                              onclick="confirmarEliminacion('eliminarModuloForm', '¿Estás seguro de que deseas eliminar este módulo?')"><i class="fas fa-trash"></i></a>
+
+                          <form id="eliminarModuloForm" method="POST"
+                              action="{{ route('modulos.materia.delete', ['id' => $dat->id]) }}" style="display: none;">
+                              @csrf
+                              @method('DELETE')
+                          </form>
+        @endcan
     @else
     <p class="card-footer">Aun no tienes acceso al contenido de este modulo</p>
     <button class="btn btn-secondary btn-sm" disabled title="No disponible">
@@ -348,8 +354,10 @@
       </div>
       </div>
     </div>
+    
     @endforeach
-    @role('admin')
+
+    @can('modulos.crear')
 
     <div class="card mb-3 " style="margin-left: 33px;">
       <div class="content">
@@ -509,7 +517,7 @@
   </div>
    </div>
    </div>
-    @endrole
+    @endcan
   
 
 <script>

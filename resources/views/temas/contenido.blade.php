@@ -92,7 +92,7 @@
 
                                                         </div>
                                                         <div class="col-md-4">
-                                                            @can('contenido.contenido_tema_eliminar')
+                                                            @can('contenido._tema_eliminar')
                                                                 <form action="{{ route('eliminar.contenido', ['id' => $contenido->id]) }}"
                                                                     method="POST">
                                                                     @csrf
@@ -111,11 +111,11 @@
 
                                     <br>
 
-                                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('profesor'))
+                                    @can('contenido._tema_crear')
                                         <button type="button" class="btn btn-primary" onclick="openContenidoModal({{ $tema->id }})">
                                             {{ __('Subir Contenido') }}
                                         </button>
-                                    @endif
+                                    @endcan
 
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                     @endforeach
                 @endif
 
-                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('profesor'))
+                @can('modulos.temas_guardar')
                     <div class="card" style="height: 72px;">
                         <div class="card-header card-c  bg-info" id="">
                             <h5 class="mb-0">
@@ -135,7 +135,7 @@
                         </div>
 
                     </div>
-                @endif
+                @endcan
 
 
             </div>

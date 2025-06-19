@@ -93,10 +93,14 @@
       <h5 class="mb-0 text-white">Paralelo {{ $nombreParalelo }}</h5>
 
       @if ($detalleParalelo['activo'] == 1)
+
+      @can('modulos.temas_finalizar')
       <a onclick="finalizar('{{ $detalleParalelo['id_p'] }}', '{{ $id_a }}')" class="btn btn-warning btn-sm ms-auto"
       title="Finalizar Paralelo">
       <i class="fas fa-flag-checkered"></i> Finalizar Paralelo
       </a>
+      @endcan
+
     @endif
       </div>
 
@@ -141,21 +145,28 @@
 
       <!-- Botones -->
       <div class="d-flex flex-wrap gap-2 mt-3">
+      @can('modulos.temas_detalles')
       <a href="{{ route('modulos.temas.show', ['id_pm' => $detalleParalelo['id_p'], 'id_m' => $id_m]) }}"
       class="btn btn-primary btn-sm" title="Ver Contenido">
       <i class="fas fa-book-open"></i> Ver Contenido
       </a>
+      @endcan
 
-      @role('admin')
+
+      @can('modulos.temas_administrar')
       <a href="{{ route('modulos.temas.admin', ['id_a' => $id_a, 'id_m' => $id_m, 'id_p' => $detalleParalelo['id_p']]) }}"
       class="btn btn-info btn-sm" title="Administrar">
       <i class="fas fa-cogs"></i> Administrar
       </a>
-
+      @endcan
+      @can('paralelos.editar_gestion')
       <a href="{{ route('ParaleloHorario.edit', ['id' => $detalleParalelo['id_p'], 'id_a' => $id_a, 'id_m' => $id_m]) }}"
       class="btn btn-warning btn-sm" title="Editar">
       <i class="fas fa-edit"></i> Editar
       </a>
+      @endcan
+
+      @can('paralelos.eliminar_gestion')
 
       <a type="button" class="btn btn-danger btn-sm" id="modal_edit_usuario_button"
       onclick="confirmarEliminacion('eliminarParaleloForm', '¿Estás seguro de que deseas eliminar este paralelo?')">
@@ -165,24 +176,26 @@
       <form id="eliminarParaleloForm" method="POST"
       action="{{ route('Paralelo_modulo.delete', ['id' => $detalleParalelo['id_p'], 'id_a' => $id_a, 'id_m' => $id_m]) }}"
       style="display: none;">
+    @endcan
+
       @csrf
       @method('DELETE')
       </form>
-      @endrole
 
-
-
-      @role('profesor|admin')
+      @can('asistencia.generar')
       <a class="btn btn-success btn-sm" onclick="genera_asistencia('{{ $detalleParalelo['id_p'] }}')"
       title="Generar Asistencia">
       <i class="fas fa-user-check"></i> Generar Asistencia
       </a>
+      @endcan
+      @can('asistencia.ver_detalle')
 
       <a class="btn btn-info btn-sm" onclick="mostrarModal('{{ $detalleParalelo['id_p'] }}')"
       title="Ver Asistencia">
       <i class="fas fa-clipboard-list"></i> Ver Asistencia
       </a>
-      @endrole
+      @endcan
+
       </div>
       </div>
     </div>
@@ -191,6 +204,7 @@
     @endif
 
     <!-- Modal genera asistencia -->
+    @can('asistencia.ver_detalle')
 
     <!-- Modal asistencia -->
     <div class="modal fade" id="asistenciasModal_ver" tabindex="-1" aria-labelledby="asistenciasModal_verLabel"
@@ -199,32 +213,33 @@
       <div
       class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
-        <h5 class="modal-title" id="asistenciasModal_verLabel">Asistencia</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <h5 class="modal-title" id="asistenciasModal_verLabel">Asistencia</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
-        <div id="contenedor" class="leyenda-asistencia">
-        <p><span class="cuadro-falta"></span> Falta</p>
-        <p><span class="cuadro-atraso"></span> Atraso</p>
-        <p><span class="cuadro-asistencia"></span> Asistencia</p>
-        </div>
-        <div class="table-responsive">
-        <div id="contenedorTabla"></div> <!-- Contenedor para la tabla -->
-        </div>
+      <div id="contenedor" class="leyenda-asistencia">
+      <p><span class="cuadro-falta"></span> Falta</p>
+      <p><span class="cuadro-atraso"></span> Atraso</p>
+      <p><span class="cuadro-asistencia"></span> Asistencia</p>
+      </div>
+      <div class="table-responsive">
+      <div id="contenedorTabla"></div> <!-- Contenedor para la tabla -->
+      </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
       </div>
     </div>
     </div>
+    @endcan
 
     <!-- Tarjeta para crear un nuevo paralelo -->
-    @role('admin')
+    @can('paralelos.crear_gestion')
     @include('paralelos.formNuevosParalelos')
     @yield('formParalelos')
-    @endrole
+    @endcan
 
   </div>
 
