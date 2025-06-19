@@ -91,12 +91,12 @@
       <h5 class="card-title text-primary fw-bold text-center">{{ $dat->nombre }}</h5>
 
       <div class="mt-3 d-flex flex-column align-items-center gap-2">
-        @can('modulos.ver')
+      @can('modulos.ver')
       <a href="{{ route('modulos.materia.show', ['id_a' => $dat->id]) }}"
-        class="btn btn-info text-white btn-sm w-100">
-        Ver Materia
+      class="btn btn-info text-white btn-sm w-100">
+      Ver Materia
       </a>
-
+      @endcan
       @can('asignacion.editar')
       <a href="{{ route('asignacion.edit', ['id' => $dat->id]) }}"
       class="btn btn-warning text-white btn-sm w-100">

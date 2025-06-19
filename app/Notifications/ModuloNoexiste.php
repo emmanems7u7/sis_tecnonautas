@@ -47,7 +47,7 @@ class ModuloNoexiste extends Notification
 
         return [
             'message' => 'El usuario ' . $this->user->usuario_nombres . '' . $this->user->usuario_app . ' ' .
-                $this->user->usuario_apm . ', intentó asignar automaticamente a sus estudiantes de la materia ' . $this->materia->nombre . ', ' . $this->nombreM . ', el cual la materia no cuenta con un ' . $this->modulosig . 'cree el modulo para que el usuario pueda continuar con su asignacion automatica',
+                $this->user->usuario_apm . ', intentó asignar automaticamente a sus estudiantes de la materia ' . $this->materia->nombre . ', ' . $this->nombreM . ', el cual la materia no cuenta con un ' . $this->modulosig . ' cree el modulo para que el usuario pueda continuar con su asignacion automatica',
             'action_url' => route('modulos.materia.show', [
                 'id_a' => $this->materia->id,
 
