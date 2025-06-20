@@ -76,7 +76,7 @@ class ProfesorController extends Controller
             return redirect()->back()->with('error', 'No tienes horarios asignados o no tienes el rol de profesor');
 
         }
-        return view('personal.horarios', compact('horariosF', 'breadcrumb'));
+        return view('Personal.horarios', compact('horariosF', 'breadcrumb'));
     }
 
 
@@ -233,7 +233,7 @@ class ProfesorController extends Controller
 
         $horarioTabla = $this->getHorarioTabla($asignaciones, $diasSemana, $rangos, $coloresPorProfesor);
 
-        return view('personal.horarios_profesores', compact(
+        return view('Personal.horarios_profesores', compact(
             'breadcrumb',
             'horariosPorProfesor',
             'horarioTabla',
@@ -299,7 +299,7 @@ class ProfesorController extends Controller
 
 
         return ExportPDF::exportPdf(
-            'personal.reporte_horarios_prof',
+            'Personal.reporte_horarios_prof',
 
             [
                 'horariosPorProfesor' => $horariosPorProfesor,
