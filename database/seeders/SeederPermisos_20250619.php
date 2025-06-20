@@ -10,6 +10,7 @@ class SeederPermisos_20250619 extends Seeder
     public function run()
     {
         $permisos = [
+['id' => '177', 'name' => 'Horarios de profesores', 'tipo' => 'menu','id_relacion' => '30', 'guard_name' => 'web' ],
 ['id' => '176', 'name' => 'usuarios.reestablecer_contraseña', 'tipo' => 'permiso','id_relacion' => '', 'guard_name' => 'web' ],
 ['id' => '175', 'name' => 'Ver Estudiantes', 'tipo' => 'menu','id_relacion' => '29', 'guard_name' => 'web' ],
 ['id' => '174', 'name' => 'usuarios.ver_estudiantes', 'tipo' => 'permiso','id_relacion' => '', 'guard_name' => 'web' ],

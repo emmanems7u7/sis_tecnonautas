@@ -276,7 +276,6 @@ class ParaleloController extends Controller
 
     public function storeParaleloModulo(Request $request)
     {
-
         $validated = $request->validate([
             'paralelo' => 'required|exists:paralelos,id',
             'id_m' => 'required|exists:modulos,id',
@@ -289,11 +288,42 @@ class ParaleloController extends Controller
             'horaInicio.*' => 'required|date_format:H:i',
 
             'horaFin' => 'required|array|min:1',
-            'horaFin.*' => 'required|date_format:H:i|after:horaInicio.*',
+            'horaFin.*' => 'required|date_format:H:i',
 
             'profesor' => 'required|exists:users,id',
         ]);
 
+        // Paso 1: Validar conflicto de horarios del profesor
+        $profesorId = $request->input('profesor');
+        $dias = $request->input('dia');
+        $horaInicio = $request->input('horaInicio');
+        $horaFin = $request->input('horaFin');
+
+        // Obtener todos los id_pm asignados al profesor
+        $paralelosProfesor = asignacion_profesor::where('id_u', $profesorId)->pluck('id_pm');
+
+        // Obtener todos los horarios de esos paralelos
+        $horariosExistentes = horario::whereIn('id_mp', $paralelosProfesor)->get();
+
+        // Validar si hay cruce
+        for ($i = 0; $i < count($dias); $i++) {
+            $nuevoDia = $dias[$i];
+            $nuevoInicio = $horaInicio[$i];
+            $nuevoFin = $horaFin[$i];
+
+            foreach ($horariosExistentes as $horario) {
+                if ($horario->dias == $nuevoDia) {
+                    if (
+                        ($nuevoInicio < $horario->fin) &&
+                        ($nuevoFin > $horario->inicio)
+                    ) {
+                        return back()->with('error', "Conflicto de horario: El profesor ya tiene clase el {$nuevoDia} de {$horario->inicio} a {$horario->fin}.");
+                    }
+                }
+            }
+        }
+
+        // Paso 2: Crear el paralelo_modulo
         try {
             $paralelo_modulo = paralelo_modulo::create([
                 'id_p' => $request->input('paralelo'),
@@ -302,41 +332,39 @@ class ParaleloController extends Controller
                 'inscritos' => 0,
                 'mes' => $request->input('mes'),
             ]);
-
-
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al guardar paralelo modulo' . $e->getMessage());
+            return back()->with('error', 'Error al guardar paralelo módulo: ' . $e->getMessage());
         }
-        try {
-            for ($i = 0; $i < count($request->input('dia')); $i++) {
-                $horarios = horario::create([
-                    'id_mp' => $paralelo_modulo->id,
-                    'dias' => $request->input('dia')[$i],
-                    'inicio' => $request->input('horaInicio')[$i],
-                    'fin' => $request->input('horaFin')[$i],
-                ]);
 
+        // Paso 3: Crear los horarios
+        try {
+            for ($i = 0; $i < count($dias); $i++) {
+                horario::create([
+                    'id_mp' => $paralelo_modulo->id,
+                    'dias' => $dias[$i],
+                    'inicio' => $horaInicio[$i],
+                    'fin' => $horaFin[$i],
+                ]);
             }
+
             $this->AsignarHorario($paralelo_modulo->id, $paralelo_modulo->mes);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al horario' . $e->getMessage());
-
+            return back()->with('error', 'Error al guardar los horarios: ' . $e->getMessage());
         }
 
+        // Paso 4: Asignar profesor
         try {
-            $asig_profesor = asignacion_profesor::create([
+            asignacion_profesor::create([
                 'id_pm' => $paralelo_modulo->id,
-                'id_u' => $request->input('profesor'),
-
+                'id_u' => $profesorId,
             ]);
-
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'No se asigno un Profesor a la materia, Puede asignarlo presionando el boton Editar');
-
+            return back()->with('error', 'No se asignó un profesor a la materia. Puede hacerlo luego desde Editar.');
         }
 
-        return back()->with('status', 'se creo registro exitosamente!');
+        return back()->with('status', '¡Se creó el registro exitosamente!');
     }
+
     public function AsignarHorario($id_pm)
     {
         $horarios = Horario::where('id_mp', $id_pm)->get();

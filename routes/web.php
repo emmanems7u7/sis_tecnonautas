@@ -617,3 +617,9 @@ Route::post('/guardar-color-sidebar', [UserPersonalizacionController::class, 'gu
 // routes/web.php
 Route::post('/user/personalizacion/sidebar-type', [UserPersonalizacionController::class, 'updateSidebarType'])->middleware('auth');
 Route::post('/user/preferences', [UserPersonalizacionController::class, 'updateDark'])->middleware('auth');
+
+
+
+Route::get('/horarios/profesores', [ProfesorController::class, 'horarios_profesores'])->name('horarios_profesores.index');
+Route::get('export/horarios/profesores', [ProfesorController::class, 'export_horarios'])->name('horarios_profesores.export');
+

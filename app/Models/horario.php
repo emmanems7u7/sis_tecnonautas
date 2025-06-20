@@ -13,6 +13,6 @@ class horario extends Model
         'dias',
         'inicio',
         'fin',
-    ]; 
-   
+    ];
+
 }

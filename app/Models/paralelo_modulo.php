@@ -32,4 +32,9 @@ class paralelo_modulo extends Model
         return $this->hasMany(Estudiantes_asignacion_paramodulo::class, 'id_pm', 'id');
     }
 
+    public function horarios()
+    {
+        return $this->hasMany(horario::class, 'id_mp');
+    }
+
 }

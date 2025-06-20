@@ -12,7 +12,14 @@ class asignacion_profesor extends Model
     protected $fillable = [
         'id_pm',
         'id_u',
-        
+
     ];
-   
+    public function paraleloModulo()
+    {
+        return $this->belongsTo(paralelo_modulo::class, 'id_pm');
+    }
+    public function profesor()
+    {
+        return $this->belongsTo(User::class, 'id_u');
+    }
 }

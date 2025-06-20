@@ -11,6 +11,15 @@ class SeederMenu_20250619 extends Seeder
     {
         $menus = [
             [
+                'id' => '30',
+                'nombre' => 'Horarios de profesores',
+                'orden' => 2,
+                'padre_id' => null,
+                'seccion_id' => 19,
+                'ruta' => 'horarios_profesores.index',
+                'accion_usuario' => '',
+            ],
+            [
                 'id' => '29',
                 'nombre' => 'Ver Estudiantes',
                 'orden' => 1,
