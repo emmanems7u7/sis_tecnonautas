@@ -232,7 +232,7 @@
 
                                
                                 <div class="alert alert-info text-white" role="alert" >
-                                Por favor, reenvía el correo del pago que realizaste a <strong>diegoc9716@gmail.com</strong> con el asunto <strong>Pago Estudiante</strong>.
+                                Por favor, reenvía el correo del pago que realizaste a <strong>{{ $correo->username }}</strong> con el asunto <strong>Pago Estudiante</strong>.
                                 Ten en cuenta que el correo puede demorar entre 30 minutos y 1 hora en llegar, por lo que te pedimos un poco de paciencia.
                                 Una vez que lo hayas recibido y reenviado, marca el check para confirmar.
                                 <br>

@@ -20,6 +20,7 @@ use Illuminate\Pagination\Paginator;
 use App\Interfaces\NotificationInterface;
 use Illuminate\Support\Facades\Http;
 use App\Models\AuditoriaPago;
+use App\Models\ConfCorreo;
 use App\Notifications\PagoNoAutomatizado;
 use App\Notifications\PagoAprobado;
 
@@ -172,8 +173,11 @@ class PagoController extends Controller
         $tiposDePago = TipoPago::where('activo', 1)->get();
 
         $apoderados = Apoderado::where('id_u', $user)->get();
+
+        $correo = ConfCorreo::first();
+
         // dd($apoderados);
-        return view('pagos.pagoEstudiante', compact('materiaArray', 'tiposDePago', 'apoderados'));
+        return view('pagos.pagoEstudiante', compact('correo', 'materiaArray', 'tiposDePago', 'apoderados'));
     }
 
     public function PagoPendiente_noti()
