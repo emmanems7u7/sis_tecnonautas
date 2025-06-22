@@ -18,7 +18,7 @@
                                 <div class="profile-picture mr-3">
 
 
-                                    @if ($usuario->foto_perfil)
+                                    @if ($usuario->fotoperfil)
                                         <img src="{{ asset($usuario->fotoperfil) }}" alt="Foto de perfil"
                                             class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
                                     @else

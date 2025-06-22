@@ -97,8 +97,8 @@
       <div class="col-md-5">
         <!-- Información personal -->
         <div class="text-center">
-          @if ($user->foto_perfil)
-        <img src="{{ asset($user->foto_perfil) }}" alt="profile_image" class="profile-img">
+          @if ($user->fotoperfil)
+        <img src="{{ asset($user->fotoperfil) }}" alt="profile_image" class="profile-img">
       @else
         <img src="{{ asset('update/imagenes/user.jpg') }}" alt="profile_image" class="profile-img">
       @endif

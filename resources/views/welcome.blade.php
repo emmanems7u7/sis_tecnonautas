@@ -57,24 +57,22 @@
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contacto</a>
                 </div>
-                
+
 
                 @if (Route::has('login'))
-                  
-                        @auth
-                            <a href="{{ url('/home') }}"
-                                class="btn btn-primary px-4">
-                                inicio
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}"
-                                class="btn btn-primary px-4">
-                                Ingresar
-                            </a>
 
-                           
-                        @endauth
-                  
+                    @auth
+                        <a href="{{ url('/home') }}" class="btn btn-primary px-4">
+                            inicio
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary px-4">
+                            Ingresar
+                        </a>
+
+
+                    @endauth
+
                 @endif
             </div>
         </nav>
@@ -214,39 +212,39 @@
             </div>
             <div class="row">
                 @foreach ($materias as $materia)
-                <div class="col-lg-4 mb-5">
-                    <div class="card border-0 bg-light shadow-sm pb-2">
-                        <img class="card-img-top mb-2" src="img/class-1.jpg" alt="">
-                        <div class="card-body text-center">
-                            <h4 class="card-title">{{ $materia->nombre }}</h4>
-                            <p class="card-text">{{ $materia->descripcionCorta }}</p>
-                        </div>
-                        <div class="card-footer bg-transparent py-4 px-5">
+                    <div class="col-lg-4 mb-5">
+                        <div class="card border-0 bg-light shadow-sm pb-2">
+                            <img class="card-img-top mb-2" src="img/class-1.jpg" alt="">
+                            <div class="card-body text-center">
+                                <h4 class="card-title">{{ $materia->nombre }}</h4>
+                                <p class="card-text">{{ $materia->descripcionCorta }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent py-4 px-5">
 
-                        @foreach ($materia->objetivos as $objetivo )
-                        <div class="row border-bottom">
-                                <div class="col-6 py-1 text-right border-right"><strong>Objetivo</strong></div>
-                                <div class="col-6 py-1">{{ $objetivo->objetivo }}</div>
+                                @foreach ($materia->objetivos as $objetivo)
+                                    <div class="row border-bottom">
+                                        <div class="col-6 py-1 text-right border-right"><strong>Objetivo</strong></div>
+                                        <div class="col-6 py-1">{{ $objetivo->objetivo }}</div>
+                                    </div>
+                                @endforeach
+                                @if($materia->tipo == 'pago')
+                                    <div class="row">
+                                        <div class="col-6 py-1 text-right border-right"><strong>Costo </strong></div>
+                                        <div class="col-6 py-1">Bs. {{ $materia->costo }}</div>
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <div class="col-6 py-1 text-right border-right"><strong>Materia gratuita </strong></div>
+                                    </div>
+
+                                @endif
                             </div>
-                        @endforeach
-                         @if($materia->tipo == 'pago')
-                         <div class="row">
-                                <div class="col-6 py-1 text-right border-right"><strong>Costo </strong></div>
-                                <div class="col-6 py-1">Bs. {{ $materia->costo }}</div>
-                            </div>
-                         @else
-                         <div class="row">
-                                <div class="col-6 py-1 text-right border-right"><strong>Materia gratuita </strong></div>
-                            </div>
-                       
-                        @endif
+                            <a href="" class="btn btn-primary px-4 mx-auto mb-4">Ver Detalles</a>
                         </div>
-                        <a href="" class="btn btn-primary px-4 mx-auto mb-4">Ver Detalles</a>
                     </div>
-                </div>
                 @endforeach
-                
-               
+
+
             </div>
         </div>
     </div>
@@ -316,30 +314,28 @@
                 <h1 class="mb-4">Nuestro personal</h1>
             </div>
             <div class="row">
-@foreach($usuarios as $usuario)
-                <div class="col-md-6 col-lg-3 text-center team mb-5">
-                    <div class="position-relative overflow-hidden mb-4" style="border-radius: 100%;">
-                       
+                @foreach($usuarios as $usuario)
+                    <div class="col-md-6 col-lg-3 text-center team mb-5">
+                        <div class="position-relative overflow-hidden mb-4" style="border-radius: 100%;">
 
-                        @if ($usuario->foto_perfil)
-                                <img src="{{ asset($usuario->foto_perfil) }}" alt="profile_image"
-                                    class="img-fluid w-100">
+
+                            @if ($usuario->fotoperfil)
+                                <img src="{{ asset($usuario->fotoperfil) }}" alt="profile_image" class="img-fluid w-100">
                             @else
-                                <img src="{{ asset('update/imagenes/user.jpg') }}" alt="profile_image"
-                                class="img-fluid w-100">
+                                <img src="{{ asset('update/imagenes/user.jpg') }}" alt="profile_image" class="img-fluid w-100">
                             @endif
-                        <div
-                            class="team-social d-flex align-items-center justify-content-center w-100 h-100 position-absolute">
-                           
-                            <a class="btn btn-outline-light text-center mr-2 px-0" style="width: 38px; height: 38px;"
-                                href="#"><i class="fab fa-facebook-f"></i></a>
-                        
+                            <div
+                                class="team-social d-flex align-items-center justify-content-center w-100 h-100 position-absolute">
+
+                                <a class="btn btn-outline-light text-center mr-2 px-0" style="width: 38px; height: 38px;"
+                                    href="#"><i class="fab fa-facebook-f"></i></a>
+
+                            </div>
                         </div>
+                        <h4>{{ $usuario->usuario_nombres }} {{ $usuario->usuario_app }} {{ $usuario->usuario_apm }}</h4>
+                        <i>{{ $usuario->getRoleNames()->first() ?? 'Sin Rol Asignado' }}</i>
                     </div>
-                    <h4>{{ $usuario->usuario_nombres }} {{ $usuario->usuario_app }} {{ $usuario->usuario_apm }}</h4>
-                    <i>{{ $usuario->getRoleNames()->first() ?? 'Sin Rol Asignado' }}</i>
-                </div>
-              @endforeach
+                @endforeach
             </div>
         </div>
     </div>
@@ -369,14 +365,14 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
     <!-- Testimonial End -->
 
 
- 
+
 
 
     <!-- Footer Start -->

@@ -46,7 +46,7 @@ class UserRepository extends BaseRepository implements UserInterface
     public function EditarUsuario($request, $id, $perfil)
     {
 
-        $this->validar_datos($request, $id);
+        $this->validar_datos($request, $id, $perfil);
         $user = User::findOrFail($id);
         if ($perfil == 1) {
 
@@ -63,7 +63,7 @@ class UserRepository extends BaseRepository implements UserInterface
                 $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
 
 
-                $destinationPath = public_path('uploads/imagenes/fotos_perfiles');
+                $destinationPath = public_path('imagenes/fotos_perfiles');
 
                 // verifica si carpeta existe, si no la crea
                 if (!File::exists($destinationPath)) {
@@ -72,14 +72,14 @@ class UserRepository extends BaseRepository implements UserInterface
 
 
                 $file->move($destinationPath, $fileName);
-                $foto_perfil = 'uploads/imagenes/fotos_perfiles/' . $fileName;
+                $foto_perfil = 'imagenes/fotos_perfiles/' . $fileName;
             } else {
-                $foto_perfil = $user->foto_perfil;
+                $foto_perfil = $user->fotoperfil;
 
             }
 
         } else {
-            $foto_perfil = $user->foto_perfil;
+            $foto_perfil = $user->fotoperfil;
         }
 
         $user->update([
@@ -93,7 +93,7 @@ class UserRepository extends BaseRepository implements UserInterface
             'accion_fecha' => now(),
             'accion_usuario' => Auth::user()->name,
             'usuario_activo' => 1,
-            'foto_perfil' => $foto_perfil,
+            'fotoperfil' => $foto_perfil,
         ]);
         return $user;
     }
@@ -144,7 +144,7 @@ class UserRepository extends BaseRepository implements UserInterface
 
     }
 
-    function validar_datos($request, $user_id = null)
+    function validar_datos($request, $user_id = null, $perfil = 0)
     {
         $email_validacion = 'required|email|not_regex:/<\s*script/i';
 
@@ -154,6 +154,7 @@ class UserRepository extends BaseRepository implements UserInterface
             $email_validacion .= '|unique:users,email';
         }
 
+
         $validated = $request->validate([
             'name' => 'required|string|max:255|not_regex:/<\s*script/i',
             'email' => $email_validacion,
@@ -162,9 +163,14 @@ class UserRepository extends BaseRepository implements UserInterface
             'usuario_apm' => 'required|string|max:50|not_regex:/<\s*script/i',
             'usuario_telefono' => 'required|regex:/^[1-9][0-9]*$/',
             'usuario_direccion' => 'required|string|max:1000|not_regex:/<\s*script/i',
-            'role' => 'required|exists:roles,name',
+
         ]);
 
+        if ($perfil == 0) {
+            $validated = $request->validate([
+                'role' => 'required|exists:roles,name',
+            ]);
+        }
     }
 
     public function getEstudiantes()

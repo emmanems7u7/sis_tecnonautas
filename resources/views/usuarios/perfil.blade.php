@@ -24,8 +24,8 @@
                 <div class="row gx-4">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            @if ($user->foto_perfil)
-                                <img src="{{ asset($user->foto_perfil) }}" alt="profile_image"
+                            @if ($user->fotoperfil)
+                                <img src="{{ asset($user->fotoperfil) }}" alt="profile_image"
                                     class="w-100 border-radius-lg shadow-sm">
                             @else
                                 <img src="{{ asset('update/imagenes/user.jpg') }}" alt="profile_image"
