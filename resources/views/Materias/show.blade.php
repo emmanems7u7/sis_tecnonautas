@@ -98,8 +98,7 @@
       </a>
       @endcan
       @can('asignacion.editar')
-      <a href="{{ route('asignacion.edit', ['id' => $dat->id]) }}"
-      class="btn btn-warning text-white btn-sm w-100">
+      <a href="{{ route('asignacion.edit', $dat->id) }}" class="btn btn-warning text-white btn-sm w-100">
       Editar Materia
       </a>
       @endcan

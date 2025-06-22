@@ -277,14 +277,14 @@ class AsignacionRepository implements AsignacionInterface
 
         if ($request->hasFile('portada_imagen') && $request->file('portada_imagen')->isValid()) {
             $file = $request->file('portada_imagen');
-            $filename = uniqid('portada_') . '.' . $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('imagenes'), $filename);
             $photoPath = 'imagenes/' . $filename;
         }
 
         if ($request->hasFile('img1')) {
             $file = $request->file('img1');
-            $filename = uniqid('img1_') . '.' . $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('imagenes'), $filename);
             $imagen1Path = 'imagenes/' . $filename;
         }

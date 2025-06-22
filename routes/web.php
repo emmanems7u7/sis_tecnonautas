@@ -85,8 +85,7 @@ Route::middleware(['auth', 'check.password.age'])->group(function () {
         ->middleware('can:usuarios.editar');
 
     Route::put('/usuarios/{id}/{perfil}', [UserController::class, 'update'])
-        ->name('users.update')
-        ->middleware('can:usuarios.editar');
+        ->name('users.update');
 
     Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy')
@@ -308,8 +307,8 @@ Route::middleware(['auth', 'check.password.age'])->group(function () {
 
     Route::get('materias/ver', [AsignacionController::class, 'index'])->name('asignacion.index')->middleware('can:asignacion.ver');
     Route::get('materias/crea', [AsignacionController::class, 'create'])->name('asignacion.create')->middleware('can:asignacion.crear');
-    Route::get('materias/editar/{id}', [AsignacionController::class, 'edit'])->name('asignacion.edit')->middleware('can:asignacion.editar');
-    Route::put('materias/guardar', [AsignacionController::class, 'update'])->name('asignacion.guardar')->middleware('can:asignacion.actualizar');
+    Route::get('materias/editar/{asignacion}', [AsignacionController::class, 'edit'])->name('asignacion.edit')->middleware('can:asignacion.editar');
+    Route::put('materias/guardar/{asignacion}', [AsignacionController::class, 'update'])->name('asignacion.guardar')->middleware('can:asignacion.actualizar');
     Route::post('materias/crear', [AsignacionController::class, 'store'])->name('asignacion.store')->middleware('can:asignacion.guardar');
     Route::get('materias/vermat', [AsignacionController::class, 'showJ'])->name('asignacion.showJ')->middleware('can:asignacion.ver_materias');
     Route::delete('materias/asignacion/{id}', [AsignacionController::class, 'destroy'])->name('asignacion.delete')->middleware('can:asignacion.eliminar');

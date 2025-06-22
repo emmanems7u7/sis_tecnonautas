@@ -34,16 +34,8 @@
             <!-- Columna del texto -->
             <div class="col-md-9 text-justify">
                 <h4 class="alert-heading">
-                    <i class="fas fa-chalkboard-teacher"></i> ¡Bienvenido a la sección para crear Cursos!
+                    <i class="fas fa-chalkboard-teacher"></i> ¡Bienvenido a la sección para editar un Curso!
                 </h4>
-
-                <p>
-                    Aquí podrás crear nuevos cursos para que los estudiantes
-                    puedan inscribirse y aprender nuevas habilidades. Completa el formulario a continuación para agregar
-                    un nuevo curso a nuestra plataforma.
-                </p>
-                <p>Es importante que registres los objetivos, caracteristicas, beneficios, estos mismos se mostraran en la
-                    pagina publicitaria</p>
             </div>
         </div>
     </div>
@@ -52,10 +44,10 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Nuevo Curso</div>
+                    <div class="card-header">Editar Curso</div>
                     <div class="card-body">
-                        <form id="courseForm" action="{{ route('asignacion.store') }}" enctype="multipart/form-data"
-                            method="post">
+                        <form id="courseForm" action="{{ route('asignacion.guardar', $asignacion) }}"
+                            enctype="multipart/form-data" method="post">
                             @csrf
 
                             @include('Materias._form')
@@ -146,9 +138,9 @@
             const newInput = document.createElement('div');
             newInput.classList.add('input-group', 'mb-3');
             newInput.innerHTML = `
-                                                                                                    <input type="text" class="form-control" name="${containerId}[]" placeholder="${containerId.charAt(0).toUpperCase() + containerId.slice(1)}" required>
-                                                                                                    <button class="btn btn-outline-secondary" type="button" onclick="eliminarCampo(this)">-</button>
-                                                                                                `;
+                                                                                                                        <input type="text" class="form-control" name="${containerId}[]" placeholder="${containerId.charAt(0).toUpperCase() + containerId.slice(1)}" required>
+                                                                                                                        <button class="btn btn-outline-secondary" type="button" onclick="eliminarCampo(this)">-</button>
+                                                                                                                    `;
             container.appendChild(newInput);
         }
 

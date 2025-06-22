@@ -34,6 +34,7 @@ class AsignacionController extends Controller
 
         $e = $this->AsignacionRepository->GetAsignaciones();
 
+
         return view('Materias.show', compact('e', 'breadcrumb'));
     }
 
@@ -109,7 +110,14 @@ class AsignacionController extends Controller
      */
     public function edit(Asignacion $asignacion)
     {
-        //
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Materias', 'url' => route('asignacion.index')],
+
+            ['name' => 'Editar Materia', 'url' => route('asignacion.index')],
+        ];
+        return view('Materias.edit', compact('asignacion', 'breadcrumb'));
     }
     public function showI()
     {

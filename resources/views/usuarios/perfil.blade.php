@@ -103,11 +103,54 @@
         
 </div>
 
+<script>
+    function togglePreview(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.style.display === 'none') {
+            el.style.display = 'block';
+        } else {
+            el.style.display = 'none';
+        }
+    }
 
+
+</script>
             
           
     
+<script>  function previewImage(event) {
+        const file = event.target.files[0];
+        const previewImg = document.getElementById("preview-img");
+        const removeBtn = document.getElementById("remove-img");
+        const previewContainer = document.getElementById("preview-container");
 
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = "block";
+                removeBtn.style.display = "inline-block";
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+
+    function removeImage() {
+        const previewImg = document.getElementById("preview-img");
+        const removeBtn = document.getElementById("remove-img");
+        const inputFile = document.getElementById("profile_picture");
+
+
+        previewImg.style.display = "none";
+        removeBtn.style.display = "none";
+        inputFile.value = "";
+    }
+</script>
    
 
 
