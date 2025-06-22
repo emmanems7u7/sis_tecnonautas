@@ -48,7 +48,7 @@ class PagoController extends Controller
             ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Pagos', 'url' => route('pagos.index')],
         ];
-        $materias = Estudiantes_asignacion_paramodulo::with(['asignacion', 'paraleloModulo.modulo']);
+        $materias = Estudiantes_asignacion_paramodulo::with(['asignacion', 'paraleloModulo.modulo'])->get();
 
         $materiasConModulos = [];
 
