@@ -45,6 +45,9 @@ use App\Http\Controllers\WelcomeController;
 
 use App\Http\Controllers\EstudianteController;
 
+use App\Http\Controllers\CuentaImapController;
+
+
 Route::get('/', function () {
 
 });
@@ -227,6 +230,17 @@ Route::middleware(['auth', 'role:admin', 'check.password.age'])->group(function 
     Route::get('/permissions/cargar/menu/{id}/{rol_id}', [RoleController::class, 'get_permisos_menu'])
         ->name('permissions.menu');
 
+
+
+
+
+    Route::get('cuentas-imap', [CuentaImapController::class, 'index'])->name('cuentas.index');
+    Route::get('cuentas-imap/crear', [CuentaImapController::class, 'create'])->name('cuentas.create');
+    Route::post('cuentas-imap', [CuentaImapController::class, 'store'])->name('cuentas.store');
+    Route::get('cuentas-imap/{id}/editar', [CuentaImapController::class, 'edit'])->name('cuentas.edit');
+    Route::put('cuentas-imap', [CuentaImapController::class, 'update'])->name('cuentas.update');
+
+
 });
 
 
@@ -319,7 +333,7 @@ Route::get('/mails/filtra', [CorreoController::class, 'filtraIndex'])->name('ema
 ;
 
 // Ruta para mostrar el formulario de filtro
-Route::get('/mails/filter', [CorreoController::class, 'showFilterForm'])->name('mails.filter.form');
+Route::get('/mails/filter', [CorreoController::class, 'showFilterForm'])->name('mails.filter.form.index');
 // Ruta para procesar el filtro y devolver los resultados en JSON
 Route::get('/mails/results', [CorreoController::class, 'getMails'])->name('mails.filter');
 Route::get('/mails/dat', [CorreoController::class, 'prueba']);

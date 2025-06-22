@@ -3,10 +3,15 @@ namespace App\Repositories;
 
 use App\Interfaces\CorreoInterface;
 use \App\Models\ConfCorreo;
+use \App\Models\CuentaImap;
+
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\MockObject\Stub\ReturnReference;
 use Webklex\IMAP\Facades\Client;
-
+use Illuminate\Support\Facades\Config;
+use Webklex\IMAP\Exceptions\ConnectionFailedException;
+use Illuminate\Support\Facades\Log;
+use Webklex\IMAP\ClientManager;
 class CorreoRepository extends BaseRepository implements CorreoInterface
 {
 
@@ -45,7 +50,22 @@ class CorreoRepository extends BaseRepository implements CorreoInterface
 
     function getMails($email, $fecha_inicio, $fecha_fin)
     {
-        // Crear un cliente IMAP
+        $cuenta = CuentaImap::first();
+
+        if (!$cuenta) {
+            throw new \Exception("No hay configuración IMAP guardada");
+        }
+
+        // Crear un cliente IMAP con configuración dinámica
+        Config::set('imap.accounts.default', [
+            'host' => $cuenta->host,
+            'port' => $cuenta->port,
+            'encryption' => $cuenta->encryption ?: null,
+            'validate_cert' => $cuenta->validate_cert,
+            'username' => $cuenta->username,
+            'password' => $cuenta->password,
+            'protocol' => 'imap',
+        ]);
         $client = Client::account('default');
         $client->connect();
 
@@ -60,8 +80,45 @@ class CorreoRepository extends BaseRepository implements CorreoInterface
         }
 
         $messages = $query->get()->sortByDesc('date');
+
         return $messages;
     }
+
+    function getMailsByDate($fecha_inicio, $fecha_fin)
+    {
+        try {
+
+            $cuenta = CuentaImap::first();
+
+            if (!$cuenta) {
+                throw new \Exception("No hay configuración IMAP guardada");
+            }
+
+            // Crear un cliente IMAP
+            $client = Client::account('default');
+            $client->connect();
+
+            // Obtener la bandeja de entrada
+            $folder = $client->getFolder('INBOX');
+
+            // Construir la consulta solo por fechas
+            $query = $folder->query()->since($fecha_inicio)->before($fecha_fin);
+
+            // Obtener y ordenar los mensajes
+            $messages = $query->get()->sortByDesc('date');
+
+            return $messages;
+
+        } catch (ConnectionFailedException $e) {
+            Log::error("Fallo la conexión IMAP: " . $e->getMessage());
+            return collect(); // Retorna colección vacía o null si preferís
+        } catch (\Exception $e) {
+            Log::error("Error al obtener correos: " . $e->getMessage());
+            return collect();
+        }
+    }
+
+
 
     function CorreoPagos($email_apoderado, $fecha_pago, $fecha_fin)
     {

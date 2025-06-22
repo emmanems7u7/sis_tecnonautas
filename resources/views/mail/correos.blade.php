@@ -189,15 +189,15 @@
                     if (data.length > 0) {
                         data.forEach(email => {
                             resultsDiv.innerHTML += `
-                                                                                        <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#emailModal" 
-                                                                                            onclick="abrir_modal_pagos('${email.subject}', '${email.from}', '${email.date}', '${encodeURIComponent(email.body)}')">
-                                                                                            <div class="card-body">
-                                                                                                <h5 class="card-title">${email.subject}</h5>
-                                                                                                <h6 class="card-subtitle mb-2 text-muted">Desde: ${email.from}</h6>
-                                                                                                <h6 class="card-subtitle mb-2 text-muted" style="text-align: right;">Fecha: ${email.date}</h6>
+                                                                                            <div class="card mb-3" data-bs-toggle="modal" data-bs-target="#emailModal" 
+                                                                                                onclick="abrir_modal_pagos('${email.subject}', '${email.from}', '${email.date}', '${encodeURIComponent(email.body)}')">
+                                                                                                <div class="card-body">
+                                                                                                    <h5 class="card-title">${email.subject}</h5>
+                                                                                                    <h6 class="card-subtitle mb-2 text-muted">Desde: ${email.from}</h6>
+                                                                                                    <h6 class="card-subtitle mb-2 text-muted" style="text-align: right;">Fecha: ${email.date}</h6>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    `;
+                                                                                        `;
 
                         });
                     } else {

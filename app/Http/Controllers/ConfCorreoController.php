@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\PlantillaCorreo;
 use App\Mail\CorreoDesdePlantilla;
 use App\Interfaces\CorreoInterface;
+use App\Models\CuentaImap;
 
 
 
@@ -25,13 +26,13 @@ class ConfCorreoController extends Controller
     function index()
     {
         $config = ConfCorreo::first();
-
+        $cuenta = CuentaImap::first();
 
         $breadcrumb = [
             ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Configuracion', 'url' => route('configuracion.correo.index')],
         ];
-        return view('configuracion.configuracion_correo', compact('breadcrumb', 'config'));
+        return view('configuracion.configuracion_correo', compact('cuenta', 'breadcrumb', 'config'));
     }
 
     function store(request $request)

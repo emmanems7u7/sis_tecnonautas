@@ -25,41 +25,40 @@
 
                 </div>
                 <div class="card-body">
-                    <form id="filterForm" method="POST" action="{{ route('filter.mails') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label class="form-label">Correos Disponibles</label>
-                            <div class="form-check">
-                                @foreach ($correos as $correo)
-                                    <input class="form-check-input" type="checkbox" name="correos[]" value="{{ $correo->id }}"
-                                        id="correo{{ $correo->id }}">
-                                    <label class="form-check-label" for="correo{{ $correo->id }}">
-                                        {{ $correo->email }}
-                                    </label>
-                                    <br>
-                                @endforeach
-                            </div>
-                        </div>
 
-                        <!-- Filtros de fechas -->
-                        <div class="row mb-4">
-                            <div class="col-md-6 mb-3">
-                                <label for="startDate" class="form-label">Fecha Inicio</label>
-                                <input type="date" id="startDate" name="start_date" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="endDate" class="form-label">Fecha Fin</label>
-                                <input type="date" id="endDate" name="end_date" class="form-control" required>
-                            </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correos Disponibles</label>
+                        <div class="form-check">
+                            @foreach ($correos as $correo)
+                                <input class="form-check-input" type="checkbox" name="correos[]" value="{{ $correo->id }}"
+                                    id="correo{{ $correo->id }}">
+                                <label class="form-check-label" for="correo{{ $correo->id }}">
+                                    {{ $correo->email }}
+                                </label>
+                                <br>
+                            @endforeach
                         </div>
+                    </div>
 
-                        <!-- Botón para buscar correos filtrados -->
-                        <div class="d-grid">
-                            <button class="btn btn-primary btn-lg" id="searchEmailsButton" type="submit">
-                                <i class="bi bi-search"></i> Buscar Correos
-                            </button>
+                    <!-- Filtros de fechas -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="startDate" class="form-label">Fecha Inicio</label>
+                            <input type="date" id="startDate" name="start_date" class="form-control" required>
                         </div>
-                    </form>
+                        <div class="col-md-6 mb-3">
+                            <label for="endDate" class="form-label">Fecha Fin</label>
+                            <input type="date" id="endDate" name="end_date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Botón para buscar correos filtrados -->
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg" id="searchEmailsButton" type="submit">
+                            <i class="bi bi-search"></i> Buscar Correos
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -139,15 +138,15 @@
                             const card = document.createElement('div');
                             card.classList.add('col-md-12');
                             card.innerHTML = `
-                                                                    <div class="card mb-4">
-                                                                        <div class="card-body">
-                                                                            <h5 class="card-title">${email.subject}</h5>
-                                                                            <h6 class="card-subtitle mb-2 text-muted">${email.date}</h6>
+                                                                        <div class="card mb-4">
+                                                                            <div class="card-body">
+                                                                                <h5 class="card-title">${email.subject}</h5>
+                                                                                <h6 class="card-subtitle mb-2 text-muted">${email.date}</h6>
 
-                                                                            <p class="card-text"><strong>De:</strong> ${email.from}</p>
+                                                                                <p class="card-text"><strong>De:</strong> ${email.from}</p>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                `;
+                                                                    `;
                             console.log("data " + email.body);
                             container.appendChild(card);
                         });

@@ -104,6 +104,95 @@
             </div>
         </div>
     </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h6>Configuracion IMAP</h6>
+            <form action="{{ route('cuentas.update') }}" method="POST" novalidate>
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label>Nombre (opcional)</label>
+                    <input type="text" name="nombre" value="{{ old('nombre', $cuenta->nombre ?? '') }}"
+                        class="form-control @error('nombre') is-invalid @enderror">
+                    @error('nombre')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label>Host</label>
+                    <input type="text" name="host" value="{{ old('host', $cuenta->host ?? '') }}"
+                        class="form-control @error('host') is-invalid @enderror" required>
+                    @error('host')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label>Puerto</label>
+                        <input type="number" name="port" value="{{ old('port', $cuenta->port ?? 993) }}"
+                            class="form-control @error('port') is-invalid @enderror" required>
+                        @error('port')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col">
+                        <label>Cifrado</label>
+                        <select name="encryption" class="form-control @error('encryption') is-invalid @enderror">
+                            <option value="">Ninguno</option>
+                            <option value="ssl" {{ old('encryption', $cuenta->encryption ?? '') == 'ssl' ? 'selected' : '' }}>
+                                SSL</option>
+                            <option value="tls" {{ old('encryption', $cuenta->encryption ?? '') == 'tls' ? 'selected' : '' }}>
+                                TLS</option>
+                        </select>
+                        @error('encryption')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="form-check mt-3">
+                    <input type="checkbox" name="validate_cert" value="1"
+                        class="form-check-input @error('validate_cert') is-invalid @enderror" {{ old('validate_cert', $cuenta->validate_cert ?? false) ? 'checked' : '' }}>
+                    <label class="form-check-label">Validar certificado SSL</label>
+                    @error('validate_cert')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3 mt-3">
+                            <label>Usuario (email)</label>
+                            <input type="email" name="username" value="{{ old('username', $cuenta->username ?? '') }}"
+                                class="form-control @error('username') is-invalid @enderror" required>
+                            @error('username')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="mb-3 mt-3">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" value="{{ old('username', $cuenta->password ?? '') }}"
+                                class="form-control @error('password') is-invalid @enderror" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Actualizar configuración</button>
+
+            </form>
+
+        </div>
+    </div>
     <script>
         function enviarPrueba() {
             const url = "{{ route('correo.prueba') }}";

@@ -152,6 +152,8 @@ class CorreoController extends Controller
 
         $messages = $this->correoRepository->getMails($emailFilter, $startDate, $endDate);
 
+        //   $messages = $this->correoRepository->getMailsByDate($startDate, $endDate);
+
         // Crear una estructura para almacenar los correos
         $emails = [];
 
@@ -175,11 +177,17 @@ class CorreoController extends Controller
 
     public function showFilterForm()
     {
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Emails', 'url' => route('correos.index')],
+        ];
+
         // Obtener la fecha actual
         // $currentDate = now()->format('Y-m-d');
         $currentDate = '2024-01-03';
         // Mostrar la vista con correos de la fecha actual
-        return view('mail.correos', ['start_date' => $currentDate, 'end_date' => $currentDate]);
+        return view('mail.correos', ['start_date' => $currentDate, 'end_date' => $currentDate, 'breadcrumb' => $breadcrumb]);
     }
 
 
