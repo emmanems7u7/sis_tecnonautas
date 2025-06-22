@@ -21,6 +21,9 @@ use App\Interfaces\NotificationInterface;
 use Illuminate\Support\Facades\Http;
 use App\Models\AuditoriaPago;
 use App\Notifications\PagoNoAutomatizado;
+use App\Notifications\PagoAprobado;
+
+
 use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\Console\Output\NullOutput;
 use App\Notifications\PagoRechazado;
@@ -725,5 +728,22 @@ class PagoController extends Controller
         return redirect()->back()->with('status', 'Se rechazó el pago correctamente');
     }
 
+    function pago_aprobar($id)
+    {
+        $pago = admpago::find($id);
+
+
+        $pago->pagado = 1;
+        $pago->save();
+
+        $apm = Estudiantes_asignacion_paramodulo::find($pago->id_apm);
+        $apm->activo = 'activo';
+        $apm->save();
+
+        $user = User::find($apm->id_u);
+        $user->notify(new PagoAprobado($user));
+
+        return redirect()->back()->with('status', 'Se rechazó el pago correctamente');
+    }
 
 }

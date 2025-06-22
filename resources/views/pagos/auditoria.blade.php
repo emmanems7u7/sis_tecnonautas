@@ -58,7 +58,7 @@
             <div class="card mb-3 shadow-sm border-0">
                 <div class="card-body">
                     <h5 class="card-title mb-3 text-primary">Estudiante: {{ $pago->nombre_estudiante }}
-                        @if($salidaError == 1)
+                        @if($salidaError == 2)
                             <div class="alert alert-warning shadow-sm mt-3" role="alert">
                                 <p style="font-size:15px;">
                                     El sistema ha detectado uno error o mas errores en los datos del comprobante de pago o en la
@@ -67,21 +67,23 @@
                                     habilitar al estudiante o rechace
                                     el registro según corresponda.
                                 </p>
-                                <button class="btn btn-sm btn-success">
-                                    <i class="fas fa-check-circle"></i> Habilitar Estudiante
-                                </button>
 
-                                <button class="btn btn-sm btn-danger">
+                                <a class="btn btn-sm btn-success" href="{{ route('pago.aprobar', ['id' => $pago->id]) }}">
+                                    <i class="fas fa-check-circle"></i> Habilitar Estudiante
+                                </a>
+
+                                <a class="btn btn-sm btn-danger" href="{{ route('pago.rechazo', ['id' => $pago->id]) }}">
                                     <i class="fas fa-times-circle"></i> Rechazar Registro
-                                </button>
+                                </a>
                             </div>
-                        @elseif($salidaError == 2)
+                        @elseif($salidaError == 1)
                             <div class="alert alert-success shadow-sm mt-3" role="alert">
                                 <p style="font-size:15px;">
                                     El sistema autorizó correctamente el pago del estudiante. Puede revisar los registros asociados y,
                                     en caso de detectar alguna irregularidad, proceder con el rechazo del registro si lo considera
                                     necesario.
                                 </p>
+
                                 <a class="btn btn-sm btn-danger" href="{{ route('pago.rechazo', ['id' => $pago->id]) }}">
                                     <i class="fas fa-times-circle"></i> Rechazar Registro
                                 </a>

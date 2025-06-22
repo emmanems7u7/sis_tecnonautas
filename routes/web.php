@@ -582,6 +582,8 @@ Route::group([
     Route::get('/pagos/auditoria/{id}', [PagoController::class, 'auditoria'])->name('auditoria.index');
     Route::get('/pagos/rechazo/{id}', [PagoController::class, 'pago_rechazo'])->name('pago.rechazo');
 
+    Route::get('/pagos/aprobar/{id}', [PagoController::class, 'pago_aprobar'])->name('pago.aprobar');
+
 });
 Route::post('/pago/estudiante', [PagoController::class, 'store_pago'])->name('admpagos.store');
 
