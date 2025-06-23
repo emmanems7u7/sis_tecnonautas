@@ -1,6 +1,6 @@
 <div class="modal fade" id="modalCrearPermiso" tabindex="-1" aria-labelledby="modalCrearPermisoLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div
             class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
             <div class="modal-header">

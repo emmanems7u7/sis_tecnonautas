@@ -136,7 +136,7 @@
             <!-- Modal crear evaluacion -->
             <div class="modal fade" id="crearEvaluacionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div
                         class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                         <form action="{{ route('evaluacion.store') }}" method="POST">

@@ -240,7 +240,7 @@
 
     const modalHtml = `
     <div id="Modal_inscripcion" class="modal fade" tabindex="-1" aria-labelledby="Modal_inscripcionLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-lg">
       <div class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}
     ">
       <div class="modal-header">

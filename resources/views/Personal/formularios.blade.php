@@ -2,7 +2,7 @@
   <!-- Mensaje Personal -->
   <div class="modal fade" id="mensajePersonalModal" tabindex="-1" aria-labelledby="mensajePersonalModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
     <div
       class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header bg-primary">
@@ -30,7 +30,7 @@
   <!-- Experiencia Profesional -->
   <div class="modal fade" id="experienciaProfesionalModal" tabindex="-1"
     aria-labelledby="experienciaProfesionalModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
     <div
       class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header bg-primary">
@@ -61,7 +61,7 @@
 
   <!-- Educación -->
   <div class="modal fade" id="educacionModal" tabindex="-1" aria-labelledby="educacionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
     <div
       class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header bg-primary">

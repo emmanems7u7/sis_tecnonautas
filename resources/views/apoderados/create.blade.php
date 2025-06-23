@@ -1,7 +1,7 @@
 @section('create')
     <div class="modal fade" id="modalAgregarApoderado" tabindex="-1" role="dialog"
         aria-labelledby="modalAgregarApoderadoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered" role="document">
             <div
                 class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
@@ -149,7 +149,7 @@
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-outline-secondary" onclick="addCelular()"
                                                 type="
-                                                            button">+</button>
+                                                                    button">+</button>
                                         </div>
                                     </div>
                                 </div>

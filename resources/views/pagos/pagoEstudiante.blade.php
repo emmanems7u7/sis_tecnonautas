@@ -101,7 +101,7 @@
 
 
     <div class="modal fade" id="modal_pagos" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl">
             <div class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="miModalLabel">Realizar Pago</h5>

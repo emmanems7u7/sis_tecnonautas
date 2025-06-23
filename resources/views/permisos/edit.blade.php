@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalEditarPermiso" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <form id="formEditarPermiso" method="POST">
             @csrf
             @method('PUT')

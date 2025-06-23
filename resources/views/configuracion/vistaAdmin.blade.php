@@ -138,7 +138,7 @@
 
     <!-- Modal para mostrar detalles de pago y añadir método de pago -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl" role="document">
             <div
                 class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">
@@ -226,7 +226,7 @@
     </div>
 
     <div class="modal fade" id="modalTipoPago" tabindex="-1" aria-labelledby="modalTipoPagoLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered">
             <div
                 class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
                 <div class="modal-header">

@@ -209,7 +209,7 @@
     <!-- Modal asistencia -->
     <div class="modal fade" id="asistenciasModal_ver" tabindex="-1" aria-labelledby="asistenciasModal_verLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div
       class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
       <div class="modal-header">
