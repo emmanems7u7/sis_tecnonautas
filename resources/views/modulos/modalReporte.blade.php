@@ -176,24 +176,29 @@
 
   <div class="modal fade" id="modalAsigna" tabindex="-1" aria-labelledby="modalAsignaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}
-     ">
-      <div class="modal-header 
-    ">
+    <div
+      class="modal-content {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'bg-dark text-white' : 'bg-white text-dark' }}">
 
+      <div class="modal-header">
+      <h5 class="modal-title" id="modalAsignaLabel">Asignación</h5>
+      <button type="button"
+        class="btn-close {{ auth()->user()->preferences && auth()->user()->preferences->dark_mode ? 'btn-close-white' : '' }}"
+        data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <div class="modal-body">
       <!-- Container -->
       <div class="container-fluid">
-
         <div id="cardsContainer"></div>
+      </div>
+      <!-- Fin del Container -->
+      </div>
+      <!-- Fin del Modal Body -->
 
-
-      </div> <!-- Fin del Container -->
-      </div> <!-- Fin del Modal Body -->
     </div> <!-- Fin del Modal Content -->
     </div> <!-- Fin del Modal Dialog -->
   </div>
+
 
 
 
