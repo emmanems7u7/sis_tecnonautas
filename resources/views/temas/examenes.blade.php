@@ -143,7 +143,7 @@
                             @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalLabel">Crear Nueva Evaluación</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <input type="hidden" class="form-control" id="id_pm" name="id_pm"
