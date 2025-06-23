@@ -143,10 +143,9 @@
                             @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalLabel">Crear Nueva Evaluación</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+
                             <input type="hidden" class="form-control" id="id_pm" name="id_pm"
                                 value="{{ old('id_pm', $id_pm) }}" required>
                             <div class="modal-body">
