@@ -243,14 +243,24 @@ class AsignacionController extends Controller
         if (!auth()->user()->can('asignacion.delete')) {
             abort(403, 'No tienes permiso para eliminar este curso.');
         }
-        // Buscar la asignación por ID
+
         $asignacion = Asignacion::findOrFail($id);
 
-        // Eliminar el registro
-        $asignacion->delete();
+        try {
+            $asignacion->delete();
 
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('asignacion.index')
-            ->with('success', 'Curso eliminado correctamente.');
+            return redirect()->route('asignacion.index')
+                ->with('success', 'Curso eliminado correctamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verificamos si es error por restricción de clave foránea
+            if ($e->getCode() == 23000) {
+                return redirect()->route('asignacion.index')
+                    ->with('error', 'No se puede eliminar el curso porque tiene registros relacionados.');
+            }
+
+            // Otros errores
+            return redirect()->route('asignacion.index')
+                ->with('error', 'Ocurrió un error al intentar eliminar el curso.');
+        }
     }
 }
