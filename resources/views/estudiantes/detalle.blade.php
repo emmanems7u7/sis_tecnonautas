@@ -129,7 +129,7 @@
                                                     @endif
                                                 </h5>
                                                 <p class="card-text">{{ $evaluacion->detalle }}</p>
-                                                <a href="{{ route('evaluacion.revision', ['id' => $estudiante['user_id'], 'id_e' => $evaluacion->id]) }}"
+                                                <a href="{{ route('evaluacion.revision', ['id' => $estudiante['user_id'], 'id_e' => $evaluacion->id, 'id_a' => $id_a, 'id_m' => $id_m, 'id_p' => $id_p]) }}"
                                                     class="btn btn-light">Revisión</a>
                                             </div>
                                             <div class="col-4">

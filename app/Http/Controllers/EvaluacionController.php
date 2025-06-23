@@ -236,12 +236,17 @@ class EvaluacionController extends Controller
     {
         //
     }
-    public function Revision($id, $id_e)
+    public function Revision($id, $id_e, $id_a, $id_m, $id_p)
     {
+
         $breadcrumb = [
-            ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Materias', 'url' => route('asignacion.index')],
-            ['name' => 'Revision de Evaluacion', 'url' => route('home')],
+            ['name' => 'Modulos', 'url' => route('modulos.materia.show', ['id_a' => $id_a])],
+            ['name' => 'Paralelos', 'url' => route('Paralelos.modulos.show', ['id_m' => $id_m, 'id_a' => $id])],
+            ['name' => 'Administrar', 'url' => route('modulos.temas.admin', [$id_a, $id_m, $id_p])],
+            ['name' => 'Detalle', 'url' => route('estudiante.detalle', [$id, $id_p, $id_a, $id_m])],
+            ['name' => 'Revision', 'url' => route('home')],
+
         ];
         $respuestas = $this->respuestasInterface->listU($id, $id_e);
         $evaluacion = $this->evaluacionInterface->listarEvaluacion($id_e);

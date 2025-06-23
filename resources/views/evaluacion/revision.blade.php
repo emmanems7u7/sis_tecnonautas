@@ -3,12 +3,12 @@
 @section('content')
 
     <div class="container-fluid">
-        <h1>Evaluación: {{ $evaluacion->nombre }}</h1>
+        <h5>Evaluación: {{ $evaluacion->nombre }}</h5>
 
         @foreach ($evaluacion->preguntas as $pregunta)
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="card-title">Pregunta: {{ $pregunta->texto }}</h2>
+                    <h5 class="card-title">Pregunta: {{ $pregunta->texto }}</h5>
                     <ul class="list-group">
                         @foreach ($pregunta->opciones as $opcion)
                             <li class="list-group-item">Opción: {{ $opcion->texto }}

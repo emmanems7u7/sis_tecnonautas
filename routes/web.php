@@ -391,7 +391,7 @@ Route::put('/registra/asistencia/{id_pm}', [AsistenciaEstudianteController::clas
 Route::group(['prefix' => '/estudiantes', 'middleware' => 'auth'], function () {
     Route::get('/asignar/{id}/{id_m}/{id_p}', [UserController::class, 'Asignar'])->name('estudiante.asignar.paralelo')->middleware('can:estudiante.asignar_paralelo');
     Route::get('/inactivos/ver/{UserId}', [UserController::class, 'EstudiantesInactivos'])->name('estudiantesinactivos.show')->middleware('can:estudiante.ver_inactivos');
-    Route::get('/detalle/{id}/{id_p}{id_a}/{id_m}', [UserController::class, 'detalleEstudiante'])->name('estudiante.detalle')->middleware('can:estudiante.ver_detalle');
+    Route::get('/detalle/{id}/{id_p}/{id_a}/{id_m}', [UserController::class, 'detalleEstudiante'])->name('estudiante.detalle')->middleware('can:estudiante.ver_detalle');
     Route::get('/{id}/pagos', [UserController::class, 'EstudiantesMatPagos'])->name('estudiantes.pagos.materias')->middleware('can:estudiante.pagos_materias');
     Route::get('/cambiarEstado/{id}', [UserController::class, 'cambiarestado'])->name('cambiarestado')->middleware('can:estudiante.cambiar_estado');
     Route::get('/detalle/{id}/{id_m}/{id_p}', [UserController::class, 'EstudianteReporte'])->name('estudiante.reporte');
@@ -439,7 +439,7 @@ Route::group(['prefix' => '/Evaluacion', 'middleware' => 'auth'], function () {
 
     Route::post('/guardar', [EvaluacionController::class, 'store'])->name('evaluacion.store')->middleware('can:evaluacion.crear');
     Route::get('/estudiantes/{id_pm}/{id_a}', [EvaluacionController::class, 'estudianteseval'])->name('evaluacion.estudiantes');
-    Route::get('/Revision/{id}/{id_e}', [EvaluacionController::class, 'Revision'])->name('evaluacion.revision');
+    Route::get('/Revision/{id}/{id_e}/{id_a}/{id_m}/{id_p}', [EvaluacionController::class, 'Revision'])->name('evaluacion.revision');
     Route::get('/publicar/{id_e}', [EvaluacionController::class, 'publicar'])->name('evaluacion.publicar');
 
 

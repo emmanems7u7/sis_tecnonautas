@@ -617,7 +617,10 @@ class UserController extends Controller
         return view('estudiantes.detalle', [
             'usuario' => $usuario,
             'data' => $data,
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
+            'id_p' => $id_p,
+            'id_a' => $id_a,
+            'id_m' => $id_m,
         ]);
     }
 
