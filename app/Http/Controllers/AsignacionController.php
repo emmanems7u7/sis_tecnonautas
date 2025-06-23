@@ -240,9 +240,6 @@ class AsignacionController extends Controller
      */
     public function destroy($id)
     {
-        if (!auth()->user()->can('asignacion.delete')) {
-            abort(403, 'No tienes permiso para eliminar este curso.');
-        }
 
         $asignacion = Asignacion::findOrFail($id);
 
@@ -255,7 +252,7 @@ class AsignacionController extends Controller
             // Verificamos si es error por restricción de clave foránea
             if ($e->getCode() == 23000) {
                 return redirect()->route('asignacion.index')
-                    ->with('error', 'No se puede eliminar el curso porque tiene registros relacionados.');
+                    ->with('error', 'No se puede eliminar el curso porque tiene registros importantes relacionados.');
             }
 
             // Otros errores

@@ -446,7 +446,7 @@ class ParaleloController extends Controller
     public function destroy_para_mod($id, $id_a, $id_m)
     {
 
-        $paralelo = paralelo_modulo::where('id', $id)->where('id_p', $id_a)->where('id_m', $id_m)->first();
+        $paralelo = paralelo_modulo::where('id', $id)->where('id_m', $id_m)->first();
 
         if ($paralelo == null) {
             return redirect()->back()->with('error', 'El paralelo no existe o no está asociado a este módulo.');

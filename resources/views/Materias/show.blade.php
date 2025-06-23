@@ -104,13 +104,18 @@
       @endcan
 
       @can('asignacion.eliminar')
-      <form action="{{ route('asignacion.delete', ['id' => $dat->id]) }}" method="POST" class="w-100">
+
+      <a type="button" class="btn btn-danger text-white btn-sm w-100" id="modal_edit_usuario_button"
+      onclick="confirmarEliminacion('eliminarAsignacionForm', '¿Estás seguro de que deseas eliminar esta materia?')">Eliminar
+      Curso</a>
+
+      <form id="eliminarAsignacionForm" method="POST"
+      action="{{ route('asignacion.delete', ['id' => $dat->id]) }}" style="display: none;">
       @csrf
       @method('DELETE')
-      <button type="submit" class="btn btn-danger text-white btn-sm w-100">
-      Eliminar Curso
-      </button>
       </form>
+
+
       @endcan
       </div>
       </div>
