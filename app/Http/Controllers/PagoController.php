@@ -230,8 +230,9 @@ class PagoController extends Controller
             ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Pagos pendientes', 'url' => route('users.index')],
         ];
+        $correo = ConfCorreo::first();
         // dd($apoderados);
-        return view('pagos.pagoEstudiante', compact('breadcrumb', 'materiaArray', 'tiposDePago', 'apoderados'));
+        return view('pagos.pagoEstudiante', compact('correo', 'breadcrumb', 'materiaArray', 'tiposDePago', 'apoderados'));
     }
     /**
      * Show the form for creating a new resource.
