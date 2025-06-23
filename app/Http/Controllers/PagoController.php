@@ -747,7 +747,7 @@ class PagoController extends Controller
         $user = User::find($apm->id_u);
         $user->notify(new PagoAprobado($user));
 
-        return redirect()->back()->with('status', 'Se rechazó el pago correctamente');
+        return redirect()->back()->with('status', 'Se aprobó el pago correctamente');
     }
 
 }
