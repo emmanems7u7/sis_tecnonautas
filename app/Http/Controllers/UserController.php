@@ -668,7 +668,11 @@ class UserController extends Controller
             $tarea_data['limite'] = $tarea_c->limite;
 
             if ($tarea_data['nota'] != 0) {
-                $tarea_data['entregado'] = tareas_estudiante::where('user_id', $usuario->id, 'tareas_id', $tarea_c->id)->first()->created_at;
+                $tarea = tareas_estudiante::where('user_id', $usuario->id)
+                    ->where('tareas_id', $tarea_c->id)
+                    ->first();
+
+                $tarea_data['entregado'] = $tarea?->created_at;
             } else {
                 $tarea_data['entregado'] = 'No Entregado / No Revisado';
             }
