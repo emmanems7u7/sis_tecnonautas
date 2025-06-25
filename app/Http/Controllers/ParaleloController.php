@@ -188,7 +188,7 @@ class ParaleloController extends Controller
         $paradisp = $this->ParaleloRepository->getParalelosDisponibles(Paralelo::all(), $id_m);
 
         $profesores = $this->UserRepository->getProfesores();
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('admin') || $user->hasRole(roles: 'Demo')) {
             $datosParalelos = $this->ParaleloRepository->getDatosParalelos(paralelo_modulo::where('id_m', $id_m)->get(), $this->UserRepository);
 
         } else {
