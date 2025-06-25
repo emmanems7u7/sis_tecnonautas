@@ -83,7 +83,7 @@ class ModuloController extends Controller
                     break; // No es necesario seguir buscando si el módulo ya está habilitado
                 }
             }
-            if ($user->hasRole('admin') | $user->hasRole('profesor')) {
+            if ($user->hasRole('admin') || $user->hasRole('profesor') || $user->hasRole('Demo')) {
                 $habilitado = 1;
             }
             // Agregar el módulo procesado a la colección
