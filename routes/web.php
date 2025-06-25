@@ -491,7 +491,7 @@ Route::group(['prefix' => '/Pago', 'middleware' => 'auth'], function () {
 //paralelos
 Route::group([
     'prefix' => '/Paralelo',
-    'middleware' => ['auth', 'role:admin|profesor']
+    'middleware' => ['auth']
 ], function () {
     Route::get('/inicio', [ParaleloController::class, 'index'])->name('Paralelos.index');
     Route::get('/horarios', [ParaleloController::class, 'horario'])->name('Paralelos.horarios');
