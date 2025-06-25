@@ -209,7 +209,7 @@ class AsignacionRepository implements AsignacionInterface
     {
         $user = Auth::user();
 
-        if ($user->hasRole('admin') || $user->hasRole('profesor')) {
+        if ($user->hasRole('admin') || $user->hasRole('profesor') || $user->hasRole('demo')) {
             $e = DB::table('asignacions')->get();
         } else {
             $e = DB::table('estudiantes_asignacion_paramodulos')
