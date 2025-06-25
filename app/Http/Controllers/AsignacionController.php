@@ -69,6 +69,43 @@ class AsignacionController extends Controller
     public function store(Request $request)
     {
 
+        $rules = [
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'descripcionCorta' => 'required|string|max:500',
+
+            'caracteristicas' => 'required|array|min:1',
+            'caracteristicas.*' => 'required|string|max:255',
+
+            'objetivos' => 'required|array|min:1',
+            'objetivos.*' => 'required|string|max:255',
+
+            'beneficios' => 'required|array|min:1',
+            'beneficios.*' => 'required|string|max:255',
+
+            'tipo' => 'required|in:gratuito,pago',
+            'costo' => 'required_if:tipo,pago|nullable|numeric|min:0',
+
+            'img1' => 'nullable|image|max:2048', // máximo 2MB, ajustar según necesidad
+            'portada_imagen' => 'nullable|image|max:2048',
+        ];
+
+        $messages = [
+            'caracteristicas.required' => 'Debe ingresar al menos una característica.',
+            'caracteristicas.*.required' => 'Cada característica no puede estar vacía.',
+            'objetivos.required' => 'Debe ingresar al menos un objetivo.',
+            'objetivos.*.required' => 'Cada objetivo no puede estar vacío.',
+            'beneficios.required' => 'Debe ingresar al menos un beneficio.',
+            'beneficios.*.required' => 'Cada beneficio no puede estar vacío.',
+            'costo.required_if' => 'El costo es obligatorio cuando el tipo es pago.',
+            'costo.numeric' => 'El costo debe ser un número válido.',
+            'img1.image' => 'El archivo debe ser una imagen válida.',
+            'img1.max' => 'La imagen no puede pesar más de 2MB.',
+            'portada_imagen.image' => 'El archivo debe ser una imagen válida.',
+            'portada_imagen.max' => 'La portada no puede pesar más de 2MB.',
+        ];
+
+
         $this->AsignacionRepository->GuardarAsignacion($request);
         return redirect()->route('asignacion.index')->with('status', 'se ha creado la materia exitosamente!');
     }
