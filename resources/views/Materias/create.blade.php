@@ -61,7 +61,7 @@
                             @include('Materias._form')
 
                             <div class="text-center mt-3">
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Guardar</button>
+                                <button type="submit" class="btn btn-primary" onclick="">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -72,63 +72,6 @@
 
 
     <script>
-        function validateForm() {
-            let valid = true;
-
-            // Validar nombre
-            const nombre = document.getElementById('nombre');
-            const nombreError = document.getElementById('nombreError');
-            if (nombre.value.trim() === '') {
-                nombreError.style.display = 'block';
-                valid = false;
-            } else {
-                nombreError.style.display = 'none';
-            }
-
-            // Validar descripción
-            const descripcion = document.getElementById('descripcion');
-            const descripcionError = document.getElementById('descripcionError');
-            if (descripcion.value.trim() === '') {
-                descripcionError.style.display = 'block';
-                valid = false;
-            } else {
-                descripcionError.style.display = 'none';
-            }
-
-            // Validar descripción corta
-            const descripcionCorta = document.getElementById('descripcionCorta');
-            const descripcionCortaError = document.getElementById('descripcionCortaError');
-            if (descripcionCorta.value.trim() === '') {
-                descripcionCortaError.style.display = 'block';
-                valid = false;
-            } else {
-                descripcionCortaError.style.display = 'none';
-            }
-
-            // Validar tipo de curso
-            const tipo = document.getElementsByName('tipo')[0];
-            const tipoError = document.getElementById('tipoError');
-            if (tipo.value === '') {
-                tipoError.style.display = 'block';
-                valid = false;
-            } else {
-                tipoError.style.display = 'none';
-            }
-
-            // Validar archivo de imagen
-            const fileInput = document.getElementById('formFile');
-            const fileError = document.getElementById('fileError');
-            if (!fileInput.files.length || !/\.(jpe?g|png)$/i.test(fileInput.files[0].name)) {
-                fileError.style.display = 'block';
-                valid = false;
-            } else {
-                fileError.style.display = 'none';
-            }
-
-            if (valid) {
-                document.getElementById('courseForm').submit();
-            }
-        }
 
         function mostrarCamposPago() {
             const select = document.getElementsByName('tipo')[0];
@@ -146,9 +89,9 @@
             const newInput = document.createElement('div');
             newInput.classList.add('input-group', 'mb-3');
             newInput.innerHTML = `
-                                                                                                    <input type="text" class="form-control" name="${containerId}[]" placeholder="${containerId.charAt(0).toUpperCase() + containerId.slice(1)}" required>
-                                                                                                    <button class="btn btn-outline-secondary" type="button" onclick="eliminarCampo(this)">-</button>
-                                                                                                `;
+                                                                                                        <input type="text" class="form-control" name="${containerId}[]" placeholder="${containerId.charAt(0).toUpperCase() + containerId.slice(1)}" required>
+                                                                                                        <button class="btn btn-outline-secondary" type="button" onclick="eliminarCampo(this)">-</button>
+                                                                                                    `;
             container.appendChild(newInput);
         }
 

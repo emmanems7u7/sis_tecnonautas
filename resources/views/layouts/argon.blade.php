@@ -40,7 +40,7 @@
     use App\Models\Configuracion;
     use App\Models\UserPersonalizacion;
 
-    $secciones = Seccion::with('menus')->get();
+    $secciones = Seccion::with('menus')->orderBy('posicion')->get();
     $config = ConfiguracionCredenciales::first();
     $configuracion = Configuracion::first();
 
@@ -155,36 +155,34 @@
                 @php
                 $color = Auth::user()->preferences->sidebar_color ?? 'primary';
                 @endphp
-                <ul id="secciones-list" class="list-unstyled" {{ $configuracion->mantenimiento ?
-                    'data-draggable="false"' : 'data-draggable="true"' }}>
+                <ul id="secciones-list" class="list-unstyled" {{ $configuracion->mantenimiento ? 'data-draggable="false"' : 'data-draggable="true"' }}>
                     @foreach ($secciones as $seccion)
-                    @can($seccion->titulo)
-                    <li class="seccion-item mb-3 p-2" data-id="{{ $seccion->id }}">
-                        <div
-                            class="d-flex align-items-center {{ $configuracion->mantenimiento ? 'text-warning' : '' }}">
-                            <i class="{{ $seccion->icono }} me-2"></i>
-                            <h6
-                                class="m-0 text-uppercase text-xs font-weight-bolder  {{ $configuracion->mantenimiento ? 'text-warning' : '' }}">
-                                {{ $seccion->titulo }}</h6>
-                        </div>
+                        @can($seccion->titulo)
+                            <li class="seccion-item mb-3 p-2" data-id="{{ $seccion->id }}">
+                                <div class="d-flex align-items-center {{ $configuracion->mantenimiento ? 'text-warning' : '' }}">
+                                    <i class="{{ $seccion->icono }} me-2"></i>
+                                    <h6 class="m-0 text-uppercase text-xs font-weight-bolder  {{ $configuracion->mantenimiento ? 'text-warning' : '' }}">{{ $seccion->titulo }}</h6>
+                                </div>
 
-                        <ul class="list-unstyled ms-4 mt-2">
-                            @foreach ($seccion->menus as $menu)
-                            @can($menu->nombre)
-                            <li class="nav-item">
-                                <a class="nav-link {{ Route::currentRouteName() === $menu->ruta ? 'active bg-gradient-' . $color : '' }}"
+                                <ul class="list-unstyled ms-4 mt-2">
+                                    @foreach ($seccion->menus as $menu)
+                                        @can($menu->nombre)
+                                            <li class="nav-item">
+                                            <a class="nav-link {{ Route::currentRouteName() === $menu->ruta ? 'active bg-gradient-' . $color : '' }}"
                                     href="{{ route($menu->ruta) }}">
                                     <span class="nav-link-text ">{{ $menu->nombre }}</span>
                                 </a>
+                                            </li>
+                                        @endcan
+                                    @endforeach
+                                </ul>
                             </li>
-                            @endcan
-                            @endforeach
-                        </ul>
-                    </li>
-                    @endcan
+                        @endcan
                     @endforeach
                 </ul>
+
                 @endif
+             
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}"
