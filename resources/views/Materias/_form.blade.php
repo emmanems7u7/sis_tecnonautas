@@ -28,8 +28,9 @@
             <div id="caracteristicas">
                 @foreach(old('caracteristicas', $asignacion->caracteristicas ?? ['']) as $car)
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="caracteristicas[]" value="{{ $car->caracteristica }}"
-                            placeholder="Característica" required>
+                        <input type="text" class="form-control" name="caracteristicas[]"
+                            value="{{ is_object($car) ? $car->caracteristica : $car }}" placeholder="Característica"
+                            required>
                         <button class="btn btn-outline-secondary" type="button"
                             onclick="agregarCampo('caracteristicas')">+</button>
                     </div>
@@ -42,8 +43,8 @@
             <div id="objetivos">
                 @foreach(old('objetivos', $asignacion->objetivos ?? ['']) as $obj)
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="objetivos[]" value="{{ $obj->objetivo }}"
-                            placeholder="Objetivo" required>
+                        <input type="text" class="form-control" name="objetivos[]"
+                            value="{{ is_object($obj) ? $obj->objetivo : $obj }}" placeholder="Objetivo" required>
                         <button class="btn btn-outline-secondary" type="button"
                             onclick="agregarCampo('objetivos')">+</button>
                     </div>
@@ -59,8 +60,8 @@
             <div id="beneficios">
                 @foreach(old('beneficios', $asignacion->beneficios ?? ['']) as $ben)
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="beneficios[]" value="{{ $ben->beneficio }}"
-                            placeholder="Beneficio" required>
+                        <input type="text" class="form-control" name="beneficios[]"
+                            value="{{ is_object($ben) ? $ben->beneficio : $ben }}" placeholder="Beneficio" required>
                         <button class="btn btn-outline-secondary" type="button"
                             onclick="agregarCampo('beneficios')">+</button>
                     </div>

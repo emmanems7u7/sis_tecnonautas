@@ -33,8 +33,7 @@ class ParalelosRepository implements ParalelosInterface
             foreach ($paralelosModulos as $paraleloModulo) {
                 $asig_modulo = asigModulo::where('id_m', $paraleloModulo->id_m)->first();
 
-
-                if ($asig_modulo->id_a) {
+                if ($asig_modulo && $asig_modulo->id_a) {
                     $paralelodatos = $this->getDatosParalelo($paraleloModulo->id);
 
                     $paraleloArr = [
@@ -45,33 +44,35 @@ class ParalelosRepository implements ParalelosInterface
                         'inscritos' => $paralelodatos->inscritos,
                         'id_p' => $paraleloModulo->id
                     ];
+
+
+                    //  horarios asociados al paralelo
+                    $horarios = horario::where('id_mp', $paraleloModulo->id)->get();
+
+                    // arreglo de horarios
+                    foreach ($horarios as $horario) {
+                        $paraleloArr['horarios'][$horario->dias] = [
+                            'idh' => $horario->id,
+                            'hora_inicio' => substr($horario->inicio, 0, 5),
+                            'hora_fin' => substr($horario->fin, 0, 5),
+                        ];
+                    }
+                    //  profesor asociado al paralelo
+                    $profesor = $userRepository->GetProfesorParalelo($paraleloModulo->id);
+
+                    // Asignar profesor al arreglo
+                    if ($profesor) {
+                        $paraleloArr['profesor'] = $profesor->usuario_nombres . " " . $profesor->usuario_app . " " . $profesor->usuario_apm;
+
+                    }
+
+
+
+
+                    $datosPorAsignacion[Asignacion::find($asig_modulo->id_a)->nombre][
+
+                    ] = $paraleloArr;
                 }
-                //  horarios asociados al paralelo
-                $horarios = horario::where('id_mp', $paraleloModulo->id)->get();
-
-                // arreglo de horarios
-                foreach ($horarios as $horario) {
-                    $paraleloArr['horarios'][$horario->dias] = [
-                        'idh' => $horario->id,
-                        'hora_inicio' => substr($horario->inicio, 0, 5),
-                        'hora_fin' => substr($horario->fin, 0, 5),
-                    ];
-                }
-                //  profesor asociado al paralelo
-                $profesor = $userRepository->GetProfesorParalelo($paraleloModulo->id);
-
-                // Asignar profesor al arreglo
-                if ($profesor) {
-                    $paraleloArr['profesor'] = $profesor->usuario_nombres . " " . $profesor->usuario_app . " " . $profesor->usuario_apm;
-
-                }
-
-
-
-
-                $datosPorAsignacion[Asignacion::find($asig_modulo->id_a)->nombre][
-
-                ] = $paraleloArr;
             }
         } else {
             $datosPorAsignacion = $paralelosModulos;
