@@ -31,6 +31,14 @@
                 <p><i class="far fa-times-circle cross-icon" style="color: red;"></i> <strong>No publicado</strong></p>
 
                 @endrole
+
+                @role('Demo')
+
+                <h5 class="alert-heading"><i class="fas fa-clipboard-list"></i> Estado de los Exámenes</h5>
+                <p><i class="far fa-check-circle check-icon" style="color: green;"></i> <strong>Publicado</strong> </p>
+                <p><i class="far fa-times-circle cross-icon" style="color: red;"></i> <strong>No publicado</strong></p>
+
+                @endrole
                 @role('estudiante')
 
                 <h5 class="alert-heading"><i class="fas fa-clipboard-list"></i> Estado de los Exámenes</h5>
