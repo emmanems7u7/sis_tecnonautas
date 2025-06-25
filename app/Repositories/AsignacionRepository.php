@@ -230,7 +230,7 @@ class AsignacionRepository implements AsignacionInterface
 
         $user = Auth::user();
 
-        if ($user->hasRole('admin') || $user->hasRole(roles: 'profesor')) {
+        if ($user->hasRole('admin') || $user->hasRole(roles: 'profesor') || $user->hasRole('Demo')) {
             /*$e = DB::table('estudiantes_asignacion_paramodulos')
             ->join('asignacions', 'estudiantes_asignacion_paramodulos.id_a', '=', 'asignacions.id')
             ->select('asignacions.id','asignacions.nombre', 'asignacions.descripcion', 'asignacions.imagen1')
