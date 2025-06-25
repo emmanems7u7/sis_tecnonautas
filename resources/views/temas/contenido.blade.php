@@ -112,7 +112,7 @@
 
                                     <br>
 
-                                    @can('contenido._tema_crear')
+                                    @can('contenido.tema_crear')
                                         <button type="button" class="btn btn-primary" onclick="openContenidoModal({{ $tema->id }})">
                                             {{ __('Subir Contenido') }}
                                         </button>
