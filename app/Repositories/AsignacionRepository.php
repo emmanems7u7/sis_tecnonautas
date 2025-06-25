@@ -254,7 +254,7 @@ class AsignacionRepository implements AsignacionInterface
     public function GetAsignacionPagos()
     {
         $user = Auth::user();
-        if ($user->hasRole('admin') || $user->hasRole('profesor')) {
+        if ($user->hasRole('admin') || $user->hasRole('profesor') || $user->hasRole('Demo')) {
             return Asignacion::where('tipo', 'pago')->get();
         } else {
             if ($user->hasRole('estudiante')) {
