@@ -590,7 +590,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group([
 
-    'middleware' => ['auth', 'role:admin']
+    'middleware' => ['auth', 'role:admin|Demo']
 ], function () {
     Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
     Route::get('/pagos/auditoria/{id}', [PagoController::class, 'auditoria'])->name('auditoria.index');
